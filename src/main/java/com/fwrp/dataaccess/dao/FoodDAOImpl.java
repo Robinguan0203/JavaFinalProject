@@ -124,7 +124,7 @@ public class FoodDAOImpl implements FoodDAO {
             pstmt.setInt(3, food.getExpireDays());
             pstmt.setDouble(4, food.getUnitPrice());
             pstmt.setDouble(5, food.getDiscount());
-            pstmt.setInt(1, food.getId());
+            pstmt.setInt(6, food.getId());
             
             if(pstmt.executeUpdate() == 1){
                 isSuccess = true;

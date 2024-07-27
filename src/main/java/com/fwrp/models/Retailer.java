@@ -49,18 +49,4 @@ public class Retailer extends User {
         return expireInfos;
     }
     
-    public ArrayList<ExpireInfo> getAllExpireInfoItems() throws SQLException, ClassNotFoundException {
-        ArrayList<ExpireInfo> expireInfos = new ArrayList<>();        
-        InventoryDbService dbService = new InventoryDbService();
-        
-        ArrayList<ExpireInfoDTO> expireDTOs = dbService.queryAllExpireInfo();
-        
-        if(!expireDTOs.isEmpty()){
-            for(ExpireInfoDTO dto : expireDTOs){
-                expireInfos.add(dto.transferToExpireInfo());
-            }
-        } 
-        
-        return expireInfos;
-    }
 }

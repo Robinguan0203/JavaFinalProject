@@ -49,6 +49,25 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         
         return isSuccess;
     }
+    
+    public ExpireInfoDTO getExpireInfoById(int expireInfoId, Connection conn) throws SQLException{
+        ExpireInfoDTO expireInfoDTO = new ExpireInfoDTO();
+        
+        try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM expire_infos WHERE id = ?")){
+            pstmt.setInt(1, expireInfoId);
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+  
+                    expireInfoDTO.setId(rs.getInt("id"));
+                    expireInfoDTO.setFoodId(rs.getInt("food_id"));
+                    expireInfoDTO.setExpireDate(rs.getDate("expire_date"));
+                    expireInfoDTO.setQuantity(rs.getInt("quantity"));
+                    expireInfoDTO.setIsSurplus(rs.getBoolean("is_surplus"));
+                }
+            }
+        }
+        return expireInfoDTO;
+    }
 
     public ArrayList<ExpireInfoDTO> getExpireInfoByFoodId(int foodID, Connection conn) throws SQLException {
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();

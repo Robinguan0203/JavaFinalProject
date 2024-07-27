@@ -64,11 +64,13 @@
                     <input type="hidden" name="action" value="addQuantities" />
                     <button type="submit">Add Quantities</button>
                 </form>
-                <form action="setFoodExpireDays" method="post">
-                    <button type="submit">Set Food Expire Days</button>
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="changeFoodExpireDays" />
+                    <button type="submit">Change Food Expire Days</button>
                 </form>
-                <form action="setInventoryExpireDate" method="post">
-                    <button type="submit">Set Inventory Expire Date</button>
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="updateInventoryExpireDate" />
+                    <button type="submit">Update Inventory Expire Date</button>
                 </form>
                 <form action="identifySurplus" method="post">
                     <button type="submit">Identify Surplus</button>

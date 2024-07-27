@@ -1,5 +1,7 @@
 package com.fwrp.models;
 
+import com.fwrp.dataaccess.dto.ExpireInfoDTO;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class ExpireInfo {
@@ -50,5 +52,16 @@ public class ExpireInfo {
         this.food = food;
     }
 
+    public ExpireInfoDTO transferToExpireInfoDTO() throws SQLException, ClassNotFoundException{
+        ExpireInfoDTO expireInfoDTO = new ExpireInfoDTO();
+        
+        expireInfoDTO.setId(this.getId());
+        expireInfoDTO.setExpireDate(this.getExpireDate());
+        expireInfoDTO.setQuantity(this.getQuantity());
+        expireInfoDTO.setIsSurplus(this.isIsSurplus());
+        expireInfoDTO.setFoodId(this.getFood().getId());
+        
+        return expireInfoDTO;
+    }
     
 }

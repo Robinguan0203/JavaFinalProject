@@ -114,7 +114,47 @@ public class InventoryDbService {
             }
         }catch(SQLException e){
             if (conn != null) {
-                conn.rollback(); // 回滚事务
+                conn.close();
+            }   
+            throw e;
+        }
+        
+        System.out.println("Food expire Info added");
+        return true;
+    }
+    
+    public ExpireInfo getExpireInfoById(int expireInfoId) throws SQLException, ClassNotFoundException{
+        Connection conn = null;
+        ExpireInfoDTO expireInfoDTO = null;
+        ExpireInfo expireInfo = null;
+        
+        try{
+            conn = DataSource.getInstance().getConnection();
+            expireInfoDTO = expireInfoDAO.getExpireInfoById(expireInfoId, conn);
+        } catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }   
+            throw e;
+        }
+        if(expireInfoDTO != null){
+            expireInfo = expireInfoDTO.transferToExpireInfo();
+        }
+        return expireInfo;
+    }
+    
+    public boolean updateExpireInfo(ExpireInfoDTO expireInfoDTO) throws SQLException, ClassNotFoundException{
+        Connection conn = null;
+                
+        try{
+            conn = DataSource.getInstance().getConnection();
+            boolean isExpireInfoUpdated = expireInfoDAO.updateExpireInfo(expireInfoDTO, conn);
+            if(!isExpireInfoUpdated){
+                throw new SQLException("Expire Information Update fails.");
+            }
+        }catch(SQLException e){
+            if (conn != null) {
+                conn.close();
             }   
             throw e;
         }

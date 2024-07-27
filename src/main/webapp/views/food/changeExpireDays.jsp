@@ -1,5 +1,5 @@
 <%-- 
-    Document   : addQuantities
+    Document   : changeFoodExpireDays
     Created on : Jul 27, 2024, 12:37:11 PM
     Author     : robin
 --%>
@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Add Food Quantities</title>
+        <title>Change Food Expire Days</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -60,7 +60,7 @@
                     %>
                 </div>
                 <form action="retailerController" method="post">
-                    <input type="hidden" name="action" value="storeAddQuantity" />
+                    <input type="hidden" name="action" value="storeExpireDays" />
                     
                     <label for="food">Select Food:</label>
                     <select id="food" name="foodId" required>
@@ -75,8 +75,8 @@
                         %>
                     </select>
                     
-                    <label for="quantity">Quantity to Add:</label>
-                    <input type="number" id="quantity" name="quantity" min="1" required />
+                    <label for="expireDays">New Expire Days</label>
+                    <input type="number" id="expireDays" name="expireDays" min="1" required />
 
                     <button type="submit">Submit</button>
                 </form>

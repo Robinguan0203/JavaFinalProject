@@ -25,6 +25,9 @@ public interface ExpireInfoDAO {
      */
     boolean addExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn)  throws SQLException;
     
+    ExpireInfoDTO getExpireInfoById(int expireInfoId, Connection conn) throws SQLException;
+    
+    
     /**
      * Retrieves a expireInfo by foodID, order by expire date.
      * 

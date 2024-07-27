@@ -125,4 +125,29 @@ public class FoodDbService {
         ArrayList<Food> foods = foodDAO.getAllFoods(conn);
         return foods;
     }
+    
+    public boolean updateFood(Food food) throws DataInsertionFailedException, SQLException, ClassNotFoundException{
+        Connection conn = null;
+        
+        try{
+            conn = DataSource.getInstance().getConnection();
+            
+            boolean isFoodUpdated = foodDAO.updateFood(food, conn); 
+            if(!isFoodUpdated){
+                throw new DataInsertionFailedException("Failed to update food with name " + food.getName() + ".");
+            } 
+        } catch(SQLException e){            
+            throw e;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close(); // 关闭连接
+                } catch (SQLException e) {
+                    e.printStackTrace(); // 如果关闭连接失败，记录异常
+                }
+            }
+        }
+        
+        return true;
+    }
 }

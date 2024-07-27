@@ -9,7 +9,7 @@ import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.dataaccess.DataSource;
 import static com.fwrp.dataaccess.DataSource.openPropsFile;
 import com.fwrp.dbService.UserDbService;
-import com.fwrp.exceptions.UserNotExistsException;
+import com.fwrp.exceptions.DateNotExistsException;
 import com.fwrp.models.Charity;
 import com.fwrp.models.Consumer;
 import com.fwrp.models.Retailer;
@@ -51,7 +51,7 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             login(request, response);
-        } catch (UserNotExistsException ex) {
+        } catch (DateNotExistsException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,7 +78,7 @@ public class UserController extends HttpServlet {
             */
    }
 
-    private void login(HttpServletRequest request, HttpServletResponse response) throws UserNotExistsException, SQLException, ClassNotFoundException, ServletException, IOException{
+    private void login(HttpServletRequest request, HttpServletResponse response) throws DateNotExistsException, SQLException, ClassNotFoundException, ServletException, IOException{
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         User user = null;
