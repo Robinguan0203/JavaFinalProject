@@ -26,6 +26,16 @@
                 width: 200px;
                 margin: 10px 0;
             }
+            .message {
+                color: green;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+            .error {
+                color: red;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
         </style>
     </head>
     <body>
@@ -36,9 +46,18 @@
                 <p>Email: ${user.email}</p>
                 <p>Type: Retailer</p>
             </div>
+            <div class="message">
+                <%
+                    String successMessage = request.getParameter("successMessage");
+                    if (successMessage != null) {
+                        out.println("<p class='message'>" + successMessage + "</p>");
+                    }
+                %>
+            </div>
             <div class="actions">
                 <h2>Actions</h2>
-                <form action="addFood" method="post">
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="addFood" />
                     <button type="submit">Add Food</button>
                 </form>
                 <form action="addIncomingFood" method="post">

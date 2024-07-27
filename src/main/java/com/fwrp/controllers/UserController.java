@@ -30,6 +30,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -90,6 +91,10 @@ public class UserController extends HttpServlet {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         } else{
+            // 存储 User 对象到 HttpSession
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            
             request.setAttribute("user", user);
             switch(user.getType()) {
                 case UserTypeConstant.RETAILER:
