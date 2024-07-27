@@ -28,16 +28,17 @@ public class RetailerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Retailer retailer = this.getRetailerFromSession(request);
-
+        request.setAttribute("retailer", retailer);
+        
         String action = request.getParameter("action");
         switch (action) {
             case "addFood":
-                addFood(request, response,retailer);
+                addFood(request, response);
                 break;
             case "storeNewFood":
-                storeNewFood(request,response,retailer);
-            case "addIncomingFood":
-                //addIncomingFood(request, response);
+                storeNewFood(request,response);
+            case "addQuantities":
+                //addQuantities(request,response);
                 break;
             case "setFoodExpireDays":
                 //setFoodExpireDays(request, response);
@@ -65,17 +66,13 @@ public class RetailerController extends HttpServlet {
     }
     
     
-    private void addFood(HttpServletRequest request, HttpServletResponse response, Retailer retailer) throws IOException, ServletException {
-
-        request.setAttribute("retailer", retailer);
-
-        // 转发请求到 add.jsp 页面
+    private void addFood(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
         dispatcher.forward(request, response);
         response.getWriter().println("Add Food functionality");
     }
     
-    private void storeNewFood(HttpServletRequest request, HttpServletResponse response, Retailer retailer) throws ServletException, IOException{
+    private void storeNewFood(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String name = request.getParameter("name");
         int expireDays = Integer.parseInt(request.getParameter("expireDays"));
         double unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
@@ -98,6 +95,13 @@ public class RetailerController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
             dispatcher.forward(request, response);
         }
-        
     }
+    
+    /*
+    private void addQuantities(HttpServletRequest request, HttpServletResponse response){
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/addQuantities.jsp");
+        dispatcher.forward(request, response);
+        response.getWriter().println("Add Food functionality");
+    }
+*/
 }

@@ -14,6 +14,7 @@ import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.models.Food;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -119,4 +120,10 @@ public class FoodDbService {
         return food;
     }
     
+    public ArrayList<Food> getAllFoods() throws ClassNotFoundException{
+        ArrayList<Food> foods = new ArrayList<>();
+        Connection conn = DataSource.getInstance().getConnection();
+        
+        return foods;
+    }
 }
