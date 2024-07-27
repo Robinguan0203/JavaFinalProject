@@ -27,14 +27,12 @@
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
+                table-layout: fixed; /* Ensure fixed layout */
             }
             .form-section table, .form-section th, .form-section td {
                 border: 1px solid black;
                 padding: 10px;
-                text-align: left;
-            }
-            .form-section th, .form-section td {
-                width: 20%;
+                text-align: center;
             }
             .form-section input[type="date"] {
                 width: 90%;
@@ -66,7 +64,7 @@
                         <p class="message">${errorMessage}</p>
                     </c:if>
                 </div>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="storeUpdateExpireDate" />
                     <% 
                         ArrayList<ExpireInfo> expireInfos= (ArrayList<ExpireInfo>) request.getAttribute("expireInfos");
@@ -78,6 +76,14 @@
                     %>
                         <table>
                             <thead>
+                                <colgroup>
+                                    <col style="width: 5%;">
+                                    <col style="width: 23%;">
+                                    <col style="width: 18%;">
+                                    <col style="width: 18%;">
+                                    <col style="width: 16%;">
+                                    <col style="width: 20%;">
+                                </colgroup>
                                 <tr>
                                     <th>No.</th>
                                     <th>Food Name</th>

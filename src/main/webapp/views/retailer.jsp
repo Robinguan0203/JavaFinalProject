@@ -60,35 +60,35 @@
             </div>
             <div class="actions">
                 <h2>Actions</h2>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="addFood" />
                     <button type="submit">Add Food</button>
                 </form>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="addQuantities" />
                     <button type="submit">Add Quantities</button>
                 </form>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="changeFoodExpireDays" />
                     <button type="submit">Change Food Expire Days</button>
                 </form>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="updateInventoryExpireDate" />
                     <button type="submit">Update Inventory Expire Date</button>
                 </form>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="identifySurplus" />
                     <button type="submit">Identify Surplus</button>
                 </form>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="listSurplus" />
                     <button type="submit">List Surplus for Sale or Donation</button>
                 </form>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="viewInventory" />
                     <button type="submit">View Inventory</button>
                 </form>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="viewTransactions" />
                     <button type="submit">View Transaction</button>
                 </form>

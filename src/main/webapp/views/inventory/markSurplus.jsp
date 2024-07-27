@@ -66,7 +66,7 @@
                         <p class="message">${errorMessage}</p>
                     </c:if>
                 </div>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="storeUpdateIsSurplus" />
                     <% 
                         ArrayList<ExpireInfo> expireInfos= (ArrayList<ExpireInfo>) request.getAttribute("expireInfos");

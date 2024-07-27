@@ -59,7 +59,7 @@
                         }
                     %>
                 </div>
-                <form action="retailerController" method="post">
+                <form action="RetailerController" method="post">
                     <input type="hidden" name="action" value="storeExpireDays" />
                     
                     <label for="food">Select Food:</label>

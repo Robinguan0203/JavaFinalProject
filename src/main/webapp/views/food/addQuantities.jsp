@@ -59,7 +59,7 @@
                         }
                     %>
                 </div>
-                <form action="retailerController" method="post">
+                <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="storeAddQuantity" />
                     
                     <label for="food">Select Food:</label>

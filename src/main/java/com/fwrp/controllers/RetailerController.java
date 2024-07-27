@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -35,7 +34,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Ke Yan
  */
-@WebServlet("/retailerController")
+@WebServlet("/RetailerController")
 public class RetailerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

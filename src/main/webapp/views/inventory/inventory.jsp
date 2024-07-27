@@ -6,10 +6,8 @@
 
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="java.util.TreeMap"%>
 <%@page import="com.fwrp.models.Food"%>
 <%@page import="com.fwrp.models.ExpireInfo"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,19 +29,12 @@
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
+                table-layout: fixed; /* Ensure fixed layout */
             }
             .form-section table, .form-section th, .form-section td {
                 border: 1px solid black;
                 padding: 10px;
-                text-align: left;
-            }
-            .form-section th, .form-section td {
-                width: 20%;
-            }
-            .form-section input[type="date"] {
-                width: 90%;
-                padding: 5px;
-                box-sizing: border-box;
+                text-align: center;
             }
             .form-section button {
                 margin-top: 20px;
@@ -80,6 +71,15 @@
                     } else { 
                 %>
                     <table>
+                        <colgroup>
+                            <col style="width: 5%;">
+                            <col style="width: 20%;">
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th>No.</th>
