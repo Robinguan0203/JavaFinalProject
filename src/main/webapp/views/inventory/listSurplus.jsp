@@ -4,6 +4,10 @@
     Author     : robin
 --%>
 
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.TreeMap"%>
+<%@page import="com.fwrp.models.Food"%>
 <%@page import="com.fwrp.models.ExpireInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -60,19 +64,19 @@
                 <p>Type: Retailer</p>
             </div>
             <div class="form-section">
-                <h2>Update Inventory Expire Date</h2>
+                <h2>List Surplus Food for Sale or Donation</h2>
                 <div class="message">
                     <c:if test="${not empty errorMessage}">
                         <p class="message">${errorMessage}</p>
                     </c:if>
                 </div>
                 <form action="retailerController" method="post">
-                    <input type="hidden" name="action" value="storeUpdateExpireDate" />
+                    <input type="hidden" name="action" value="storeListSurplus" />                    
                     <% 
-                        ArrayList<ExpireInfo> expireInfos= (ArrayList<ExpireInfo>) request.getAttribute("expireInfos");
-                        if (expireInfos == null || expireInfos.isEmpty()) { 
+                        HashMap<Food, Integer[]> foodExpireQtyMap= (HashMap<Food, Integer[]>) request.getAttribute("foodExpireQtyMap");
+                        if (foodExpireQtyMap == null || foodExpireQtyMap.isEmpty()) { 
                     %>
-                        <p>No Food Expire Date Information Found</p>
+                        <p>No Food Expire Data Information Found</p>
                     <% 
                         } else { 
                     %>
@@ -81,26 +85,32 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Food Name</th>
-                                    <th>Quantity</th>
-                                    <th>Expire Date</th>
-                                    <th>Surplus</th>
-                                    <th>New Expire Date</th>
+                                    <th>Total Surplus Quantity</th>
+                                    <th>Inventory Normal</th>
+                                    <th>Listed For Discount</th>
+                                    <th>Listed For Donation</th>
+                                    <th>To be Listed</th>
+                                    <th>Quantity to Sale</th>
+                                    <th>Quantity to Donate</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%! int index = 0; %>
                                 <% 
-                                for (ExpireInfo info : expireInfos) { 
+                                for (Map.Entry<Food, Integer[]> entry : foodExpireQtyMap.entrySet()) {
+                                    Food food = entry.getKey();
+                                    Integer[] qty = entry.getValue();
                                 %>
                                     <tr>
                                         <td><%= index + 1 %></td>
-                                        <td><%= info.getFood().getName() %></td>
-                                        <td><%= info.getQuantity() %></td>
-                                        <td><%= info.getExpireDate() %></td>
-                                        <td><%= info.isIsSurplus() %></td>
-                                        <td>
-                                            <input type="date" name="newExpireDate_<%= info.getId() %>" />
-                                        </td>
+                                        <td><%= food.getName() %></td>
+                                        <td><%= qty[0] %></td>
+                                        <td><%= qty[1] %></td>
+                                        <td><%= qty[2] %></td>
+                                        <td><%= qty[3] %></td>
+                                        <td><%= (qty[0] - qty[2] - qty[3]) %></td>
+                                        <td><input type="number" min="0" name="qtyToDiscount_<%= food.getId() %>"></td>
+                                        <td><input type="number" min="0" name="qtyToDonate_<%= food.getId() %>"></td>
                                     </tr>
                                 <% 
                                     index++; 
@@ -108,10 +118,11 @@
                                 %>
                             </tbody>
                         </table>
+                        <p>${count} items.</p>
                     <% 
                         } 
                     %>
-                    <button type="submit">Update Expire Dates</button>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
             <div class="logout">

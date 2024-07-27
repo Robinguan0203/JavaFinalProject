@@ -52,6 +52,10 @@
                     if (successMessage != null) {
                         out.println("<p class='message'>" + successMessage + "</p>");
                     }
+                    String errorMessage = (String) request.getAttribute("errorMessage");
+                    if (errorMessage != null) {
+                        out.println("<p class='error'>" + errorMessage + "</p>");
+                    }
                 %>
             </div>
             <div class="actions">
@@ -72,11 +76,21 @@
                     <input type="hidden" name="action" value="updateInventoryExpireDate" />
                     <button type="submit">Update Inventory Expire Date</button>
                 </form>
-                <form action="identifySurplus" method="post">
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="identifySurplus" />
                     <button type="submit">Identify Surplus</button>
                 </form>
-                <form action="listSurplus" method="post">
-                    <button type="submit">List Surplus</button>
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="listSurplus" />
+                    <button type="submit">List Surplus for Sale or Donation</button>
+                </form>
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="viewInventory" />
+                    <button type="submit">View Inventory</button>
+                </form>
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="viewTransactions" />
+                    <button type="submit">View Transaction</button>
                 </form>
             </div>
             <div class="logout">

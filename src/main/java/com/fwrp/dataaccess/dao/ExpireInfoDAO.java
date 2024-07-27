@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * This interface defines the standard operations to be performed on ExpireInfo model object(s).
@@ -77,4 +79,6 @@ public interface ExpireInfoDAO {
      * @throws java.sql.SQLException
      */
     boolean deleteExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn)  throws SQLException;
+    
+    HashMap<Integer, Integer[]> getFoodSurplusSummary(Connection conn) throws SQLException;
 }

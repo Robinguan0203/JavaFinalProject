@@ -8,8 +8,8 @@ package com.fwrp.exceptions;
  *
  * @author robin
  */
-public class DateNotExistsException extends Exception {
-    public DateNotExistsException(String message) {
+public class DataNotExistsException extends Exception {
+    public DataNotExistsException(String message) {
         super(message);
     }
 }

@@ -60,14 +60,14 @@
                 <p>Type: Retailer</p>
             </div>
             <div class="form-section">
-                <h2>Update Inventory Expire Date</h2>
+                <h2>Mark if surplus</h2>
                 <div class="message">
                     <c:if test="${not empty errorMessage}">
                         <p class="message">${errorMessage}</p>
                     </c:if>
                 </div>
                 <form action="retailerController" method="post">
-                    <input type="hidden" name="action" value="storeUpdateExpireDate" />
+                    <input type="hidden" name="action" value="storeUpdateIsSurplus" />
                     <% 
                         ArrayList<ExpireInfo> expireInfos= (ArrayList<ExpireInfo>) request.getAttribute("expireInfos");
                         if (expireInfos == null || expireInfos.isEmpty()) { 
@@ -99,7 +99,11 @@
                                         <td><%= info.getExpireDate() %></td>
                                         <td><%= info.isIsSurplus() %></td>
                                         <td>
-                                            <input type="date" name="newExpireDate_<%= info.getId() %>" />
+                                            <select name="newIsSurplus_<%= info.getId() %>">
+                                                <option value="">Please Select</option>
+                                                <option value="0">False</option>
+                                                <option value="1">True</option>
+                                            </select>
                                         </td>
                                     </tr>
                                 <% 
@@ -111,7 +115,7 @@
                     <% 
                         } 
                     %>
-                    <button type="submit">Update Expire Dates</button>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
             <div class="logout">

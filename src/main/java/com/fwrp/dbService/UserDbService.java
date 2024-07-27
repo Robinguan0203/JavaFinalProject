@@ -10,7 +10,7 @@ import com.fwrp.dataaccess.dao.UserDAOImpl;
 import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
-import com.fwrp.exceptions.DateNotExistsException;
+import com.fwrp.exceptions.DataNotExistsException;
 import com.fwrp.models.User;
 import java.sql.Connection;
 import java.sql.SQLException;

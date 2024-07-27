@@ -9,6 +9,8 @@ import com.fwrp.constants.TransactionTypeConstant;
 import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dao.ExpireInfoDAO;
 import com.fwrp.dataaccess.dao.ExpireInfoDAOImpl;
+import com.fwrp.dataaccess.dao.FoodDAO;
+import com.fwrp.dataaccess.dao.FoodDAOImpl;
 import com.fwrp.dataaccess.dao.InventoryDAO;
 import com.fwrp.dataaccess.dao.InventoryDAOImpl;
 import com.fwrp.dataaccess.dao.TransactionDAO;
@@ -18,6 +20,7 @@ import com.fwrp.dataaccess.dto.InventoryDTO;
 import com.fwrp.dataaccess.dto.TransactionDTO;
 import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.ExpireInfo;
+import com.fwrp.models.Food;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.Transaction;
 import java.sql.Connection;
@@ -25,6 +28,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -34,11 +40,13 @@ public class InventoryDbService {
     private InventoryDAO inventoryDAO = null;
     private TransactionDAO transactionDAO = null;
     private ExpireInfoDAO expireInfoDAO = null;
+    private FoodDAO foodDAO = null;
     
     public InventoryDbService(){
         inventoryDAO = new InventoryDAOImpl();
         transactionDAO = new TransactionDAOImpl();
         expireInfoDAO = new ExpireInfoDAOImpl();
+        foodDAO = new FoodDAOImpl();
     }
     
     public boolean addTransaction(TransactionDTO transactionDTO) throws NegativeInventoryException, SQLException, ClassNotFoundException{
@@ -205,6 +213,63 @@ public class InventoryDbService {
         }
         
         return expireInfoDTOs;
+    }
+    
+    public HashMap<Food, Integer[]> getFoodSurplusSummary() throws SQLException, ClassNotFoundException{
+        HashMap<Food, Integer[]> foodMap = new HashMap<>();
+        HashMap<Integer, Integer[]> surplusMap = new HashMap<>();
+        Connection conn = null;
+        try{
+            conn = DataSource.getInstance().getConnection();
+            surplusMap = expireInfoDAO.getFoodSurplusSummary(conn);
+            
+            if(!surplusMap.isEmpty()){
+                for (Map.Entry<Integer, Integer[]> entry : surplusMap.entrySet()) {
+                    int foodId = entry.getKey();
+                    Integer[] qty = entry.getValue();
+
+                    Food food = foodDAO.getFoodById(foodId, conn);
+                    foodMap.put(food, qty);
+                }
+            }
+        } catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }   
+            throw e;
+        }
+        
+        return foodMap;       
+    }
+    
+    public HashMap<Food,Integer[]> getAllInventoryData() throws SQLException, ClassNotFoundException{
+        HashMap<Food,Integer[]> inventoryMap = new HashMap<Food,Integer[]>();
+        HashMap<Integer, Integer[]> dataFromDAOMap = new HashMap<>();
+        Connection conn = null;
+        
+        try{
+            conn = DataSource.getInstance().getConnection();
+            dataFromDAOMap = inventoryDAO.getAllInventoryData(conn);
+            
+            if(!dataFromDAOMap.isEmpty()){
+                for (Map.Entry<Integer, Integer[]> entry : dataFromDAOMap.entrySet()) {
+                    int foodId = entry.getKey();
+                    Integer[] qty = entry.getValue();
+
+                    Food food = foodDAO.getFoodById(foodId, conn);
+                    inventoryMap.put(food, qty);
+                }
+            }
+            
+        } catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }   
+            throw e;
+        }
+        
+        return inventoryMap;  
+        
     }
     
 }

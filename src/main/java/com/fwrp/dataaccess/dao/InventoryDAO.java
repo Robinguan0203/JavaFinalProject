@@ -3,6 +3,7 @@ package com.fwrp.dataaccess.dao;
 import com.fwrp.dataaccess.dto.InventoryDTO;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 
 
@@ -54,4 +55,6 @@ public interface InventoryDAO {
      * @throws java.sql.SQLException
      */
     boolean removeInventory(InventoryDTO inventoryDTO, Connection conn)  throws SQLException ;
+    
+    HashMap<Integer, Integer[]> getAllInventoryData(Connection conn) throws SQLException;
 }

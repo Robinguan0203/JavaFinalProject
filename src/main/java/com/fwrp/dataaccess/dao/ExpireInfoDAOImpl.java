@@ -5,12 +5,15 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * This class implements the ExpireInfoDAO interface to provide a concrete implementation.
@@ -172,4 +175,39 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return isSuccess;
     }
     
+    public HashMap<Integer, Integer[]> getFoodSurplusSummary(Connection conn) throws SQLException{
+        HashMap<Integer, Integer[]> foodSurplusMap = new HashMap<>();
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(
+                "SELECT "
+                        + "expire_infos.food_id, "
+                        + "SUM(quantity) AS surplus_qty,"
+                        + "inventory.quantity_normal AS qty_normal,"
+                        + "inventory.quantity_discount AS qty_discount, "
+                        + "inventory.quantity_donation AS qty_donation "
+                        + "FROM expire_infos "
+                        + "LEFT JOIN inventory "
+                        + "ON inventory.food_id = expire_infos.food_id "
+                        + "WHERE is_surplus = true "
+                        + "GROUP BY "
+                        + "expire_infos.food_id, "
+                        + "inventory.quantity_normal, "
+                        + "inventory.quantity_discount, "
+                        + "inventory.quantity_donation;")){
+            
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    int foodId = rs.getInt("food_id");
+                    int surplusQty = rs.getInt("surplus_qty");
+                    int qtyNormal = rs.getInt("qty_normal");
+                    int qtyDiscount = rs.getInt("qty_discount");
+                    int qtyDonation = rs.getInt("qty_donation");
+                    
+                    foodSurplusMap.put(foodId, new Integer[]{surplusQty, qtyNormal, qtyDiscount, qtyDonation});
+                }
+            }
+        }
+        
+        return foodSurplusMap;
+    }
 }

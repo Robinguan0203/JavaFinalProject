@@ -5,7 +5,7 @@
 package com.fwrp.services;
 
 import com.fwrp.dbService.UserDbService;
-import com.fwrp.exceptions.DateNotExistsException;
+import com.fwrp.exceptions.DataNotExistsException;
 import com.fwrp.models.User;
 import java.sql.SQLException;
 
@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * @author Ke Yan
  */
 public class UserService {
-    public User getUserByCredentials(String email, String password) throws DateNotExistsException, SQLException, ClassNotFoundException{
+    public User getUserByCredentials(String email, String password) throws DataNotExistsException, SQLException, ClassNotFoundException{
         UserDbService userDbService = new UserDbService();
         User user = userDbService.getLoginUser(email, password);
         
