@@ -60,7 +60,8 @@
                     <input type="hidden" name="action" value="addFood" />
                     <button type="submit">Add Food</button>
                 </form>
-                <form action="addQuantities" method="post">
+                <form action="retailerController" method="post">
+                    <input type="hidden" name="action" value="addQuantities" />
                     <button type="submit">Add Quantities</button>
                 </form>
                 <form action="setFoodExpireDays" method="post">

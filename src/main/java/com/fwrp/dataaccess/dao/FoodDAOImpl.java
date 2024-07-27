@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * This class implements the FoodDAO interface to provide a concrete implementation.
@@ -48,6 +49,25 @@ public class FoodDAOImpl implements FoodDAO {
         return isSuccess;
     }
 
+    public ArrayList<Food> getAllFoods(Connection conn) throws SQLException{
+        ArrayList<Food> foods = new ArrayList<>();
+        try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM foods ORDER BY name ASC")){
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    Food food = new Food();
+                    food.setId(rs.getInt("id"));
+                    food.setName(rs.getString("name"));
+                    food.setExpireDays(rs.getInt("expire_days"));
+                    food.setUnitPrice(rs.getDouble("unitprice"));
+                    food.setDiscount(rs.getDouble("discount"));
+                    
+                    foods.add(food);
+                }
+            }
+        }
+        
+        return foods;
+    }
     public Food getFoodById(int foodId, Connection conn)  throws SQLException{       
         Food food = null;
         

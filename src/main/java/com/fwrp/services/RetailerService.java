@@ -7,7 +7,13 @@ package com.fwrp.services;
 import com.fwrp.dbService.FoodDbService;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
+import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.Food;
+import com.fwrp.models.ManageInventoryChange;
+import com.fwrp.models.ManageInventoryChangeCreator;
+import com.fwrp.models.Retailer;
+import com.fwrp.models.RetailerTransaction;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -21,10 +27,26 @@ public class RetailerService {
         dbService.AddFood(food);
     }
     
-    public ArrayList<Food> getAllFoods(){
-        ArrayList<Food> foods = new ArrayList<>();
+    public ArrayList<Food> getAllFoods() throws ClassNotFoundException, SQLException{
         FoodDbService dbService = new FoodDbService();
-        
+        ArrayList<Food> foods = dbService.getAllFoods();
         return foods;
     }
+    
+    public void addFoodQuantities(int FoodId, int quantity, Retailer retailer) throws NegativeInventoryException, SQLException, ClassNotFoundException{
+        FoodDbService foodDbService = new FoodDbService();
+        Food food = foodDbService.getFoodById(FoodId);
+      
+        int qtyNormal = quantity;
+        int qtyDiscount = 0;
+        int qtyDonation = 0;
+        
+        ManageInventoryChange qtyChange = retailer.createInventorychange(food, qtyNormal, qtyDiscount, qtyDonation);
+
+        RetailerTransaction transaction = qtyChange.createTransaction();
+        transaction.storeTransaction();
+        transaction.updateExpireInfo();
+        
+    }
+
 }

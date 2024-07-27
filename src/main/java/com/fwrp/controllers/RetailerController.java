@@ -6,9 +6,13 @@ package com.fwrp.controllers;
 
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
+import com.fwrp.exceptions.NegativeInventoryException;
+import com.fwrp.models.Food;
 import com.fwrp.models.Retailer;
 import com.fwrp.services.RetailerService;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -38,7 +42,10 @@ public class RetailerController extends HttpServlet {
             case "storeNewFood":
                 storeNewFood(request,response);
             case "addQuantities":
-                //addQuantities(request,response);
+                addQuantities(request,response);
+                break;
+            case "storeAddQuantity":
+                storeAddQuantity(request,response,retailer);
                 break;
             case "setFoodExpireDays":
                 //setFoodExpireDays(request, response);
@@ -97,11 +104,38 @@ public class RetailerController extends HttpServlet {
         }
     }
     
-    /*
-    private void addQuantities(HttpServletRequest request, HttpServletResponse response){
+    private void addQuantities(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        RetailerService retailerService = new RetailerService();
+        ArrayList<Food> foods = new ArrayList<>();
+        try {
+            foods = retailerService.getAllFoods();
+        } catch (ClassNotFoundException | SQLException ex) {
+            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
+            dispatcher.forward(request, response);
+        } 
+        
+        request.setAttribute("foods", foods);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/addQuantities.jsp");
         dispatcher.forward(request, response);
-        response.getWriter().println("Add Food functionality");
     }
-*/
+    
+    private void storeAddQuantity(HttpServletRequest request, HttpServletResponse response, Retailer retailer) throws ServletException, IOException{
+        int foodId = Integer.parseInt(request.getParameter("foodId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        
+        RetailerService retailerService = new RetailerService();
+        try {
+            retailerService.addFoodQuantities(foodId, quantity, retailer);
+            response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Food%20quantity%20updated%20successfully.");
+        } catch (NegativeInventoryException ex) {
+            request.setAttribute("errorMessage", "Quantity to deduct is greater than inventory.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/addQuantities.jsp");
+            dispatcher.forward(request, response);
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/addQuantities.jsp");
+            dispatcher.forward(request, response);
+        }  
+    }
 }

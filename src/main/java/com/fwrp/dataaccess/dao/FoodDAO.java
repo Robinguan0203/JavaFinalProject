@@ -3,6 +3,7 @@ package com.fwrp.dataaccess.dao;
 import com.fwrp.models.Food;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 /**
@@ -23,6 +24,15 @@ public interface FoodDAO {
      * @throws java.sql.SQLException
      */
     boolean addFood(Food food, Connection conn)  throws SQLException;
+    
+    /**
+     * Retrieves a food by its ID.
+     * 
+     * @param conn SQL connection
+     * @return Food Returns the user object if found, null otherwise.
+     * @throws java.sql.SQLException
+     */
+    ArrayList<Food> getAllFoods(Connection conn)  throws SQLException;
     
     /**
      * Retrieves a food by its ID.
