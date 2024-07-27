@@ -51,7 +51,6 @@
                 <h1>Welcome, ${retailer.firstName} ${retailer.lastName}</h1>
                 <p>Email: ${retailer.email}</p>
                 <p>Type: Retailer</p>
-                <p>${count} items.</p>
             </div>
             <div class="form-section">
                 <h2>Add New Food</h2>
