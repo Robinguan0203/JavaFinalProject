@@ -16,6 +16,7 @@ import com.fwrp.models.Food;
 import com.fwrp.models.ManageInventoryChange;
 import com.fwrp.models.Retailer;
 import com.fwrp.models.RetailerTransaction;
+import com.fwrp.models.Transaction;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -128,7 +129,7 @@ public class RetailerService {
     public void listSurplusFood(int FoodId, int qtyDiscount,int qtyDonation, Retailer retailer) throws NegativeInventoryException, SQLException, ClassNotFoundException{
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(FoodId);
-        int qtyNormal = 0;
+        int qtyNormal = - (qtyDiscount + qtyDonation);
        
         ManageInventoryChange qtyChange = retailer.createInventorychange(food, qtyNormal, qtyDiscount, qtyDonation);
 
@@ -142,4 +143,13 @@ public class RetailerService {
         
         return foodSurplusMap;
     }
+    
+    /*
+    public ArrayList<Transaction> getAllTransactions(){        
+        InventoryDbService dbService = new InventoryDbService();
+        ArrayList<Transaction> transactions = dbService.getTransactions();
+        
+        return transactions;
+    }
+    */
 }

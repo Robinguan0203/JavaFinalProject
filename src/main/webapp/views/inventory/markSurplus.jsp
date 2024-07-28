@@ -101,8 +101,16 @@
                                         <td>
                                             <select name="newIsSurplus_<%= info.getId() %>">
                                                 <option value="">Please Select</option>
-                                                <option value="0">False</option>
-                                                <option value="1">True</option>
+                                                <option value="0"
+                                                <% if(!info.isIsSurplus()){ %>
+                                                    selected 
+                                                <% } %>
+                                                >False</option>
+                                                <option value="1"
+                                                <% if(info.isIsSurplus()){ %>
+                                                    selected 
+                                                <% } %>
+                                                >True</option>
                                             </select>
                                         </td>
                                     </tr>

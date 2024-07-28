@@ -13,16 +13,21 @@ import com.fwrp.dataaccess.dao.FoodDAO;
 import com.fwrp.dataaccess.dao.FoodDAOImpl;
 import com.fwrp.dataaccess.dao.InventoryDAO;
 import com.fwrp.dataaccess.dao.InventoryDAOImpl;
+import com.fwrp.dataaccess.dao.OrderDAO;
 import com.fwrp.dataaccess.dao.TransactionDAO;
 import com.fwrp.dataaccess.dao.TransactionDAOImpl;
+import com.fwrp.dataaccess.dao.UserDAO;
+import com.fwrp.dataaccess.dao.UserDAOImpl;
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
 import com.fwrp.dataaccess.dto.InventoryDTO;
 import com.fwrp.dataaccess.dto.TransactionDTO;
+import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.ExpireInfo;
 import com.fwrp.models.Food;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.Transaction;
+import com.fwrp.models.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,12 +46,16 @@ public class InventoryDbService {
     private TransactionDAO transactionDAO = null;
     private ExpireInfoDAO expireInfoDAO = null;
     private FoodDAO foodDAO = null;
+    private UserDAO userDAO = null;
+    //private OrderDAO orderDAO = null;
     
     public InventoryDbService(){
         inventoryDAO = new InventoryDAOImpl();
         transactionDAO = new TransactionDAOImpl();
         expireInfoDAO = new ExpireInfoDAOImpl();
         foodDAO = new FoodDAOImpl();
+        userDAO = new UserDAOImpl();
+        //orderDAO = new OrderDAOImple();
     }
     
     public boolean addTransaction(TransactionDTO transactionDTO) throws NegativeInventoryException, SQLException, ClassNotFoundException{
@@ -269,7 +278,31 @@ public class InventoryDbService {
         }
         
         return inventoryMap;  
-        
     }
+    
+    /*
+    public ArrayList<Transaction> getTransactions() throws SQLException{
+        ArrayList<Transaction> transactions = null;
+        
+        Connection conn = null;
+        
+        conn = DataSource.getInstance().getConnection();
+        ArrayList<TransactionDTO> dtos = transactionDAO.getAllTransactions(conn);
+        if(!dtos.isEmpty()){
+            for(TransactionDTO dto: dtos){
+                Food food = foodDAO.getFoodById(dto.getFoodId(), conn);
+                UserDTO userDTO = userDAO.getUserById(0, conn);
+                User user = UserFactory.createUser(userDTO.getType());
+                user = userDTO.transferToUser(user);
+                Order order = null;
+                if(dto.getFoodId() != 0 && dto.getFoodId() != null){
+                    order = OrderDAO.
+                }
+                
+                
+            }
+        }
+    }
+    */
     
 }

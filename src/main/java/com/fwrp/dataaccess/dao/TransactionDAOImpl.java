@@ -7,8 +7,11 @@ package com.fwrp.dataaccess.dao;
 import com.fwrp.dataaccess.dto.TransactionDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class implements the TransactionDAO interface to provide a concrete implementation.
@@ -69,6 +72,43 @@ public class TransactionDAOImpl implements TransactionDAO {
         } 
         
         return isSuccess;
+    }
+    
+    public ArrayList<TransactionDTO> getAllTransactions(Connection conn) throws SQLException{
+        ArrayList<TransactionDTO> transactionDTOs = new ArrayList<>();
+        
+        try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM transactions ORDER BY id DESC")){
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()){
+                    int id = rs.getInt("id");
+                    int foodId = rs.getInt("food_id");
+                    int userId = rs.getInt("user_id");
+                    int orderId = rs.getInt("order_id");
+                    int claimId = rs.getInt("claim_id");
+                    Date operateDate = rs.getDate("date");
+                    int type = rs.getInt("type");
+                    int qtyNormal = rs.getInt("quantity_normal");
+                    int qtyDiscount = rs.getInt("quantity_discount");
+                    int qtyDonation = rs.getInt("quantity_Donation");
+                    
+                    TransactionDTO dto = new TransactionDTO();
+                    dto.setId(id);
+                    dto.setFoodId(foodId);
+                    dto.setUserId(userId);
+                    dto.setOrderId(orderId);
+                    dto.setClaimId(claimId);
+                    dto.setDate(operateDate);
+                    dto.setType(type);
+                    dto.setQtyNormal(qtyNormal);
+                    dto.setQtyDiscount(qtyDiscount);
+                    dto.setQtyDonation(qtyDonation);
+                    
+                    transactionDTOs.add(dto);
+                }
+            }
+        }
+        
+        return transactionDTOs;
     }
     
 }

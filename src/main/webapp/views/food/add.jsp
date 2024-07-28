@@ -70,13 +70,13 @@
                     <input type="text" id="name" name="name" required />
 
                     <label for="expireDays">Expire Days:</label>
-                    <input type="number" id="expireDays" name="expireDays" min="0" required />
+                    <input type="number" id="expireDays" name="expireDays" min="1" required />
 
                     <label for="unitPrice">Unit Price:</label>
                     <input type="number" id="unitPrice" name="unitPrice" step="0.01" min="0" required />
 
                     <label for="discount">Discount:</label>
-                    <input type="number" id="discount" name="discount" step="0.01" min="0" required />
+                    <input type="number" id="discount" name="discount" step="0.01" min="0" max="1" required />
 
                     <button type="submit">Add</button>
                 </form>

@@ -67,11 +67,12 @@
                     <c:if test="${not empty errorMessage}">
                         <p class="message">${errorMessage}</p>
                     </c:if>
-                </div>
+                </div>                
                 <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                     <input type="hidden" name="action" value="storeListSurplus" />                    
                     <% 
-                        HashMap<Food, Integer[]> foodExpireQtyMap= (HashMap<Food, Integer[]>) request.getAttribute("foodExpireQtyMap");
+                        HashMap<Food, Integer[]> foodExpireQtyMap = (HashMap<Food, Integer[]>) request.getAttribute("foodExpireQtyMap");
+                        request.setAttribute("foodExpireQtyMap", foodExpireQtyMap);
                         if (foodExpireQtyMap == null || foodExpireQtyMap.isEmpty()) { 
                     %>
                         <p>No Food Expire Data Information Found</p>
@@ -118,8 +119,21 @@
                                         <td><%= qty[2] %></td>
                                         <td><%= qty[3] %></td>
                                         <td><%= (qty[0] - qty[2] - qty[3]) %></td>
-                                        <td><input type="number" min="0" name="qtyToDiscount_<%= food.getId() %>"></td>
-                                        <td><input type="number" min="0" name="qtyToDonate_<%= food.getId() %>"></td>
+                                        <td>
+                                            <input type="number" min="0" name="qtyToDiscount_<%= food.getId() %>">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" name="qtyToDonate_<%= food.getId() %>">
+                                            <input type="hidden" name="foodId" value="<%= food.getId() %>">
+                                            <input type="hidden" name="foodName" value="<%= food.getName() %>">
+                                            <input type="hidden" name="foodExpireDays" value="<%= food.getExpireDays()%>">
+                                            <input type="hidden" name="foodUnitprice" value="<%= food.getUnitPrice()%>">
+                                            <input type="hidden" name="foodDiscount" value="<%= food.getDiscount()%>">
+                                            <input type="hidden" name="totalSurplusQty" value="<%= qty[0] %>">
+                                            <input type="hidden" name="inventoryNormal" value="<%= qty[1] %>">
+                                            <input type="hidden" name="listedForDiscount" value="<%= qty[2] %>">
+                                            <input type="hidden" name="listedForDonation" value="<%= qty[3] %>">
+                                        </td>
                                     </tr>
                                 <% 
                                     index++; 

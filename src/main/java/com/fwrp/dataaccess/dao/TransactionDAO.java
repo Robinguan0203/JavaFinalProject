@@ -3,6 +3,7 @@ package com.fwrp.dataaccess.dao;
 import com.fwrp.dataaccess.dto.TransactionDTO;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * This interface defines the standard operations to be performed on Transaction model object(s).
@@ -32,4 +33,6 @@ public interface TransactionDAO{
      * @throws java.sql.SQLException
      */
     boolean deleteTransaction(TransactionDTO transactionDTO, Connection conn)  throws SQLException ;
+    
+    ArrayList<TransactionDTO> getAllTransactions(Connection conn) throws SQLException;
 }

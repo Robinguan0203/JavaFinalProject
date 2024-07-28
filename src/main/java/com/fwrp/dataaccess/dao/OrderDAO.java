@@ -6,4 +6,5 @@ import com.fwrp.models.Order;
 
 @Repository
 public interface OrderDAO extends JpaRepository<Order, Integer> {
+    
 }
