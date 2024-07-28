@@ -51,6 +51,7 @@ public class InventoryDbService {
     //private OrderDAO orderDAO = null;
 
 
+
     public InventoryDbService(){
         inventoryDAO = new InventoryDAOImpl();
         transactionDAO = new TransactionDAOImpl();
@@ -320,11 +321,7 @@ public class InventoryDbService {
 
             }
         }
-
-        return inventoryMap;
-
     }
     */
-
 
 }
