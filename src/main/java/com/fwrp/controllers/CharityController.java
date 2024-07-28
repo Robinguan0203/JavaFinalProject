@@ -6,11 +6,8 @@ package com.fwrp.controllers;
 
 import com.fwrp.models.Inventory;
 import com.fwrp.services.CharityService;
-import com.fwrp.utils.ThymeleafUtil;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.context.WebContext;
 
-import javax.servlet.ServletContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,20 +21,17 @@ import java.util.List;
  *
  * @author Ke Yan
  */
-@WebServlet("/CharityController")
+@WebServlet("/Charity")
 public class CharityController extends HttpServlet {
     CharityService service;
     @Override
-    public void init() throws ServletException {
+    public void init() {
         service=new CharityService();
-        ThymeleafUtil.initialize(getServletContext());
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        WebContext context=new WebContext(req, resp, req.getServletContext());
-//        Context context=new Context();
-        List<Inventory> inventoryList=null;
+        List<Inventory> inventoryList;
         try {
             inventoryList=service.getDonationInventories();
         } catch (ClassNotFoundException e) {
@@ -45,7 +39,8 @@ public class CharityController extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        context.setVariable("inventories", inventoryList);
-        ThymeleafUtil.process("/charity/donationInventory.html",context,resp.getWriter());
+        req.setAttribute("inventoryList", inventoryList);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/charity/donationInventory.jsp");
+        dispatcher.forward(req,resp);
     }
 }
