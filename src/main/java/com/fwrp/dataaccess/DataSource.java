@@ -3,6 +3,7 @@
 package com.fwrp.dataaccess;
 
 import com.fwrp.constants.FileLocationConstant;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -21,6 +22,26 @@ import java.util.Properties;
  */
 public class DataSource {
 
+    private static final String DB_URL;
+    private static final String DB_USERNAME;
+    private static final String DB_PASSWORD;
+
+    static {
+        Properties properties = new Properties();
+        try {
+            properties.load(DataSource.class.getClassLoader().getResourceAsStream("database.properties"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DB_URL = properties.getProperty("db.url");
+        DB_USERNAME = properties.getProperty("db.username");
+        DB_PASSWORD = properties.getProperty("db.password");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * The singleton instance of the DBConnection class.
      */
@@ -36,17 +57,8 @@ public class DataSource {
      * Initializes the database connection.
      */
     private DataSource() throws ClassNotFoundException{
-        //String[] connectionInfo = openPropsFile();
-        String[] connectionInfo = new String[3];
-        connectionInfo[0] = "jdbc:mysql://localhost:3306/fwrp";
-        connectionInfo[1] = "test";
-        connectionInfo[2] = "";
-        
-        System.out.println(connectionInfo[0]);
-
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            this.connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
+            this.connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
         } catch (SQLException e) {
             System.out.println("Database Connection Creation Failed : " + e.getMessage());
         }

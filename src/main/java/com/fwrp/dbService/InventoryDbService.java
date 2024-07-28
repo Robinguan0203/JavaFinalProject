@@ -5,7 +5,6 @@
 package com.fwrp.dbService;
 
 import com.fwrp.constants.OtherConstants;
-import com.fwrp.constants.TransactionTypeConstant;
 import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dao.ExpireInfoDAO;
 import com.fwrp.dataaccess.dao.ExpireInfoDAOImpl;
@@ -28,11 +27,13 @@ import com.fwrp.models.Food;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.Transaction;
 import com.fwrp.models.User;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -48,7 +49,8 @@ public class InventoryDbService {
     private FoodDAO foodDAO = null;
     private UserDAO userDAO = null;
     //private OrderDAO orderDAO = null;
-    
+
+
     public InventoryDbService(){
         inventoryDAO = new InventoryDAOImpl();
         transactionDAO = new TransactionDAOImpl();
@@ -57,53 +59,53 @@ public class InventoryDbService {
         userDAO = new UserDAOImpl();
         //orderDAO = new OrderDAOImple();
     }
-    
+
     public boolean addTransaction(TransactionDTO transactionDTO) throws NegativeInventoryException, SQLException, ClassNotFoundException{
         Connection conn = null;
         InventoryDTO inventoryDTO = null;
         int qtyNormal;
         int qtyDiscount;
         int qtyDonation;
-        
+
         try{
             conn = DataSource.getInstance().getConnection();
             //start transaction
             conn.setAutoCommit(false);
-            
+
             //query inventory
             inventoryDTO = inventoryDAO.getInventoryByFoodId(transactionDTO.getFoodId(), conn);
-            
+
             qtyNormal = inventoryDTO.getQtyNormal() + transactionDTO.getQtyNormal();
             qtyDiscount = inventoryDTO.getQtyDiscount() + transactionDTO.getQtyDiscount();
             qtyDonation = inventoryDTO.getQtydonation() + transactionDTO.getQtyDonation();
-            
+
             //validate inventory
             if(qtyNormal < 0 || qtyDiscount < 0 || qtyDonation < 0){
                 throw new NegativeInventoryException("Inventory cannot be negative!");
             }
-            
+
             //add transaction
             boolean isTransactionAdded = transactionDAO.addTransaction(transactionDTO, conn);
             if(!isTransactionAdded){
                 throw new SQLException("Inser transaction fails.");
             }
-            
+
             inventoryDTO.setQtyNormal(qtyNormal);
             inventoryDTO.setQtyDiscount(qtyDiscount);
             inventoryDTO.setQtydonation(qtyDonation);
-            
+
             //update inventory
             boolean isInventoryUpdated = inventoryDAO.updateInventory(inventoryDTO, conn);
-            
+
             if(!isInventoryUpdated){
                 throw new SQLException("Inventory updation fails.");
             }
-            
+
             conn.commit(); // 提交事务
         } catch(SQLException e){
             if (conn != null) {
                 conn.rollback(); // 回滚事务
-            }   
+            }
             throw e;
         } finally {
             if (conn != null) {
@@ -115,14 +117,14 @@ public class InventoryDbService {
                 }
             }
         }
-        
+
         System.out.println("inventory updated");
         return true;
     }
-    
+
     public boolean addExpireInfo(ExpireInfoDTO expireInfoDTO) throws SQLException, ClassNotFoundException{
         Connection conn = null;
-                
+
         try{
             conn = DataSource.getInstance().getConnection();
             boolean isExpireInfoAdded = expireInfoDAO.addExpireInfo(expireInfoDTO, conn);
@@ -132,26 +134,26 @@ public class InventoryDbService {
         }catch(SQLException e){
             if (conn != null) {
                 conn.close();
-            }   
+            }
             throw e;
         }
-        
+
         System.out.println("Food expire Info added");
         return true;
     }
-    
+
     public ExpireInfo getExpireInfoById(int expireInfoId) throws SQLException, ClassNotFoundException{
         Connection conn = null;
         ExpireInfoDTO expireInfoDTO = null;
         ExpireInfo expireInfo = null;
-        
+
         try{
             conn = DataSource.getInstance().getConnection();
             expireInfoDTO = expireInfoDAO.getExpireInfoById(expireInfoId, conn);
         } catch(SQLException e){
             if (conn != null) {
                 conn.close();
-            }   
+            }
             throw e;
         }
         if(expireInfoDTO != null){
@@ -159,10 +161,10 @@ public class InventoryDbService {
         }
         return expireInfo;
     }
-    
+
     public boolean updateExpireInfo(ExpireInfoDTO expireInfoDTO) throws SQLException, ClassNotFoundException{
         Connection conn = null;
-                
+
         try{
             conn = DataSource.getInstance().getConnection();
             boolean isExpireInfoUpdated = expireInfoDAO.updateExpireInfo(expireInfoDTO, conn);
@@ -172,28 +174,28 @@ public class InventoryDbService {
         }catch(SQLException e){
             if (conn != null) {
                 conn.close();
-            }   
+            }
             throw e;
         }
-        
+
         System.out.println("Food expire Info added");
         return true;
     }
-    
+
     public ArrayList<ExpireInfoDTO> queryExpireInfoClosedToExpire() throws SQLException, ClassNotFoundException{
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
-        
+
         // 获取当前日期
         Date currentDate = new Date();
-        
+
         // 使用 Calendar 类来增加过期天数
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.add(Calendar.DAY_OF_YEAR, OtherConstants.DAYS_TO_SURPLUS);
-        
+
         // 获取过期日期
         Date expireDate = calendar.getTime();
-        
+
         Connection conn = null;
         try{
             conn = DataSource.getInstance().getConnection();
@@ -201,15 +203,15 @@ public class InventoryDbService {
         } catch(SQLException e){
             if (conn != null) {
                 conn.close();
-            }   
+            }
             throw e;
         }
-        
+
         return expireInfoDTOs;
     }
-    
+
     public ArrayList<ExpireInfoDTO> queryAllExpireInfo() throws SQLException, ClassNotFoundException{
-        ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();        
+        ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
         Connection conn = null;
         try{
             conn = DataSource.getInstance().getConnection();
@@ -217,13 +219,29 @@ public class InventoryDbService {
         } catch(SQLException e){
             if (conn != null) {
                 conn.close();
-            }   
+            }
             throw e;
         }
-        
+
         return expireInfoDTOs;
     }
-    
+
+    public List<Inventory> getDonationInventories() throws SQLException,ClassNotFoundException{
+        List<Inventory> donationInventories= null;
+        Connection conn = null;
+        try{
+            conn = DataSource.getInstance().getConnection();
+            donationInventories = inventoryDAO.getDonationInventories(conn);
+        } catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }
+            throw e;
+        }
+
+        return donationInventories;
+    }
+
     public HashMap<Food, Integer[]> getFoodSurplusSummary() throws SQLException, ClassNotFoundException{
         HashMap<Food, Integer[]> foodMap = new HashMap<>();
         HashMap<Integer, Integer[]> surplusMap = new HashMap<>();
@@ -231,7 +249,7 @@ public class InventoryDbService {
         try{
             conn = DataSource.getInstance().getConnection();
             surplusMap = expireInfoDAO.getFoodSurplusSummary(conn);
-            
+
             if(!surplusMap.isEmpty()){
                 for (Map.Entry<Integer, Integer[]> entry : surplusMap.entrySet()) {
                     int foodId = entry.getKey();
@@ -244,22 +262,22 @@ public class InventoryDbService {
         } catch(SQLException e){
             if (conn != null) {
                 conn.close();
-            }   
+            }
             throw e;
         }
-        
-        return foodMap;       
+
+        return foodMap;
     }
-    
+
     public HashMap<Food,Integer[]> getAllInventoryData() throws SQLException, ClassNotFoundException{
         HashMap<Food,Integer[]> inventoryMap = new HashMap<Food,Integer[]>();
         HashMap<Integer, Integer[]> dataFromDAOMap = new HashMap<>();
         Connection conn = null;
-        
+
         try{
             conn = DataSource.getInstance().getConnection();
             dataFromDAOMap = inventoryDAO.getAllInventoryData(conn);
-            
+
             if(!dataFromDAOMap.isEmpty()){
                 for (Map.Entry<Integer, Integer[]> entry : dataFromDAOMap.entrySet()) {
                     int foodId = entry.getKey();
@@ -269,23 +287,23 @@ public class InventoryDbService {
                     inventoryMap.put(food, qty);
                 }
             }
-            
+
         } catch(SQLException e){
             if (conn != null) {
                 conn.close();
-            }   
+            }
             throw e;
         }
         
         return inventoryMap;  
     }
-    
+
     /*
     public ArrayList<Transaction> getTransactions() throws SQLException{
         ArrayList<Transaction> transactions = null;
-        
+
         Connection conn = null;
-        
+
         conn = DataSource.getInstance().getConnection();
         ArrayList<TransactionDTO> dtos = transactionDAO.getAllTransactions(conn);
         if(!dtos.isEmpty()){
@@ -298,11 +316,15 @@ public class InventoryDbService {
                 if(dto.getFoodId() != 0 && dto.getFoodId() != null){
                     order = OrderDAO.
                 }
-                
-                
+
+
             }
         }
+
+        return inventoryMap;
+
     }
     */
-    
+
+
 }

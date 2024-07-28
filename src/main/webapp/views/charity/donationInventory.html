@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Donation Inventory</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link  th:href="@{/static/css/fwrp.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div>
+    <h1 class="bg-blue-300">Donation Inventory List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Inventory ID</th>
+            <th>Food Name</th>
+            <th>Inventory Discount</th>
+            <th>Inventory Donation Quantity</th>
+            <th>Inventory Normal Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i : ${inventories}">
+            <td th:text="'#'+${i.getId()}"></td>
+            <td th:text="${i.getFood().getName()}"></td>
+            <td th:text="${i.getQtyDiscount()}"></td>
+            <td th:text="${i.getQtyDonation()}"></td>
+            <td th:text="${i.getQtyNormal()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
