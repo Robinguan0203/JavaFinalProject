@@ -11,7 +11,14 @@ import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.ExpireInfo;
 import com.fwrp.models.Food;
 import com.fwrp.models.Retailer;
+import com.fwrp.models.Transaction;
 import com.fwrp.services.RetailerService;
+import com.fwrp.validator.ExpireDateValidator;
+import com.fwrp.validator.FoodExpireDaysValidator;
+import com.fwrp.validator.FoodQuantityValidator;
+import com.fwrp.validator.FoodValidator;
+import com.fwrp.validator.IsSurplusValidator;
+import com.fwrp.validator.SurplusValidator;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -82,6 +89,9 @@ public class RetailerController extends HttpServlet {
             case "viewInventory":
                 viewInventory(request, response);
                 break;
+            case "viewTransactions":
+                //viewTransactionsrequest, response);
+                break;
             default:
                 response.getWriter().println("Unknown action");
         }
@@ -108,6 +118,14 @@ public class RetailerController extends HttpServlet {
         double unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
         double discount = Double.parseDouble(request.getParameter("discount"));
         
+        FoodValidator validator = new FoodValidator();
+        if (!validator.validate(name, expireDays, unitPrice, discount)) {
+            request.setAttribute("errorMessage", validator.getErrorMessage());
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+        
         RetailerService retailerService = new RetailerService();
         try {
             retailerService.storeNewFood(name, expireDays, unitPrice, discount);
@@ -117,11 +135,11 @@ public class RetailerController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
             dispatcher.forward(request, response);
         } catch (DataInsertionFailedException ex) {
-            request.setAttribute("errorMessage", "Food Insertion Failed.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e){
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.setAttribute("errorMessage", e.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
             dispatcher.forward(request, response);
         }
@@ -133,7 +151,7 @@ public class RetailerController extends HttpServlet {
         try {
             foods = retailerService.getAllFoods();
         } catch (ClassNotFoundException | SQLException ex) {
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
             dispatcher.forward(request, response);
         } 
@@ -147,6 +165,14 @@ public class RetailerController extends HttpServlet {
         int foodId = Integer.parseInt(request.getParameter("foodId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         
+        FoodQuantityValidator validator = new FoodQuantityValidator();
+        if (!validator.validate(foodId, quantity)) {
+            request.setAttribute("errorMessage", validator.getErrorMessage());
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/addQuantities.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+        
         RetailerService retailerService = new RetailerService();
         try {
             retailerService.addFoodQuantities(foodId, quantity, retailer);
@@ -156,7 +182,7 @@ public class RetailerController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/addQuantities.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException | ClassNotFoundException ex) {
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/addQuantities.jsp");
             dispatcher.forward(request, response);
         }  
@@ -168,7 +194,7 @@ public class RetailerController extends HttpServlet {
         try {
             foods = retailerService.getAllFoods();
         } catch (ClassNotFoundException | SQLException ex) {
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
             dispatcher.forward(request, response);
         } 
@@ -182,6 +208,14 @@ public class RetailerController extends HttpServlet {
         int foodId = Integer.parseInt(request.getParameter("foodId"));
         int expireDays = Integer.parseInt(request.getParameter("expireDays"));
         
+        FoodExpireDaysValidator validator = new FoodExpireDaysValidator();
+        if (!validator.validate(foodId, expireDays)) {
+            request.setAttribute("errorMessage", validator.getErrorMessage());
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/changeExpireDays.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
         RetailerService retailerService = new RetailerService();
         try {
             retailerService.storeFoodExpireDays(foodId, expireDays);
@@ -191,7 +225,7 @@ public class RetailerController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/changeExpireDays.jsp");
             dispatcher.forward(request, response);
         } catch (DataInsertionFailedException ex) {
-            request.setAttribute("errorMessage", "Store new expire days fails.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/changeExpireDays.jsp");
             dispatcher.forward(request, response);
         }  
@@ -203,7 +237,7 @@ public class RetailerController extends HttpServlet {
         try {
             expireInfos = retailerService.getAllExpireInfoItems();
         } catch (ClassNotFoundException | SQLException ex) {
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
             dispatcher.forward(request, response);
         } 
@@ -241,6 +275,16 @@ public class RetailerController extends HttpServlet {
                     if (newExpireDateStr != null && !newExpireDateStr.trim().isEmpty()) {
                         try {
                             newExpireDate = dateFormat.parse(newExpireDateStr);
+                            
+                            ExpireDateValidator validator = new ExpireDateValidator();
+                            if (!validator.validate(newExpireDate)) {
+                                request.setAttribute("expireInfos", expireInfos); // Set expireInfos
+                                request.setAttribute("errorMessage", validator.getErrorMessage());
+                                RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/updateExpireDate.jsp");
+                                dispatcher.forward(request, response);
+                                return;
+                            }
+
                             retailerService.updateExpireDateOfExpireInfo(id, newExpireDate);
                             
                         } catch (ParseException ex) {
@@ -257,7 +301,7 @@ public class RetailerController extends HttpServlet {
                             return; 
                         } catch (SQLException | ClassNotFoundException ex) {
                             request.setAttribute("expireInfos", expireInfos); // Set expireInfos
-                            request.setAttribute("errorMessage", "WAn unexpected error occurred.");
+                            request.setAttribute("errorMessage", ex.getMessage());
                             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/updateExpireDate.jsp");
                             dispatcher.forward(request, response);
                             return; 
@@ -286,7 +330,7 @@ public class RetailerController extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         } catch (ClassNotFoundException | SQLException ex) {
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
             dispatcher.forward(request, response);
             return;
@@ -313,33 +357,40 @@ public class RetailerController extends HttpServlet {
 
                 // 检查参数名称是否以 'newExpireDate_' 开头
                 if (paramName.startsWith("newIsSurplus_")) {
-                    String idStr = paramName.substring("newIsSurplus_".length());
-    
+                    String idStr = paramName.substring("newIsSurplus_".length());    
                     int id = Integer.parseInt(idStr);
                     String newIsSurplusStr  = paramValues[0]; 
-                    if (!newIsSurplusStr.isEmpty() && !newIsSurplusStr.equalsIgnoreCase("")) {
-                        if(newIsSurplusStr.equalsIgnoreCase("0")){
-                            newIsSurplus = false;
-                        }else{
-                            newIsSurplus = true;
-                        }
-                        
-                        try {
-                            retailerService.updateIsSurplusOfExpireInfo(id, newIsSurplus);  
-                        } catch (SQLException | ClassNotFoundException ex) {
-                            request.setAttribute("expireInfos", expireInfos); // Set expireInfos
-                            request.setAttribute("errorMessage", "An unexpected error occurred.");
-                            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/markSurplus.jsp");
-                            dispatcher.forward(request, response);
-                            return; 
-                        } catch (DataNotExistsException ex) {
-                            request.setAttribute("expireInfos", expireInfos); // Set expireInfos
-                            request.setAttribute("errorMessage", ex.getMessage());
-                            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/markSurplus.jsp");
-                            dispatcher.forward(request, response);
-                            return; 
-                        } 
+                    
+                    IsSurplusValidator validator = new IsSurplusValidator();
+                    if (!validator.validate(newIsSurplusStr)) {
+                        request.setAttribute("expireInfos", expireInfos); // Set expireInfos
+                        request.setAttribute("errorMessage", validator.getErrorMessage());
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/markSurplus.jsp");
+                        dispatcher.forward(request, response);
+                        return;
                     }
+                    
+                    if(newIsSurplusStr.equalsIgnoreCase("0")){
+                        newIsSurplus = false;
+                    }else{
+                        newIsSurplus = true;
+                    }
+
+                    try {
+                        retailerService.updateIsSurplusOfExpireInfo(id, newIsSurplus);  
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        request.setAttribute("expireInfos", expireInfos); // Set expireInfos
+                        request.setAttribute("errorMessage", ex.getMessage());
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/markSurplus.jsp");
+                        dispatcher.forward(request, response);
+                        return; 
+                    } catch (DataNotExistsException ex) {
+                        request.setAttribute("expireInfos", expireInfos); // Set expireInfos
+                        request.setAttribute("errorMessage", ex.getMessage());
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/markSurplus.jsp");
+                        dispatcher.forward(request, response);
+                        return; 
+                    } 
                 }
             }
         }
@@ -358,7 +409,7 @@ public class RetailerController extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         } catch (SQLException | ClassNotFoundException ex) {
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
             dispatcher.forward(request, response);
             return;
@@ -368,10 +419,12 @@ public class RetailerController extends HttpServlet {
     private void storeListSurplus(HttpServletRequest request, HttpServletResponse response, Retailer retailer) throws ServletException, IOException{
         Map<String, String[]> parameterMap = request.getParameterMap();
         RetailerService retailerService = new RetailerService();
+        SurplusValidator validator = new SurplusValidator();
+        int count = 0;
          
         // 获取之前存储的 expireInfos
-        HashMap<Food, Integer[]> foodExpireQtyMap = (HashMap<Food, Integer[]>) request.getAttribute("foodExpireQtyMap");                         
-         
+        HashMap<Food, Integer[]> foodExpireQtyMap = buildFoodExpireQtyMap(request);                
+        
         HashMap<Integer, Integer[]> listDataToStore = new HashMap<>();
         HashMap<Integer, Integer[]> tempDataMap = new HashMap<>();
          
@@ -400,6 +453,8 @@ public class RetailerController extends HttpServlet {
                        qtyArray[0] = qtyToDiscount;
                        tempDataMap.put(id, qtyArray);
                    } catch (NumberFormatException e) {
+                        count = foodExpireQtyMap.size();
+                        request.setAttribute("count", count);
                         request.setAttribute("foodExpireQtyMap", foodExpireQtyMap); // Set expireInfos
                         request.setAttribute("errorMessage", e.getMessage());
                         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/listSurplus.jsp");
@@ -425,6 +480,8 @@ public class RetailerController extends HttpServlet {
                        qtyArray[1] = qtyToDonate;
                        tempDataMap.put(id, qtyArray);
                    } catch (NumberFormatException e) {
+                        count = foodExpireQtyMap.size();
+                        request.setAttribute("count", count);
                         request.setAttribute("foodExpireQtyMap", foodExpireQtyMap); // Set expireInfos
                         request.setAttribute("errorMessage", e.getMessage());
                         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/listSurplus.jsp");
@@ -437,6 +494,8 @@ public class RetailerController extends HttpServlet {
         }
         
         if(listDataToStore.isEmpty()){
+            count = foodExpireQtyMap.size();
+            request.setAttribute("count", count);
             request.setAttribute("foodExpireQtyMap", foodExpireQtyMap); // Set expireInfos
             request.setAttribute("errorMessage", "No item to be updated.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/listSurplus.jsp");
@@ -450,9 +509,17 @@ public class RetailerController extends HttpServlet {
             int qtyToDiscount = (qtyArray[0] != null) ? qtyArray[0] : 0;
             int qtyToDonate = (qtyArray[1] != null) ? qtyArray[1] : 0;
 
-            if(qtyToDiscount != 0 && qtyToDiscount != 0 ){
+            if(!(qtyToDiscount == 0 && qtyToDiscount == 0) ){
+                if (!validator.validate(foodId, qtyToDiscount, qtyToDonate, foodExpireQtyMap)) {
+                    count = foodExpireQtyMap.size();
+                    request.setAttribute("count", count);
+                    request.setAttribute("foodExpireQtyMap", foodExpireQtyMap);
+                    request.setAttribute("errorMessage", validator.getErrorMessage());
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/listSurplus.jsp");
+                    dispatcher.forward(request, response);
+                    return;
+                }
                 try {
-                    // 调用更新方法
                     retailerService.listSurplusFood(foodId, qtyToDiscount, qtyToDonate, retailer);
                 } catch (NegativeInventoryException ex) {
                     request.setAttribute("errorMessage", "Quantity to deduct is greater than inventory.");
@@ -469,6 +536,47 @@ public class RetailerController extends HttpServlet {
 
         // 重定向到成功页面或其他处理逻辑
         response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Surplus%20quantities%20listed%20successfully.");
+    }
+    
+    private HashMap<Food, Integer[]> buildFoodExpireQtyMap(HttpServletRequest request) {
+        String[] foodIds = request.getParameterValues("foodId");
+        String[] foodNames = request.getParameterValues("foodName");
+        String[] foodExpireDays = request.getParameterValues("foodExpireDays");
+        String[] foodUnitprices = request.getParameterValues("foodUnitprice");
+        String[] foodDiscounts = request.getParameterValues("foodDiscount");
+        String[] totalSurplusQtys = request.getParameterValues("totalSurplusQty");
+        String[] inventoryNormals = request.getParameterValues("inventoryNormal");
+        String[] listedForDiscounts = request.getParameterValues("listedForDiscount");
+        String[] listedForDonations = request.getParameterValues("listedForDonation");
+
+        HashMap<Food, Integer[]> foodExpireQtyMap = new HashMap<>();
+        for (int i = 0; i < foodIds.length; i++) {
+            Food food = new Food();
+            food.setId(Integer.parseInt(foodIds[i]));
+            food.setName(foodNames[i]);
+            food.setExpireDays(Integer.parseInt(foodExpireDays[i]));
+            // 转换为 double 类型并设置属性
+            try {
+                food.setUnitPrice(Double.parseDouble(foodUnitprices[i]));
+            } catch (NumberFormatException e) {
+                food.setUnitPrice(0.0);
+            }
+
+            try {
+                food.setDiscount(Double.parseDouble(foodDiscounts[i]));
+            } catch (NumberFormatException e) {
+                food.setDiscount(0.0);
+            }
+
+            Integer[] qtyArray = new Integer[4];
+            qtyArray[0] = Integer.parseInt(totalSurplusQtys[i]);
+            qtyArray[1] = Integer.parseInt(inventoryNormals[i]);
+            qtyArray[2] = Integer.parseInt(listedForDiscounts[i]);
+            qtyArray[3] = Integer.parseInt(listedForDonations[i]);
+            foodExpireQtyMap.put(food, qtyArray);
+        }
+
+        return foodExpireQtyMap;
     }
     
     private void viewInventory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -489,7 +597,18 @@ public class RetailerController extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         }
-        
-        
     }
+    
+    /*
+    private void viewTransactions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        RetailerService retailerService = new RetailerService();
+        
+        ArrayList<Transaction> transactions = retailerService.getAllTransactions();
+        int count = transactions.size();
+        request.setAttribute("count", count);
+        request.setAttribute("transactions", transactions);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/transactions.jsp");
+        dispatcher.forward(request, response);
+    }
+    */
 }

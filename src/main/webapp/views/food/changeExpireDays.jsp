@@ -76,7 +76,7 @@
                     </select>
                     
                     <label for="expireDays">New Expire Days</label>
-                    <input type="number" id="expireDays" name="expireDays" min="1" required />
+                    <input type="number" id="expireDays" name="expireDays" min="1" step="1" required />
 
                     <button type="submit">Submit</button>
                 </form>

@@ -55,7 +55,7 @@
                 <p>Type: Retailer</p>
             </div>
             <div class="form-section">
-                <h2>List Surplus Food for Sale or Donation</h2>
+                <h2>Inventory</h2>
                 <div class="message">
                     <c:if test="${not empty errorMessage}">
                         <p class="message">${errorMessage}</p>
