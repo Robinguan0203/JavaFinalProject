@@ -5,6 +5,7 @@
 package com.fwrp.controllers;
 
 import com.fwrp.constants.FileLocationConstant;
+import com.fwrp.constants.NotificationMethodConstant;
 import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.dataaccess.DataSource;
 import static com.fwrp.dataaccess.DataSource.openPropsFile;
@@ -14,6 +15,7 @@ import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.exceptions.DataNotExistsException;
 import com.fwrp.models.Charity;
 import com.fwrp.models.Consumer;
+import com.fwrp.models.Notification;
 import com.fwrp.models.Retailer;
 import com.fwrp.models.User;
 import com.fwrp.services.UserService;
@@ -25,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,6 +73,12 @@ public class UserController extends HttpServlet {
             case "logout":
                 logout(request, response);
                 break;
+            case "viewPhoneNotification":
+                viewNotification(NotificationMethodConstant.PHONE, request,response);
+                break;
+            case "viewEmailPhoneNotification":
+                viewNotification(NotificationMethodConstant.EMAIL, request,response);
+                break;
             default:
                 response.getWriter().println("Unknown action");
         }  
@@ -79,6 +88,7 @@ public class UserController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         User user = null;
+        int[] count = new int[2];
         
         UserService userService = new UserService();
         try {
@@ -98,10 +108,15 @@ public class UserController extends HttpServlet {
             // Store user object to HttpSession
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            
-            request.setAttribute("user", user);
+            try {
+                getNotificationCount(request);
+            } catch (SQLException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             switch(user.getType()) {
-                case UserTypeConstant.RETAILER:
+                case UserTypeConstant.RETAILER:                    
                     request.getRequestDispatcher("/views/retailer.jsp").forward(request, response);
                     return;                   
                 case UserTypeConstant.CONSUMER:
@@ -182,4 +197,71 @@ public class UserController extends HttpServlet {
         request.setAttribute("successMessage", "You have been successfully logged out.");
         response.sendRedirect(request.getContextPath() + "/index.jsp?errorMessage=You have been logged out.");
     }
+     
+     private void getNotificationCount(HttpServletRequest request) throws SQLException, ClassNotFoundException{
+        HttpSession session = request.getSession(false);
+        int count[] = new int[2];
+        int phoneNotificationCount = 0;
+        int emailNotificationCount = 0;
+        UserService userService = new UserService();
+        
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                count = userService.getNotificationCount(user);
+                // 假设你有获取通知计数的方法
+                emailNotificationCount = count[0];
+                phoneNotificationCount = count[1];
+                
+                session.setAttribute("phoneNotificationCount", phoneNotificationCount);
+                session.setAttribute("emailNotificationCount", emailNotificationCount);
+            }
+        }
+       
+     }
+     
+    private void viewNotification(int method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserService userService = new UserService();        
+        HttpSession session = request.getSession(false);
+        User user = null;
+        int count = 0;
+
+        if (session != null) {
+            user = (User) session.getAttribute("user");
+        }
+
+        if (user != null) {
+            try {
+                ArrayList<Notification> notifications = userService.getNotifications(user, method);
+                count = notifications.size();
+                request.setAttribute("count", count);
+                request.setAttribute("notifications", notifications);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/notification.jsp");
+                dispatcher.forward(request, response);
+
+            } catch (SQLException | ClassNotFoundException ex) {
+                int userType = user.getType(); // 假设 getType() 返回的是 int
+
+                if (userType == UserTypeConstant.RETAILER) {                    
+                    request.setAttribute("errorMessage", ex.getMessage());
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");            
+                    dispatcher.forward(request, response);
+                } else if (userType == UserTypeConstant.CONSUMER) {
+                    request.setAttribute("errorMessage", ex.getMessage());
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/consumer.jsp");            
+                    dispatcher.forward(request, response);
+                } else if (userType == UserTypeConstant.CHARITY) {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/charity.jsp");            
+                    dispatcher.forward(request, response);
+                } else {
+                    // 处理未知用户类型
+                    request.setAttribute("errorMessage", "Unknown user type.");
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                }
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+        }
+    }
+
 }

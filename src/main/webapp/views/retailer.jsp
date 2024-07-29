@@ -32,7 +32,6 @@
             </div>
         </div>            
         <div class="actions">
-            
             <form action="${pageContext.request.contextPath}/RetailerController" method="post">
                 <input type="hidden" name="action" value="addFood" />
                 <button type="submit">Add Food</button>

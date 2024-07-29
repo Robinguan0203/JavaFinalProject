@@ -4,13 +4,16 @@
  */
 package com.fwrp.services;
 
+import com.fwrp.dataaccess.dto.NotificationDTO;
 import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.dbService.UserDbService;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.exceptions.DataNotExistsException;
+import com.fwrp.models.Notification;
 import com.fwrp.models.User;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -37,4 +40,28 @@ public class UserService {
         
         userDbService.AddUser(userToAddDTO);
     }
+    
+    public ArrayList<Notification> getNotifications(User user, int method) throws SQLException, ClassNotFoundException{
+        UserDbService userDbService = new UserDbService();
+        ArrayList<Notification> notifications = new ArrayList<>();
+        ArrayList<NotificationDTO> notificationDTOs = userDbService.getNotificationsByMethod(user, method);
+        
+        if(!notificationDTOs.isEmpty()){
+            for(NotificationDTO dto : notificationDTOs){
+                notifications.add(dto.transferToNotification());
+            }
+        }
+        
+        return notifications;
+    }
+    
+    public int[] getNotificationCount(User user) throws SQLException, ClassNotFoundException {
+        int[] count = new int[2];
+        UserDbService userDbService = new UserDbService();
+        
+        count = userDbService.getNotificationCountByUser(user);
+        
+        return count;
+    }
+
 }

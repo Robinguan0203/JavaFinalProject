@@ -4,10 +4,11 @@
     Author     : robin
 --%>
 
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
-<%@page import="com.fwrp.models.Food"%>
-<%@page import="com.fwrp.models.ExpireInfo"%>
+<%@page import="com.fwrp.constants.NotificationMethodConstant"%>
+<%@page import="com.fwrp.models.Notification"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.fwrp.models.User"%>
+<%@page import="com.fwrp.models.Consumer"%>
 <%@ include file="../header.jsp" %>
         <style>
             body {
@@ -46,53 +47,49 @@
         <%@ include file="../nav.jsp" %>
         <%@ include file="../messageBar.jsp" %>
         <div class="container">
-            <center><h2>View Food Inventory</h2></center>
+            <center><h2>View Notifications</h2></center>
             <div class="form-section">    
                 <% 
-                    HashMap<Food, Integer[]> foodInventoryMap= (HashMap<Food, Integer[]>) request.getAttribute("foodInventoryMap");
-                    if (foodInventoryMap == null || foodInventoryMap.isEmpty()) { 
+                    ArrayList<Notification> notifications = (ArrayList<Notification>) request.getAttribute("notifications");
+                    if (notifications == null || notifications.isEmpty()) { 
                 %>
-                    <p>No Food Expire Data Information Found</p>
+                    <p>No Notification Found</p>
                 <% 
                     } else { 
                 %>
                     <table>
                         <colgroup>
                             <col style="width: 5%;">
-                            <col style="width: 20%;">
                             <col style="width: 15%;">
                             <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
+                            <col style="width: 45%;">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Food Name</th>
-                                <th>Total Surplus Quantity</th>
-                                <th>Inventory Normal</th>
-                                <th>Listed For Discount</th>
-                                <th>Listed For Donation</th>
-                                <th>To be Listed</th>
+                                <th>Method</th>
+                                <th>Date</th>
+                                <th>Message</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <%! int index = 0; %>
+                            <% int index = 0; %>
                             <% 
-                            for (Map.Entry<Food, Integer[]> entry : foodInventoryMap.entrySet()) {
-                                Food food = entry.getKey();
-                                Integer[] qty = entry.getValue();
-                            %>
-                                <tr>
-                                    <td><%= index + 1 %></td>
-                                    <td><%= food.getName() %></td>
-                                    <td><%= qty[0] %></td>
-                                    <td><%= qty[1] %></td>
-                                    <td><%= qty[2] %></td>
-                                    <td><%= qty[3] %></td>
-                                    <td><%= (qty[0] - qty[2] - qty[3]) %></td>
-                                </tr>
+                                for (Notification notification : notifications) {
+                                %>
+                                    <tr>
+                                        <td><%= index + 1 %></td>
+                                        <td>
+                                            <% if(notification.getMethod() == NotificationMethodConstant.EMAIL) { %>
+                                            Email
+                                            <% }else { %>
+                                            Phone
+                                            <%}%>
+                                        </td>
+                                        <td><%= notification.getDate() %></td>
+                                        <td><%= notification.getNotification()%></td>
+                                    </tr>
+                                
                             <% 
                                 index++; 
                             } 

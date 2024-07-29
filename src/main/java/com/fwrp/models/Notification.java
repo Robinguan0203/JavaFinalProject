@@ -19,7 +19,7 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Consumer consumer;
+    private User user;
 
     // Getters and Setters
     public int getId() {
@@ -54,11 +54,11 @@ public class Notification {
         this.notification = notification;
     }
 
-    public Consumer getConsumer() {
-        return consumer;
+    public User getUser() {
+        return user;
     }
 
-    public void setConsumer(Consumer consumer) {
-        this.consumer = consumer;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

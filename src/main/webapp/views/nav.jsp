@@ -12,15 +12,30 @@
             <li class="nav-item platform-name">FWRP - Food Waste Reduction Platform</li>
             <li class="nav-item user-name">
                 <% 
+                    Integer phoneNotificationCount = (Integer) session.getAttribute("phoneNotificationCount");
+                    Integer emailNotificationCount = (Integer) session.getAttribute("emailNotificationCount");
+                    //out.print(phoneNotificationCount);
+                    //out.print(emailNotificationCount);
+                    if (phoneNotificationCount == null) {
+                        phoneNotificationCount = 0;
+                    }
+                    if (emailNotificationCount == null) {
+                        emailNotificationCount = 0;
+                    }
+               
                     User user = (User) session.getAttribute("user");
                     if (user != null) {
                         out.print(user.getFirstName() + " " + user.getLastName());
                     } else {
                         out.print("Please login");
-                    }
+                    }                    
                 %>
             </li>
-            <li class="nav-item user-type">
+            <%
+                if(user != null) {
+            %>
+             
+            <li class="nav-item user-type">You are 
                 <% 
                     if (user != null) {
                         switch(user.getType()){
@@ -38,6 +53,31 @@
                         <%}
                     }
                 %>
+            </li>
+            <%}%>
+             <li class="nav-item notification-icons">                
+                <% if(phoneNotificationCount > 0){%>                    
+                <form action="${pageContext.request.contextPath}/UserController" method="post" class="notification-icon">
+                    <input type="hidden" name="action" value="viewPhoneNotification" />
+                    <button type="submit" class="notification-button">
+                        <i class="fas fa-phone"></i>
+                        <% if (phoneNotificationCount > 0) { %>
+                            <span class="notification-count"><%= phoneNotificationCount %></span>
+                        <% } %>
+                    </button>
+                </form>
+                <%}%>
+                <% if(emailNotificationCount > 0){%>
+                <form action="${pageContext.request.contextPath}/UserController" method="post" class="notification-icon">
+                    <input type="hidden" name="action" value="viewEmailPhoneNotification" />
+                    <button type="submit" class="notification-button">
+                        <i class="fas fa-envelope"></i>
+                        <% if (emailNotificationCount > 0) { %>
+                            <span class="notification-count"><%= emailNotificationCount %></span>
+                        <% } %>
+                    </button>
+                </form>
+                <%}%>
             </li>
             <li class="nav-item logout">
                 <% if (user != null) { %>
@@ -93,6 +133,40 @@
     .user-type {
         text-align: center;
         flex-shrink: 0; /* ??????? */
+    }
+    
+    .notification-icons {
+        display: flex;
+        align-items: center;
+    }
+
+    .notification-icon {
+        position: relative;
+        margin-left: 15px;
+        font-size: 18px;
+        color: black;
+        text-decoration: none;
+    }
+    .notification-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: inherit;
+        padding: 0;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        outline: none; /* ??????????? */
+    }
+    .notification-icon .notification-count {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
     }
 
     .logout {

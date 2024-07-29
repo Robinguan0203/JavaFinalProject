@@ -1,6 +1,7 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.UserDTO;
+import com.fwrp.models.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -73,4 +74,5 @@ public interface UserDAO {
      * @throws java.sql.SQLException
      */
     boolean removeUser(UserDTO userDTO, Connection conn)  throws SQLException;
+    
 }
