@@ -8,7 +8,14 @@
     <% 
         String successMessage = (String) request.getAttribute("successMessage");
         String errorMessage = (String) request.getAttribute("errorMessage");
-
+        
+        // ?????????????????????
+        if (successMessage == null || successMessage.isEmpty()) {
+            successMessage = request.getParameter("successMessage");
+        }
+        if (errorMessage == null || errorMessage.isEmpty()) {
+            errorMessage = request.getParameter("errorMessage");
+        }
         if (successMessage != null && !successMessage.isEmpty()) {
     %>
         <p class="success"><%= successMessage %></p>
