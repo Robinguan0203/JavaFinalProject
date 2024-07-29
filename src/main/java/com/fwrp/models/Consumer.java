@@ -27,19 +27,4 @@ public class Consumer extends User {
         
     }
        
-    public void storeUser() {
-        
-    }
-    
-    public Order createInventoryChange(Food food, int quantity) {
-        return null;
-    }
-    
-    public Preference createPreference(Food food) {
-        return null;
-    }
-    
-    public Subscription[] getSubscription() {
-        return null;
-    }
 }

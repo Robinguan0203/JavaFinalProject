@@ -1,5 +1,6 @@
 package com.fwrp.dataaccess.dao;
 
+import com.fwrp.dataaccess.dto.OrderDTO;
 import com.fwrp.models.Order;
 import com.fwrp.models.PurchaseTransaction;
 import java.sql.Connection;
@@ -12,11 +13,11 @@ import java.util.ArrayList;
  */
 
 public interface OrderDAO {
-    boolean createOrder(Order order, Connection conn) throws SQLException;
-    Order getOrderById(int id, Connection conn) throws SQLException;
-    ArrayList<Order> getOrdersByConsumerId(int consumerId, Connection conn) throws SQLException;
-    boolean updateOrder(Order order, Connection conn) throws SQLException;
-    boolean deleteOrder(int id, Connection conn) throws SQLException;
+    boolean addOrder(OrderDTO orderDTO, Connection conn) throws SQLException;
+    OrderDTO getOrderById(int id, Connection conn) throws SQLException;
+    ArrayList<OrderDTO> getAllOrders(Connection conn) throws SQLException;
+    boolean updateOrder(OrderDTO orderDTO, Connection conn) throws SQLException;
+    boolean removeOrder(int id, Connection conn) throws SQLException;
     
     void storeOrder();
     PurchaseTransaction createTransaction();
