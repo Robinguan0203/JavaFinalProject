@@ -7,45 +7,6 @@
 <%@page import="com.fwrp.models.ExpireInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ include file="../header.jsp" %>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-            }
-            .container {
-                width: 80%;
-                margin: 0 auto;
-            }
-            .header, .form-section, .logout {
-                margin-bottom: 20px;
-            }
-            .form-section table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-            .form-section table, .form-section th, .form-section td {
-                border: 1px solid black;
-                padding: 10px;
-                text-align: left;
-            }
-            .form-section th, .form-section td {
-                width: 20%;
-            }
-            .form-section input[type="date"] {
-                width: 90%;
-                padding: 5px;
-                box-sizing: border-box;
-            }
-            .form-section button {
-                margin-top: 20px;
-                padding: 10px 20px;
-            }
-            .message {
-                color: red;
-                font-weight: bold;
-                margin-bottom: 20px;
-            }
-        </style>
     </head>
     <body>
         <%@ include file="../nav.jsp" %>
