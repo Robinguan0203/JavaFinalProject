@@ -29,10 +29,10 @@ public class UserDbService {
         userDAO = new UserDAOImpl();        
     }
     
-    public boolean AddUser(User user) throws DataAlreadyExistsException, DataInsertionFailedException, SQLException, ClassNotFoundException {
+    public boolean AddUser(UserDTO userToAddDTO) throws DataAlreadyExistsException, DataInsertionFailedException, SQLException, ClassNotFoundException {
         Connection conn = null;
         boolean isUserAdded = false;
-        UserDTO userToAddDTO = user.transferToUserDTO();
+        //UserDTO userToAddDTO = user.transferToUserDTO();
         try{
             conn = DataSource.getInstance().getConnection();
             UserDTO userExistDTO = userDAO.getUserByEmail(userToAddDTO.getEmail(), conn);

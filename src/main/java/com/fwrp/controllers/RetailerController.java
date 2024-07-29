@@ -45,6 +45,14 @@ import javax.servlet.http.HttpSession;
 public class RetailerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false); 
+        
+        if (session == null || session.getAttribute("user") == null) {
+            request.setAttribute("errorMessage", "You must be logged in first.");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            return; 
+        }
+        
         Retailer retailer = this.getRetailerFromSession(request);
         request.setAttribute("retailer", retailer);
         
@@ -118,6 +126,8 @@ public class RetailerController extends HttpServlet {
         double unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
         double discount = Double.parseDouble(request.getParameter("discount"));
         
+        String[] foodData = getFoodInputHistory(request);
+        
         FoodValidator validator = new FoodValidator();
         if (!validator.validate(name, expireDays, unitPrice, discount)) {
             request.setAttribute("errorMessage", validator.getErrorMessage());
@@ -132,19 +142,31 @@ public class RetailerController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Food%20added%20successfully.");
         } catch(DataAlreadyExistsException ee){
             request.setAttribute("errorMessage", "Food Already Exist.");
+            request.setAttribute("foodData", foodData);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
             dispatcher.forward(request, response);
         } catch (DataInsertionFailedException ex) {
             request.setAttribute("errorMessage", ex.getMessage());
+            request.setAttribute("foodData", foodData);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e){
             request.setAttribute("errorMessage", e.getMessage());
+            request.setAttribute("foodData", foodData);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
             dispatcher.forward(request, response);
         }
     }
     
+    private String[] getFoodInputHistory(HttpServletRequest request) {
+        String[] inputHistory = new String[4];
+        inputHistory[0] = request.getParameter("name");
+        inputHistory[1] = request.getParameter("expireDays");
+        inputHistory[2] = request.getParameter("unitPrice");
+        inputHistory[3] = request.getParameter("discount");
+
+        return inputHistory;
+    }
     private void addQuantities(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<Food> foods = new ArrayList<>();
@@ -253,8 +275,7 @@ public class RetailerController extends HttpServlet {
         RetailerService retailerService = new RetailerService();
          
         // 获取之前存储的 expireInfos
-        ArrayList<ExpireInfo> expireInfos = (ArrayList<ExpireInfo>) request.getAttribute("expireInfos");
-                         
+        ArrayList<ExpireInfo> expireInfos = buildExpireInfoExpireDate(request);                
          
          // 处理 'action' 参数，确定请求的操作
          String action = request.getParameter("action");
@@ -318,7 +339,58 @@ public class RetailerController extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Food%20expire%20dates%20updated%20successfully.");
     }
+    private ArrayList<ExpireInfo> buildExpireInfoExpireDate(HttpServletRequest request){
+        String[] expireInfoIds = request.getParameterValues("expireInfoId");
+        String[] foodIds = request.getParameterValues("foodId");
+        String[] foodNames = request.getParameterValues("foodName");
+        String[] foodExpireDays = request.getParameterValues("foodExpireDays");
+        String[] foodUnitprices = request.getParameterValues("foodUnitprice");
+        String[] foodDiscounts = request.getParameterValues("foodDiscount");
+        String[] quantities = request.getParameterValues("quantity");
+        String[] expireDates = request.getParameterValues("expireDate");
+        String[] isSurpluses = request.getParameterValues("isSurplus");
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");        
+        ArrayList<ExpireInfo> list = new ArrayList<>();
+        for (int i = 0; i < expireInfoIds.length; i++) {
+            Food food = new Food();
+            food.setId(Integer.parseInt(foodIds[i]));
+            food.setName(foodNames[i]);
+            food.setExpireDays(Integer.parseInt(foodExpireDays[i]));
+            // 转换为 double 类型并设置属性
+            try {
+                food.setUnitPrice(Double.parseDouble(foodUnitprices[i]));
+            } catch (NumberFormatException e) {
+                food.setUnitPrice(0.0);
+            }
 
+            try {
+                food.setDiscount(Double.parseDouble(foodDiscounts[i]));
+            } catch (NumberFormatException e) {
+                food.setDiscount(0.0);
+            }
+            
+            ExpireInfo info = new ExpireInfo();
+            info.setId(Integer.parseInt(expireInfoIds[i]));
+            info.setFood(food);
+            info.setQuantity(Integer.parseInt(quantities[i]));
+            
+            try {
+                Date expireDate = dateFormat.parse(expireDates[i]);
+                info.setExpireDate(expireDate);
+            } catch (ParseException e) {                
+                info.setExpireDate(null); 
+            }
+            
+            info.setIsSurplus(Boolean.parseBoolean(isSurpluses[i]));
+            
+            list.add(info);
+        }
+
+        return list;
+                                                    
+    }
+    
     private void identifySurplus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<ExpireInfo> expireInfos = new ArrayList<>();

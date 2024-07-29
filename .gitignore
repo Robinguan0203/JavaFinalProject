@@ -2,3 +2,5 @@
 .idea
 /src/main/front
 .gitignore
+/src/main/resources/database.properties
+/src/main/resources/*.properties

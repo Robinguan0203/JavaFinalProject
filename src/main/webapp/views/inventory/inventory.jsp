@@ -8,12 +8,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="com.fwrp.models.Food"%>
 <%@page import="com.fwrp.models.ExpireInfo"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Inventory Data</title>
+<%@ include file="../header.jsp" %>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -48,20 +43,11 @@
         </style>
     </head>
     <body>
+        <%@ include file="../nav.jsp" %>
+        <%@ include file="../messageBar.jsp" %>
         <div class="container">
-            <div class="header">
-                <h1>Welcome, ${retailer.firstName} ${retailer.lastName}</h1>
-                <p>Email: ${retailer.email}</p>
-                <p>Type: Retailer</p>
-            </div>
-            <div class="form-section">
-                <h2>Inventory</h2>
-                <div class="message">
-                    <c:if test="${not empty errorMessage}">
-                        <p class="message">${errorMessage}</p>
-                    </c:if>
-                </div>
-                  
+            <center><h2>View Food Inventory</h2></center>
+            <div class="form-section">    
                 <% 
                     HashMap<Food, Integer[]> foodInventoryMap= (HashMap<Food, Integer[]>) request.getAttribute("foodInventoryMap");
                     if (foodInventoryMap == null || foodInventoryMap.isEmpty()) { 
@@ -118,11 +104,7 @@
                     } 
                 %>                    
             </div>
-            <div class="logout">
-                <form action="logout" method="post">
-                    <button type="submit">Logout</button>
-                </form>
-            </div>
         </div>
+        <%@ include file="../footer.jsp" %>
     </body>
 </html>
