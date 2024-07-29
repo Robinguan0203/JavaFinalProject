@@ -66,6 +66,7 @@ public class UserController extends HttpServlet {
                 break;
             case "register":
                 register(request,response);
+                break;
             case "logout":
                 logout(request, response);
                 break;
