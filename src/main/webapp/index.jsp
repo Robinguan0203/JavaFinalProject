@@ -5,7 +5,7 @@
     <center><h1> Home - Food Waste Reduction Platform </h1></center>
     
     <div class="form-container">
-        <form action="${pageContext.request.contextPath}/UserController" method="post">
+        <form class="form-body" action="${pageContext.request.contextPath}/UserController" method="post">
             <input type="hidden" name="action" value="login" />
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -15,7 +15,7 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required />
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit">Login</button>
         </form>
     </div>
 
@@ -35,6 +35,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        height: 100vh; /* Ensure body takes full height of viewport */
+        margin: 0; /* Remove default margin */
+        height: 90vh; /* Full viewport height */
     }
 
     h1 {
@@ -47,6 +50,14 @@
         align-items: center;
         justify-content: center;
         margin-top: 20px;
+        width: 100%;
+    }
+    
+    .form-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align the form items */
+        width: 30%; /* Set a width for the form */
     }
 
     .form-group {
@@ -54,6 +65,7 @@
         flex-direction: column;
         align-items: flex-start;
         margin-bottom: 15px;
+        width:100%;
     }
 
     label {
@@ -77,7 +89,7 @@
         padding: 10px 15px; /* ????? */
         cursor: pointer;
         text-align: center;
-        width: 100%; /* ????????? */
+        width: 125px; /* ????????? */
         margin-top: 10px; /* ?????? */
     }
 

@@ -41,7 +41,7 @@
             </li>
             <li class="nav-item logout">
                 <% if (user != null) { %>
-                    <form action="UserController" method="post" style="display: inline;">
+                    <form action="${pageContext.request.contextPath}/UserController" method="post" style="display: inline;">
                         <input type="hidden" name="action" value="logout" />
                         <button type="submit" class="logout-button">Logout</button>
                     </form>
@@ -57,10 +57,14 @@
         width: 100%;
     }
     .navbar {
-        background-color: #ADD8E6; /* ??? */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ADD8E6;
         padding: 10px 20px;
-        border-radius: 5px;
-        width: 100%; /* ??100% */
+        border-radius: 0 0 5px 5px; /* Optional: Rounded bottom corners */
+        z-index: 1000; /* Ensure navbar is above other content */
     }
 
     .nav-list {

@@ -130,39 +130,47 @@ public class UserController extends HttpServlet {
         String organization = request.getParameter("organization");
         
         UserValidator validator = new UserValidator();                
-        //String[] userData = getUserInputHistory(request);
+        String[] userData = getRegistrationHistory(request);
     
-        if (!validator.validate(firstname, lastname, phone, email, password, repassword, type, organization)) {
+         if (!validator.validate(firstname, lastname, phone, email, password, repassword, type, organization)) {
+            request.setAttribute("userData", userData);
             request.setAttribute("errorMessage", validator.getErrorMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/regester.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/register.jsp");
             dispatcher.forward(request, response);
-            return;
+            return; // Ensure no further code is executed
         }
         
         UserService userService = new UserService();
-        try {
+         try {
             userService.register(firstname, lastname, phone, email, password, type, organization);
-            response.sendRedirect(request.getContextPath() + "/index.jsp?successMessage=Registered%20successfully, please log in.");
-            return;
-        } catch(DataAlreadyExistsException ee){
-            request.setAttribute("errorMessage", "User Already Exist.");
-            //request.setAttribute("foodData", foodData);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/regester.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp?successMessage=Registered%20successfully,%20please%20log%20in.");
+        } catch(DataAlreadyExistsException ee) {
+            request.setAttribute("errorMessage", "User Already Exists.");
+            request.setAttribute("userData", userData);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/register.jsp");
             dispatcher.forward(request, response);
-            return;
         } catch (DataInsertionFailedException ex) {
             request.setAttribute("errorMessage", ex.getMessage());
-            //request.setAttribute("foodData", foodData);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/regester.jsp");
+            request.setAttribute("userData", userData);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/register.jsp");
             dispatcher.forward(request, response);
-            return;
-        } catch (IOException | ClassNotFoundException | SQLException e){
+        } catch (IOException | ClassNotFoundException | SQLException e) {
             request.setAttribute("errorMessage", e.getMessage());
-            //request.setAttribute("foodData", foodData);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/regester.jsp");
+            request.setAttribute("userData", userData);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/register.jsp");
             dispatcher.forward(request, response);
-            return;
-        } 
+        }
+    }
+    
+    private String[] getRegistrationHistory(HttpServletRequest request) {
+        String[] inputHistory = new String[8];
+        inputHistory[0] = request.getParameter("firstname");
+        inputHistory[1] = request.getParameter("lastname");
+        inputHistory[2] = request.getParameter("phone");
+        inputHistory[3] = request.getParameter("email");
+        inputHistory[4] = request.getParameter("type");
+        inputHistory[5] = request.getParameter("organization");
+        return inputHistory;
     }
     
      private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
