@@ -1,10 +1,24 @@
 package com.fwrp.dataaccess.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.fwrp.dataaccess.dto.OrderDTO;
 import com.fwrp.models.Order;
+import com.fwrp.models.PurchaseTransaction;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-@Repository
-public interface OrderDAO extends JpaRepository<Order, Integer> {
+/**
+ *
+ * @author YAOZHOU XIE
+ */
+
+public interface OrderDAO {
+    boolean addOrder(OrderDTO orderDTO, Connection conn) throws SQLException;
+    OrderDTO getOrderById(int id, Connection conn) throws SQLException;
+    ArrayList<OrderDTO> getAllOrders(Connection conn) throws SQLException;
+    boolean updateOrder(OrderDTO orderDTO, Connection conn) throws SQLException;
+    boolean removeOrder(int id, Connection conn) throws SQLException;
     
+    void storeOrder();
+    PurchaseTransaction createTransaction();
 }
