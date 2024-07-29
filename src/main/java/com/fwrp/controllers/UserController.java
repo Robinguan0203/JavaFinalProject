@@ -48,10 +48,22 @@ import javax.servlet.http.HttpSession;
 public class UserController extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
     
+     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        String path = request.getServletPath();
 
+        String page = "index.jsp"; // default
+
+        if ("viewRetailer".equals(action)) {
+            page = "views/retailer.jsp";
+        } else if ("viewCharity".equals(action)) {
+            page = "views/charity.jsp";
+        } else if ("viewConsumer".equals(action)) {
+            page = "views/consumer.jsp";
+        }
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+        dispatcher.forward(request, response);
     }
 
 

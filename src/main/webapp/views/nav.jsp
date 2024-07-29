@@ -10,6 +10,21 @@
     <nav class="navbar">
         <ul class="nav-list">
             <li class="nav-item platform-name">FWRP - Food Waste Reduction Platform</li>
+            <%  
+                User user = (User) session.getAttribute("user");
+                if (user != null) { 
+            %>
+            <li class="nav-item home-link">
+                <a href="<%= request.getContextPath() %>/UserController?action=<% 
+                        switch(user.getType()){
+                            case UserTypeConstant.RETAILER: out.print("viewRetailer"); break;
+                            case UserTypeConstant.CHARITY: out.print("viewCharity"); break;
+                            case UserTypeConstant.CONSUMER: out.print("viewConsumer"); break;
+                            default: out.print("index"); // Fallback to a default action
+                        }
+                    %>" class="home-button">Home</a>
+            </li>
+            <% } %>
             <li class="nav-item user-name">
                 <% 
                     Integer phoneNotificationCount = (Integer) session.getAttribute("phoneNotificationCount");
@@ -22,8 +37,7 @@
                     if (emailNotificationCount == null) {
                         emailNotificationCount = 0;
                     }
-               
-                    User user = (User) session.getAttribute("user");
+                    
                     if (user != null) {
                         out.print(user.getFirstName() + " " + user.getLastName());
                     } else {
