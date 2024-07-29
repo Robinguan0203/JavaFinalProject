@@ -7,21 +7,15 @@ package com.fwrp.services;
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
 import com.fwrp.dbService.FoodDbService;
 import com.fwrp.dbService.InventoryDbService;
+import com.fwrp.dbService.NotificationDbService;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.exceptions.DataNotExistsException;
 import com.fwrp.exceptions.NegativeInventoryException;
-import com.fwrp.models.ExpireInfo;
-import com.fwrp.models.Food;
-import com.fwrp.models.ManageInventoryChange;
-import com.fwrp.models.Retailer;
-import com.fwrp.models.RetailerTransaction;
-import com.fwrp.models.Transaction;
+import com.fwrp.models.*;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  *
@@ -132,7 +126,7 @@ public class RetailerService {
         int qtyNormal = - (qtyDiscount + qtyDonation);
        
         ManageInventoryChange qtyChange = retailer.createInventorychange(food, qtyNormal, qtyDiscount, qtyDonation);
-
+        sendNotifications("Food is "+food.getName()+" and discount quantity is "+qtyDiscount+" and donation quantity is "+qtyDonation);
         RetailerTransaction transaction = qtyChange.createTransaction();
         transaction.storeTransaction();
     }
@@ -142,6 +136,11 @@ public class RetailerService {
         HashMap<Food, Integer[]> foodSurplusMap = dbService.getAllInventoryData();
         
         return foodSurplusMap;
+    }
+
+    public boolean sendNotifications(String notification) throws SQLException, ClassNotFoundException {
+        NotificationDbService dbService = new NotificationDbService();
+        return dbService.sendNotification(notification);
     }
     
     /*
