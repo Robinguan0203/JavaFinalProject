@@ -137,6 +137,10 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
 
         System.out.println("Food expire Info added");
@@ -156,7 +160,12 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
+        
         if(expireInfoDTO != null){
             expireInfo = expireInfoDTO.transferToExpireInfo();
         }
@@ -177,6 +186,10 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
 
         System.out.println("Food expire Info added");
@@ -206,6 +219,10 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
 
         return expireInfoDTOs;
@@ -222,6 +239,10 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
 
         return expireInfoDTOs;
@@ -238,6 +259,10 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
 
         return donationInventories;
@@ -265,6 +290,10 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
 
         return foodMap;
@@ -294,6 +323,10 @@ public class InventoryDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
         
         return inventoryMap;  

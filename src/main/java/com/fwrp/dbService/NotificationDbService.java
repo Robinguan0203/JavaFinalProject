@@ -24,6 +24,10 @@ public class NotificationDbService {
                 conn.close();
             }
             throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
         }
     }
 }
