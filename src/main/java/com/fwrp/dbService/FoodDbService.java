@@ -122,7 +122,14 @@ public class FoodDbService {
     
     public ArrayList<Food> getAllFoods() throws ClassNotFoundException, SQLException{
         Connection conn = DataSource.getInstance().getConnection();
-        ArrayList<Food> foods = foodDAO.getAllFoods(conn);
+        ArrayList<Food> foods = new ArrayList<>();
+        try{
+            foods = foodDAO.getAllFoods(conn);
+        } finally{
+            if (conn != null) {               
+                conn.close(); 
+            }
+        }        
         return foods;
     }
     
