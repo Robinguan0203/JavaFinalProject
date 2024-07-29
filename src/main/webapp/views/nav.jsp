@@ -52,16 +52,15 @@
 </header>
 
 <style>
-    
     .header {
         margin-bottom: 20px;
         width: 100%;
     }
     .navbar {
-        background-color: #ADD8E6; /* ????? */
+        background-color: #ADD8E6; /* ??? */
         padding: 10px 20px;
         border-radius: 5px;
-        width: 100%; /* ??navbar??????? */
+        width: 100%; /* ??100% */
     }
 
     .nav-list {
@@ -71,28 +70,30 @@
         list-style: none;
         padding: 0;
         margin: 0;
-        width: 100%; /* ??nav-list??????? */
+        width: 100%; /* ??100% */
     }
 
     .nav-item {
         margin: 0 10px;
         display: flex;
-        align-items: center; /* Center-align items within each nav-item */
+        align-items: center; /* ???? */
     }
 
     .platform-name {
         flex: 1;
         text-align: left;
+        padding-left: 20px; /* ??? */
     }
 
     .user-name,
     .user-type {
         text-align: center;
-        flex-shrink: 0; /* Prevent these items from shrinking */
+        flex-shrink: 0; /* ??????? */
     }
 
     .logout {
         text-align: right;
+        padding-right: 20px; /* ??? */
     }
 
     .logout-button {

@@ -26,6 +26,7 @@
         margin: 0 0; /* ????? */
         text-align: center; /* ?????? */
         font-size: 16px; /* ???? */
+        width: 100%;
     }
 
     .success {
