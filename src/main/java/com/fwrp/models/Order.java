@@ -3,30 +3,40 @@ package com.fwrp.models;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "orders")
+/**
+ *
+ * @author YAOZHOU XIE
+ */
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     
+    private int id;
     private int quantity;
 
-    @Temporal(TemporalType.DATE)
     private Date date;
     
     private double unitPrice;
-    private int discount;
+    private double discount;
 
-    @ManyToOne
-    @JoinColumn(name = "food_id")
+   
     private Food food;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    
     private Consumer consumer;
-
-    // Getters and Setters
+    
+    public Order() {
+        
+    }
+    
+    public Order(int id, int quantity, Date date, double unitPrice, double discount, Food food, Consumer consumer) {
+        this.id = id;
+        this.quantity = quantity;
+        this.date = date;
+        this.unitPrice = unitPrice;
+        this.discount = discount;
+        this.food = food;
+        this.consumer = consumer;
+    }
+    
     public int getId() {
         return id;
     }
@@ -59,7 +69,7 @@ public class Order {
         this.unitPrice = unitPrice;
     }
 
-    public int getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
@@ -70,13 +80,20 @@ public class Order {
     public Food getFood() {
         return food;
     }
-
+    
+    public int getFoodId() {
+        return food.getId();
+    }
     public void setFood(Food food) {
         this.food = food;
     }
 
     public Consumer getConsumer() {
         return consumer;
+    }
+    
+    public int getConsumerId() {
+        return consumer.getId();
     }
 
     public void setConsumer(Consumer consumer) {
