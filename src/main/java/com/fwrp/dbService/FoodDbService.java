@@ -17,21 +17,58 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author robin
+ * Provides methods for performing database operations related to food and inventory.
+ * <p>
+ * This class handles the addition, retrieval, and updating of food items and manages related inventory operations
+ * using Data Access Objects (DAOs). It ensures proper transaction management and exception handling for database interactions.
+ * </p>
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 1.0
  */
 public class FoodDbService {
+    
+    /**
+     * The Data Access Object (DAO) for performing food-related database operations.
+     * <p>
+     * This DAO provides methods to interact with the food database, including adding, retrieving,
+     * and updating food items.
+     * </p>
+     */
     private FoodDAO foodDAO = null;
+    
+    /**
+     * The Data Access Object (DAO) for performing inventory-related database operations.
+     * <p>
+     * This DAO provides methods to interact with the inventory database, including managing inventory
+     * for food items.
+     * </p>
+     */
     private InventoryDAO inventoryDAO = null;
     
     /**
-     * Constructs a DatabaseOperation object and initializes DAO objects.
+     * Constructs a {@code FoodDbService} object and initializes DAO objects for food and inventory operations.
      */
     public FoodDbService(){
         foodDAO = new FoodDAOImpl(); 
         inventoryDAO = new InventoryDAOImpl(); 
     }
     
+    /**
+     * Adds a new food item to the database.
+     * <p>
+     * Checks if the food item already exists. If not, adds the food item and corresponding inventory.
+     * Performs the operations within a transaction to ensure data consistency. Rolls back the transaction
+     * if any operation fails.
+     * </p>
+     * 
+     * @param food the {@link Food} object containing food details to be added.
+     * @return {@code true} if the food item was successfully added; {@code false} otherwise.
+     * @throws DataAlreadyExistsException if a food item with the specified name already exists.
+     * @throws DataInsertionFailedException if there is a failure in adding the food item or inventory.
+     * @throws Exception if a general error occurs.
+     */
     public boolean AddFood(Food food) throws DataAlreadyExistsException, DataInsertionFailedException, Exception {      
         Connection conn = null;
         
@@ -78,6 +115,14 @@ public class FoodDbService {
         return true;
     }
     
+     /**
+     * Retrieves a food item by its name.
+     * 
+     * @param name the name of the food item.
+     * @return a {@link Food} object if the food item is found; {@code null} otherwise.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
     public Food getFoodByName(String name)throws SQLException, ClassNotFoundException {
         Connection conn = DataSource.getInstance().getConnection();
         Food food = null;
@@ -99,6 +144,14 @@ public class FoodDbService {
         return food;
     }
     
+     /**
+     * Retrieves a food item by its ID.
+     * 
+     * @param foodId the ID of the food item.
+     * @return a {@link Food} object if the food item is found; {@code null} otherwise.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
     public Food getFoodById(int foodId)throws SQLException, ClassNotFoundException {
         Connection conn = DataSource.getInstance().getConnection();
         Food food = null;
@@ -120,6 +173,13 @@ public class FoodDbService {
         return food;
     }
     
+    /**
+     * Retrieves a list of all food items.
+     * 
+     * @return an {@link ArrayList} of {@link Food} objects.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     * @throws SQLException if a database access error occurs.
+     */
     public ArrayList<Food> getAllFoods() throws ClassNotFoundException, SQLException{
         Connection conn = DataSource.getInstance().getConnection();
         ArrayList<Food> foods = new ArrayList<>();
@@ -133,6 +193,15 @@ public class FoodDbService {
         return foods;
     }
     
+    /**
+     * Updates an existing food item in the database.
+     * 
+     * @param food the {@link Food} object containing updated food details.
+     * @return {@code true} if the food item was successfully updated; {@code false} otherwise.
+     * @throws DataInsertionFailedException if there is a failure in updating the food item.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
     public boolean updateFood(Food food) throws DataInsertionFailedException, SQLException, ClassNotFoundException{
         Connection conn = null;
         

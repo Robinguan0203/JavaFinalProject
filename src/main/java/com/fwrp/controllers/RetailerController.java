@@ -40,11 +40,34 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Ke Yan
+ * Servlet implementation class RetailerController
+ * <p>
+ * This servlet is responsible for handling requests related to retailer operations.
+ * It manages actions such as adding food, updating inventory, and handling expiration information.
+ * <p>
+ * <b>URL Mapping:</b> /RetailerController
+ * </p>
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
  */
 @WebServlet("/RetailerController")
 public class RetailerController extends HttpServlet {
+    
+    /**
+     * Handles HTTP POST requests. Based on the 'action' parameter in the request,
+     * it delegates the processing to specific methods.
+     * <p>
+     * If the session does not exist or the user is not logged in, the user is redirected
+     * to the login page with an error message. Otherwise, it processes the request based on
+     * the action parameter.
+     * </p>
+     * 
+     * @param request  the HttpServletRequest object that contains the request from the client
+     * @param response the HttpServletResponse object that contains the response to send to the client
+     * @throws ServletException if an error occurs while handling the request
+     * @throws IOException      if an I/O error occurs while handling the request
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); 
@@ -107,15 +130,41 @@ public class RetailerController extends HttpServlet {
         }
     }
     
+    /**
+    * Retrieves the {@link Retailer} object from the current HTTP session.
+    * <p>
+    * This method attempts to get the current session without creating a new one. If the session exists
+    * and contains an attribute named "user", it returns the {@link Retailer} object associated with that
+    * attribute. If the session does not exist or does not contain the "user" attribute, it returns null.
+    * </p>
+    * 
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @return the {@link Retailer} object from the session, or null if the session is invalid or does not
+    *         contain the "user" attribute
+    */
     private Retailer getRetailerFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {
             return (Retailer) session.getAttribute("user");
         }
         return null;
-    }
+    }    
     
-    
+    /**
+    * Handles the HTTP POST request to display the "Add Food" form.
+    * <p>
+    * This method forwards the request to the "add.jsp" page located under the "/views/food/" directory,
+    * which is intended for adding new food items. After forwarding the request, it writes a message to
+    * the response indicating that the "Add Food" functionality is being handled. Note that the message 
+    * may not be visible to the user if the request is successfully forwarded, as the response will be
+    * processed by the forwarded JSP page.
+    * </p>
+    * 
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @throws IOException if an input or output error occurs while handling the request
+    * @throws ServletException if the request forwarding or handling fails
+    */
     private void addFood(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
         dispatcher.forward(request, response);
@@ -160,6 +209,21 @@ public class RetailerController extends HttpServlet {
         }
     }
     
+    /**
+    * Handles the HTTP POST request to store new food information.
+    * <p>
+    * This method retrieves food details from the request parameters, validates the input using the
+    * {@link FoodValidator}, and then attempts to store the new food information using the 
+    * {@link RetailerService}. If validation or data storage fails, it forwards the request back to the
+    * "add.jsp" page with appropriate error messages. If successful, it redirects the user to the 
+    * "retailer.jsp" page with a success message.
+    * </p>
+    * 
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @throws ServletException if an error occurs while processing the request or forwarding to another page
+    * @throws IOException if an input or output error occurs while handling the request or redirecting the response
+    */
     private String[] getFoodInputHistory(HttpServletRequest request) {
         String[] inputHistory = new String[4];
         inputHistory[0] = request.getParameter("name");
@@ -169,6 +233,21 @@ public class RetailerController extends HttpServlet {
 
         return inputHistory;
     }
+    
+    /**
+    * Handles the HTTP request to display the page for adding quantities to food items.
+    * <p>
+    * This method retrieves the list of all food items from the {@link RetailerService} and forwards
+    * the request to the "addQuantities.jsp" page with the list of foods as an attribute. If there
+    * is an error retrieving the food items (e.g., due to a database connection issue), it sets an
+    * error message and forwards the request to the "retailer.jsp" page.
+    * </p>
+    * 
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @throws ServletException if an error occurs while processing the request or forwarding to another page
+    * @throws IOException if an input or output error occurs while handling the request or forwarding the response
+    */
     private void addQuantities(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<Food> foods = new ArrayList<>();
@@ -185,6 +264,22 @@ public class RetailerController extends HttpServlet {
         dispatcher.forward(request, response);
     }
     
+    /**
+    * Processes the request to update the quantities of a specific food item in the inventory.
+    * <p>
+    * This method validates the provided food ID and quantity using {@link FoodQuantityValidator}. If validation
+    * fails, it forwards the request back to the "addQuantities.jsp" page with an error message. If validation succeeds,
+    * it calls the {@link RetailerService} to update the food quantities. Upon successful update, it redirects the user
+    * to the "retailer.jsp" page with a success message. If any exceptions occur during the update process, the method
+    * forwards the request back to the "addQuantities.jsp" page with the relevant error message.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @param retailer the {@link Retailer} object representing the logged-in retailer who is performing the update
+    * @throws ServletException if an error occurs while processing the request or forwarding to another page
+    * @throws IOException if an input or output error occurs while handling the request or forwarding the response
+    */
     private void storeAddQuantity(HttpServletRequest request, HttpServletResponse response, Retailer retailer) throws ServletException, IOException{
         int foodId = Integer.parseInt(request.getParameter("foodId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -212,6 +307,20 @@ public class RetailerController extends HttpServlet {
         }  
     }
     
+    /**
+    * Handles the request to display the page where the retailer can change the expiration days of food items.
+    * <p>
+    * This method retrieves a list of all food items using the {@link RetailerService}. If an exception occurs
+    * during the retrieval process, it forwards the request to the "retailer.jsp" page with an error message. If
+    * retrieval is successful, it sets the list of foods as an attribute in the request and forwards the request to
+    * the "changeExpireDays.jsp" page where the retailer can modify the expiration days.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @throws ServletException if an error occurs while processing the request or forwarding to another page
+    * @throws IOException if an input or output error occurs while handling the request or forwarding the response
+    */
     private void changeFoodExpireDays(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<Food> foods = new ArrayList<>();
@@ -228,6 +337,21 @@ public class RetailerController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    /**
+    * Handles the request to store updated expiration days for a specific food item.
+    * <p>
+    * This method extracts the food ID and the new expiration days from the request parameters. It then validates
+    * the data using {@link FoodExpireDaysValidator}. If validation fails, it forwards the request to the "changeExpireDays.jsp"
+    * page with an error message. If validation passes, it attempts to store the updated expiration days using
+    * {@link RetailerService}. If an exception occurs during this process, it forwards the request to the same JSP
+    * page with an error message. If successful, it redirects the user to the "retailer.jsp" page with a success message.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @throws ServletException if an error occurs while processing the request or forwarding to another page
+    * @throws IOException if an input or output error occurs while handling the request or forwarding the response
+    */
     private void storeExpireDays(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         int foodId = Integer.parseInt(request.getParameter("foodId"));
         int expireDays = Integer.parseInt(request.getParameter("expireDays"));
@@ -255,6 +379,20 @@ public class RetailerController extends HttpServlet {
         }  
     }
     
+    /**
+    * Handles the request to display the page for updating inventory expiration dates.
+    * <p>
+    * This method retrieves a list of all expiration information items from the {@link RetailerService}. If successful,
+    * it sets the retrieved data as an attribute on the request and forwards the request to the "updateExpireDate.jsp"
+    * page for user interaction. If an exception occurs while retrieving the expiration information, it sets an error
+    * message as a request attribute and forwards the request to the "retailer.jsp" page.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @throws ServletException if an error occurs while processing the request or forwarding to another page
+    * @throws IOException if an input or output error occurs while handling the request or forwarding the response
+    */
     private void updateInventoryExpireDate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<ExpireInfo> expireInfos = new ArrayList<>();
@@ -271,6 +409,20 @@ public class RetailerController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    /**
+    * Handles the request to update the expiration dates of food items in the inventory.
+    * <p>
+    * This method processes the form submission for updating expiration dates. It extracts date values from the request parameters,
+    * validates them, and updates the corresponding food items in the database. If the parameters are invalid or an error occurs,
+    * it forwards the request to the "updateExpireDate.jsp" page with an error message. If successful, it redirects to the retailer page 
+    * with a success message.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
+    * @throws ServletException if an error occurs while processing the request or forwarding to another page
+    * @throws IOException if an input or output error occurs while handling the request or forwarding the response
+    */
     private void storeUpdateExpireDate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Map<String, String[]> parameterMap = request.getParameterMap();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -341,6 +493,7 @@ public class RetailerController extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Food%20expire%20dates%20updated%20successfully.");
     }
+    
     private ArrayList<ExpireInfo> buildExpireInfoExpireDate(HttpServletRequest request){
         String[] expireInfoIds = request.getParameterValues("expireInfoId");
         String[] foodIds = request.getParameterValues("foodId");
@@ -393,6 +546,17 @@ public class RetailerController extends HttpServlet {
                                                     
     }
     
+    /**
+    * Builds a list of {@link ExpireInfo} objects from the request parameters.
+    * <p>
+    * This method extracts various food and expiration-related data from the request parameters, constructs {@link Food} and
+    * {@link ExpireInfo} objects, and populates a list with these objects. The method handles conversions and possible parsing errors,
+    * setting default values when necessary.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @return an {@link ArrayList} of {@link ExpireInfo} objects constructed from the request parameters
+    */
     private void identifySurplus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<ExpireInfo> expireInfos = new ArrayList<>();
@@ -408,9 +572,7 @@ public class RetailerController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
             dispatcher.forward(request, response);
             return;
-        } 
-        
-        
+        }         
     }
     
     private void storeUpdateIsSurplus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -471,6 +633,19 @@ public class RetailerController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Food%20expire%20dates%20updated%20successfully.");
     }
     
+    /**
+    * Updates the surplus status of food items based on request parameters.
+    * <p>
+    * This method processes the request parameters to update the "is surplus" status of food items. It retrieves the previously stored
+    * {@link ExpireInfo} objects from the request attributes and updates their surplus status. The method validates the new surplus status
+    * and handles errors, forwarding to the appropriate JSP page if necessary.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to respond to the client
+    * @throws ServletException if a servlet-specific error occurs
+    * @throws IOException if an I/O error occurs
+    */
     private void listSurplus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         
@@ -490,6 +665,20 @@ public class RetailerController extends HttpServlet {
         }
     }
     
+    /**
+    * Handles the storage and processing of surplus and donation quantities for food items.
+    * <p>
+    * This method processes request parameters to update quantities of food items to be discounted or donated. It performs validations
+    * and handles errors by forwarding to the appropriate JSP page if necessary. The method updates the quantities based on user input
+    * and interacts with the service layer to apply the changes.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to respond to the client
+    * @param retailer the {@link Retailer} object representing the retailer performing the actions
+    * @throws ServletException if a servlet-specific error occurs
+    * @throws IOException if an I/O error occurs
+    */
     private void storeListSurplus(HttpServletRequest request, HttpServletResponse response, Retailer retailer) throws ServletException, IOException{
         Map<String, String[]> parameterMap = request.getParameterMap();
         RetailerService retailerService = new RetailerService();
@@ -613,6 +802,16 @@ public class RetailerController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Surplus%20quantities%20listed%20successfully.");
     }
     
+    /**
+    * Builds a mapping of {@link Food} objects to their corresponding quantities based on request parameters.
+    * <p>
+    * This method processes request parameters to create a map where each {@link Food} object is associated with an array of quantities. 
+    * The quantities represent total surplus quantity, normal inventory quantity, quantities listed for discount, and quantities listed for donation.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @return a {@link HashMap} where keys are {@link Food} objects and values are {@link Integer[]} arrays containing the quantities
+    */
     private HashMap<Food, Integer[]> buildFoodExpireQtyMap(HttpServletRequest request) {
         String[] foodIds = request.getParameterValues("foodId");
         String[] foodNames = request.getParameterValues("foodName");
@@ -654,6 +853,7 @@ public class RetailerController extends HttpServlet {
         return foodExpireQtyMap;
     }
     
+    
     private void viewInventory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         
@@ -674,7 +874,20 @@ public class RetailerController extends HttpServlet {
         }
     }
     
-     private void updateNotificationCount(HttpServletRequest request) throws SQLException, ClassNotFoundException{
+    /**
+    * Handles the request to view inventory data and forwards the response to the inventory view page.
+    * <p>
+    * This method retrieves the complete inventory data using the {@link RetailerService} and sets it as a request attribute 
+    * for the JSP view. If an exception occurs during data retrieval, the method sets an error message and forwards the request 
+    * to the retailer view page.
+    * </p>
+    *
+    * @param request the {@link HttpServletRequest} object that contains the request from the client
+    * @param response the {@link HttpServletResponse} object that will be used to send the response to the client
+    * @throws ServletException if a servlet error occurs during request processing
+    * @throws IOException if an I/O error occurs during request or response handling
+    */
+    private void updateNotificationCount(HttpServletRequest request) throws SQLException, ClassNotFoundException{
         HttpSession session = request.getSession(false);
         int count[] = new int[2];
         int phoneNotificationCount = 0;

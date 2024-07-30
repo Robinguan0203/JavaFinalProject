@@ -4,3 +4,4 @@
 .gitignore
 /src/main/resources/database.properties
 /src/main/resources/*.properties
+/nbproject/

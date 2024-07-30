@@ -22,21 +22,58 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author robin
+ * Provides methods for performing database operations related to users and notifications.
+ * <p>
+ * This class handles user addition, retrieval, and notification management using Data Access Objects (DAOs).
+ * It ensures proper resource management and exception handling for database interactions.
+ * </p>
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 1.0
  */
 public class UserDbService {
+    
+     /**
+     * The Data Access Object (DAO) for performing user-related database operations.
+     * <p>
+     * This DAO provides methods to interact with the user database, including adding, retrieving,
+     * and checking the existence of users.
+     * </p>
+     */
     private UserDAO userDAO = null;
+    
+    /**
+     * The Data Access Object (DAO) for performing notification-related database operations.
+     * <p>
+     * This DAO provides methods to interact with the notification database, including retrieving
+     * notifications based on user ID and notification method.
+     * </p>
+     */
     private NotificationDAO notificationDAO = null;
     
     /**
-     * Constructs a DatabaseOperation object and initializes DAO objects.
+     * Constructs a {@code UserDbService} object and initializes DAO objects for user and notification operations.
      */
     public UserDbService(){
         userDAO = new UserDAOImpl();   
         notificationDAO = new NotificationDAOImpl();   
     }
     
+    /**
+     * Adds a new user to the database.
+     * <p>
+     * Checks if a user with the specified email already exists. If not, adds the user.
+     * Throws an exception if the user already exists or if there is a failure in adding the user.
+     * </p>
+     * 
+     * @param userToAddDTO the {@link UserDTO} object containing user details to be added.
+     * @return {@code true} if the user was successfully added; {@code false} otherwise.
+     * @throws DataAlreadyExistsException if a user with the specified email already exists.
+     * @throws DataInsertionFailedException if there is a failure in adding the user.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
     public boolean AddUser(UserDTO userToAddDTO) throws DataAlreadyExistsException, DataInsertionFailedException, SQLException, ClassNotFoundException {
         Connection conn = null;
         boolean isUserAdded = false;
@@ -66,6 +103,18 @@ public class UserDbService {
         return isUserAdded;
     }
     
+     /**
+     * Retrieves a user by email and password.
+     * <p>
+     * Retrieves the user details based on the provided email and password. If found, returns a {@link User} object.
+     * </p>
+     * 
+     * @param email the email of the user.
+     * @param password the password of the user.
+     * @return a {@link User} object if the user is found; {@code null} otherwise.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
     public User getLoginUser(String email, String password)throws SQLException, ClassNotFoundException{
         Connection conn = null;
         User user = null;
@@ -97,7 +146,18 @@ public class UserDbService {
         return user;
     }
     
-     public User getUserById(int userId)throws SQLException, ClassNotFoundException{
+    /**
+     * Retrieves a user by their ID.
+     * <p>
+     * Retrieves the user details based on the provided user ID. If found, returns a {@link User} object.
+     * </p>
+     * 
+     * @param userId the ID of the user to retrieve.
+     * @return a {@link User} object if the user is found; {@code null} otherwise.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
+    public User getUserById(int userId)throws SQLException, ClassNotFoundException{
         Connection conn = null;
         User user = null;
         int type;
@@ -128,6 +188,15 @@ public class UserDbService {
         return user;
     }
     
+    /**
+     * Retrieves notifications for a user by the specified notification method.
+     * 
+     * @param user the {@link User} for whom notifications are to be retrieved.
+     * @param method the notification method (e.g., email or phone).
+     * @return an {@link ArrayList} of {@link NotificationDTO} objects.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
     public ArrayList<NotificationDTO> getNotificationsByMethod(User user, int method) throws SQLException, ClassNotFoundException{
         Connection conn = null;
         ArrayList<NotificationDTO> notificationDTOs = new ArrayList<>();
@@ -151,6 +220,15 @@ public class UserDbService {
         return notificationDTOs;
     }
     
+    /**
+     * Retrieves the count of notifications for a user by different methods (e.g., email and phone).
+     * 
+     * @param user the {@link User} for whom notification counts are to be retrieved.
+     * @return an array of integers where the first element is the count of email notifications and
+     *         the second element is the count of phone notifications.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the database driver class cannot be found.
+     */
     public int[] getNotificationCountByUser(User user) throws SQLException, ClassNotFoundException{
         Connection conn = null;
         int[] count = new int[2];

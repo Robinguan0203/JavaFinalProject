@@ -39,19 +39,54 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *
- * @author robin
+ * Provides services for managing inventory-related operations and transactions.
+ * This includes adding transactions, updating inventory, and managing expiration information.
+ * 
+ * The class utilizes DAOs (Data Access Objects) to interact with the database and a Properties object
+ * to load configuration settings from a properties file.
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 1.0
  */
 public class InventoryDbService {
+    
+    /**
+    * Data Access Object (DAO) for managing inventory operations.
+    * Handles database interactions related to inventory.
+    */
     private InventoryDAO inventoryDAO = null;
+    
+    /**
+    * Data Access Object (DAO) for managing transaction operations.
+    * Handles database interactions related to transactions.
+    */
     private TransactionDAO transactionDAO = null;
+    
+    /**
+    * Data Access Object (DAO) for managing expiration information.
+    * Handles database interactions related to food expiration details.
+    */
     private ExpireInfoDAO expireInfoDAO = null;
+    
+    /**
+    * Data Access Object (DAO) for managing food details.
+    * Handles database interactions related to food information.
+    */
     private FoodDAO foodDAO = null;
+    
+    /**
+    * Data Access Object (DAO) for managing user information.
+    * Handles database interactions related to user data.
+    */
     private UserDAO userDAO = null;
     //private OrderDAO orderDAO = null;
 
-
-
+    
+    /**
+     * Constructs an InventoryDbService object and initializes the required DAO objects.
+     * The DAOs are used to interact with different aspects of the database.
+     */
     public InventoryDbService(){
         inventoryDAO = new InventoryDAOImpl();
         transactionDAO = new TransactionDAOImpl();
@@ -61,6 +96,19 @@ public class InventoryDbService {
         //orderDAO = new OrderDAOImple();
     }
 
+    /**
+     * Adds a transaction and updates inventory based on the provided transaction data.
+     * <p>
+     * This method performs the operation within a transaction to ensure data consistency.
+     * It queries the inventory, validates it, and updates it based on the transaction details.
+     * </p>
+     *
+     * @param transactionDTO The transaction data transfer object containing transaction details.
+     * @return true if the transaction and inventory updates were successful, false otherwise.
+     * @throws NegativeInventoryException if inventory levels become negative.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public boolean addTransaction(TransactionDTO transactionDTO) throws NegativeInventoryException, SQLException, ClassNotFoundException{
         Connection conn = null;
         InventoryDTO inventoryDTO = null;
@@ -123,6 +171,14 @@ public class InventoryDbService {
         return true;
     }
 
+    /**
+     * Adds expiration information for food to the database.
+     * 
+     * @param expireInfoDTO The expiration information data transfer object.
+     * @return true if the expiration information was successfully added, false otherwise.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public boolean addExpireInfo(ExpireInfoDTO expireInfoDTO) throws SQLException, ClassNotFoundException{
         Connection conn = null;
 
@@ -147,6 +203,14 @@ public class InventoryDbService {
         return true;
     }
 
+    /**
+     * Retrieves expiration information by its ID.
+     * 
+     * @param expireInfoId The ID of the expiration information.
+     * @return The ExpireInfo object if found, or null if not found.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public ExpireInfo getExpireInfoById(int expireInfoId) throws SQLException, ClassNotFoundException{
         Connection conn = null;
         ExpireInfoDTO expireInfoDTO = null;
@@ -172,6 +236,14 @@ public class InventoryDbService {
         return expireInfo;
     }
 
+     /**
+     * Updates the expiration information in the database.
+     * 
+     * @param expireInfoDTO The updated expiration information data transfer object.
+     * @return true if the expiration information was successfully updated, false otherwise.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public boolean updateExpireInfo(ExpireInfoDTO expireInfoDTO) throws SQLException, ClassNotFoundException{
         Connection conn = null;
 
@@ -196,6 +268,13 @@ public class InventoryDbService {
         return true;
     }
 
+    /**
+     * Queries for expiration information that is close to expiring.
+     * 
+     * @return A list of ExpireInfoDTO objects that are close to expiration.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public ArrayList<ExpireInfoDTO> queryExpireInfoClosedToExpire() throws SQLException, ClassNotFoundException{
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
 
@@ -228,6 +307,13 @@ public class InventoryDbService {
         return expireInfoDTOs;
     }
 
+    /**
+     * Queries all expiration information from the database.
+     * 
+     * @return A list of all ExpireInfoDTO objects.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public ArrayList<ExpireInfoDTO> queryAllExpireInfo() throws SQLException, ClassNotFoundException{
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
         Connection conn = null;
@@ -248,6 +334,13 @@ public class InventoryDbService {
         return expireInfoDTOs;
     }
 
+    /**
+     * Retrieves a list of inventories that are marked for donation.
+     * 
+     * @return A list of Inventory objects for donation.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public List<Inventory> getDonationInventories() throws SQLException,ClassNotFoundException{
         List<Inventory> donationInventories= null;
         Connection conn = null;
@@ -268,6 +361,13 @@ public class InventoryDbService {
         return donationInventories;
     }
 
+    /**
+     * Retrieves a summary of food surplus information.
+     * 
+     * @return A map where keys are Food objects and values are arrays containing surplus quantities.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public HashMap<Food, Integer[]> getFoodSurplusSummary() throws SQLException, ClassNotFoundException{
         HashMap<Food, Integer[]> foodMap = new HashMap<>();
         HashMap<Integer, Integer[]> surplusMap = new HashMap<>();
@@ -299,6 +399,13 @@ public class InventoryDbService {
         return foodMap;
     }
 
+    /**
+     * Retrieves all inventory data.
+     * 
+     * @return A map where keys are Food objects and values are arrays containing inventory data.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
     public HashMap<Food,Integer[]> getAllInventoryData() throws SQLException, ClassNotFoundException{
         HashMap<Food,Integer[]> inventoryMap = new HashMap<Food,Integer[]>();
         HashMap<Integer, Integer[]> dataFromDAOMap = new HashMap<>();

@@ -14,9 +14,13 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * This class manages the database connection with Singleton.
+ * Manages the database connection using the Singleton pattern.
+ * <p>
+ * This class ensures a single instance of the database connection and provides methods to retrieve and close the connection.
+ * It also loads database connection properties from a configuration file.
+ * </p>
  * 
- * @author Robin Guan(041117292)
+ * @author Robin Guan（041117292）
  * @version 1.0
  * @since 17.0.8
  */
@@ -136,6 +140,5 @@ public class DataSource {
         info[2] = password;
 
         return info;
-     
     }
 }

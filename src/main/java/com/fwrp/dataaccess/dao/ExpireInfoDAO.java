@@ -9,76 +9,91 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
- * This interface defines the standard operations to be performed on ExpireInfo model object(s).
- * It provides methods to add, retrieve, and remove user from a data source.
+ * This interface defines standard operations for managing {@link ExpireInfoDTO} objects in a data source.
+ * It provides methods to add, retrieve, update, and remove expiration information.
  * 
- * @author Robin Guan(041117292)
+ * @author Robin Guan（041117292）
  * @version 1.0
  * @since 17.0.8
  */
 public interface ExpireInfoDAO {
     /**
-     * Adds a new expireInfo to the data source.
+     * Adds a new {@link ExpireInfoDTO} to the data source.
      * 
-     * @param expireInfoDTO The user object to be added.
-     * @param conn SQL connection
-     * @return Boolean Returns true if the user was successfully added, false otherwise.
-     * @throws java.sql.SQLException
+     * @param expireInfoDTO The {@link ExpireInfoDTO} object to be added.
+     * @param conn The SQL connection.
+     * @return {@code true} if the record was successfully added, {@code false} otherwise.
+     * @throws SQLException if a database access error occurs.
      */
     boolean addExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn)  throws SQLException;
     
+    /**
+     * Retrieves an {@link ExpireInfoDTO} by its ID.
+     * 
+     * @param expireInfoId The ID of the {@link ExpireInfoDTO} to retrieve.
+     * @param conn The SQL connection.
+     * @return The {@link ExpireInfoDTO} object if found, {@code null} otherwise.
+     * @throws SQLException if a database access error occurs.
+     */
     ExpireInfoDTO getExpireInfoById(int expireInfoId, Connection conn) throws SQLException;
     
     
     /**
-     * Retrieves a expireInfo by foodID, order by expire date.
+     * Retrieves a list of {@link ExpireInfoDTO} records by food ID, ordered by expiration date.
      * 
-     * @param foodID The food_id of the expireInfoDTO to retrieve.
-     * @param conn SQL connection
-     * @return ArrayList<> Returns the user object if found, null otherwise.
-     * @throws java.sql.SQLException
+     * @param foodID The food ID of the {@link ExpireInfoDTO} to retrieve.
+     * @param conn The SQL connection.
+     * @return A list of {@link ExpireInfoDTO} objects if found, an empty list otherwise.
+     * @throws SQLException if a database access error occurs.
      */
     ArrayList<ExpireInfoDTO> getExpireInfoByFoodId(int foodID, Connection conn)  throws SQLException;
     
     /**
-     * Retrieves a expireInfo later than designated expire date.
+     * Retrieves a list of {@link ExpireInfoDTO} records with an expiration date later than the specified date.
      * 
-     * @param exprieDate The expire date of the expireInfoDTO to retrieve.
-     * @param conn SQL connection
-     * @return ArrayList Returns the user object if found, null otherwise.
-     * @throws java.sql.SQLException
+     * @param expireDate The expiration date to compare.
+     * @param conn The SQL connection.
+     * @return A list of {@link ExpireInfoDTO} objects if found, an empty list otherwise.
+     * @throws SQLException if a database access error occurs.
      */
-    ArrayList<ExpireInfoDTO> getExpireInfoByExpireDate(Date exprieDate, Connection conn)  throws SQLException;
+    ArrayList<ExpireInfoDTO> getExpireInfoByExpireDate(Date expireDate, Connection conn)  throws SQLException;
     
     
     /**
-     * Retrieves all expireInfo.
+     * Retrieves all {@link ExpireInfoDTO} records from the data source.
      * 
-     * @param conn SQL connection
-     * @return ArrayList Returns the ExpireInfoDTO object if found, null otherwise.
-     * @throws java.sql.SQLException
+     * @param conn The SQL connection.
+     * @return A list of all {@link ExpireInfoDTO} objects.
+     * @throws SQLException if a database access error occurs.
      */
     ArrayList<ExpireInfoDTO> getAllExpireInfo(Connection conn)  throws SQLException;
     
     /**
-     * Update a expireInfo.
+     * Updates an existing {@link ExpireInfoDTO}.
      * 
-     * @param expireInfoDTO The new expireInfoDTO data to save.
-     * @param conn SQL Connection
-     * @return Boolean Returns true if the user was successfully updated, false otherwise.
-     * @throws java.sql.SQLException
+     * @param expireInfoDTO The {@link ExpireInfoDTO} object containing updated data.
+     * @param conn The SQL connection.
+     * @return {@code true} if the record was successfully updated, {@code false} otherwise.
+     * @throws SQLException if a database access error occurs.
      */
     boolean updateExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn)  throws SQLException;
     
     /**
-     * Removes a expireInfo from the data source.
+     * Removes an {@link ExpireInfoDTO} from the data source.
      * 
-     * @param expireInfoDTO The ExpireInfoDTO object of the user to be removed.
-     * @param conn SQL Connection
-     * @return Boolean Returns true if the course was successfully removed, false otherwise.
-     * @throws java.sql.SQLException
+     * @param expireInfoDTO The {@link ExpireInfoDTO} object to be removed.
+     * @param conn The SQL connection.
+     * @return {@code true} if the record was successfully removed, {@code false} otherwise.
+     * @throws SQLException if a database access error occurs.
      */
     boolean deleteExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn)  throws SQLException;
     
+    /**
+     * Retrieves a summary of food surplus.
+     * 
+     * @param conn The SQL connection.
+     * @return A {@link HashMap} where the key is the food ID and the value is an array containing surplus data.
+     * @throws SQLException if a database access error occurs.
+     */
     HashMap<Integer, Integer[]> getFoodSurplusSummary(Connection conn) throws SQLException;
 }

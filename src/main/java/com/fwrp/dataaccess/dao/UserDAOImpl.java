@@ -11,10 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * This class implements the UserDAO interface to provide a concrete implementation.
- * It provides methods to add, retrieve, and remove users from a data source.
+ * This class implements the {@link UserDAO} interface to provide a concrete implementation for user data access.
+ * It provides methods to add, retrieve, update, and remove users from a data source.
+ * <p>
+ * The implementation interacts with the database to perform CRUD operations on the `users` table.
+ * </p>
  * 
- * @author Robin Guan(041117292)
+ * @author Robin Guan (041117292)
  * @version 1.0
  * @since 17.0.8
  */
@@ -23,11 +26,12 @@ public class UserDAOImpl implements UserDAO{
     /**
      * Adds a new user to the data source.
      * 
-     * @param userDTO The userDTO object to be added.
-     * @param conn SQL connection
-     * @return Boolean Returns true if the course was successfully added, false otherwise.
-     * @throws java.sql.SQLException
+     * @param userDTO The {@link UserDTO} object to be added.
+     * @param conn SQL connection to the database.
+     * @return {@code true} if the user was successfully added, {@code false} otherwise.
+     * @throws SQLException if a database access error occurs or the SQL statement is invalid.
      */
+    @Override
     public boolean addUser(UserDTO userDTO, Connection conn)  throws SQLException{
         boolean isSuccess = false;
 
@@ -51,6 +55,15 @@ public class UserDAOImpl implements UserDAO{
         return isSuccess;
     }
 
+    /**
+     * Retrieves a user by its ID.
+     * 
+     * @param userId The ID of the user to retrieve.
+     * @param conn SQL connection to the database.
+     * @return A {@link UserDTO} object representing the user if found, {@code null} otherwise.
+     * @throws SQLException if a database access error occurs or the SQL statement is invalid.
+     */
+    @Override
     public UserDTO getUserById(int userId, Connection conn)  throws SQLException{
         UserDTO userDTO  = null;
         
@@ -78,6 +91,15 @@ public class UserDAOImpl implements UserDAO{
         return userDTO;
     }
     
+    /**
+     * Retrieves a user by its email.
+     * 
+     * @param email The email of the user to retrieve.
+     * @param conn SQL connection to the database.
+     * @return A {@link UserDTO} object representing the user if found, {@code null} otherwise.
+     * @throws SQLException if a database access error occurs or the SQL statement is invalid.
+     */
+    @Override
     public UserDTO getUserByEmail(String email, Connection conn)  throws SQLException{  
         UserDTO userDTO  = null;
         
@@ -104,6 +126,16 @@ public class UserDAOImpl implements UserDAO{
         return userDTO;
     }
 
+    /**
+     * Retrieves a user by its email and password.
+     * 
+     * @param email The email of the user to retrieve.
+     * @param password The password of the user to retrieve.
+     * @param conn SQL connection to the database.
+     * @return A {@link UserDTO} object representing the user if found, {@code null} otherwise.
+     * @throws SQLException if a database access error occurs or the SQL statement is invalid.
+     */
+    @Override
     public UserDTO getUserByEmailAndPassword(String email, String password, Connection conn) throws SQLException{
         UserDTO userDTO  = null;
         
@@ -132,6 +164,15 @@ public class UserDAOImpl implements UserDAO{
         return userDTO;
     }
 
+    /**
+     * Updates an existing user in the data source.
+     * 
+     * @param userDTO The {@link UserDTO} object containing the new user data.
+     * @param conn SQL connection to the database.
+     * @return {@code true} if the user was successfully updated, {@code false} otherwise.
+     * @throws SQLException if a database access error occurs or the SQL statement is invalid.
+     */
+    @Override
     public boolean updateUser(UserDTO userDTO, Connection conn) throws SQLException{        
         boolean isSuccess = false;
 
@@ -158,6 +199,15 @@ public class UserDAOImpl implements UserDAO{
         return isSuccess;
     }
 
+    /**
+     * Removes a user from the data source.
+     * 
+     * @param userDTO The {@link UserDTO} object of the user to be removed.
+     * @param conn SQL connection to the database.
+     * @return {@code true} if the user was successfully removed, {@code false} otherwise.
+     * @throws SQLException if a database access error occurs or the SQL statement is invalid.
+     */
+    @Override
     public boolean removeUser(UserDTO userDTO, Connection conn) throws SQLException{      
         boolean isSuccess = false;
 
