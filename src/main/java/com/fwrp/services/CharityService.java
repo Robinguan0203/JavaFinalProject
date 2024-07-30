@@ -4,23 +4,34 @@
  */
 package com.fwrp.services;
 
-import com.fwrp.dbService.FoodDbService;
+import com.fwrp.dataaccess.dto.ExpireInfoDTO;
+import com.fwrp.dbService.ClaimDbService;
 import com.fwrp.dbService.InventoryDbService;
-import com.fwrp.models.Food;
-import com.fwrp.models.Inventory;
-
+import com.fwrp.dbService.NotificationDbService;
+import com.fwrp.exceptions.DataAlreadyExistsException;
+import com.fwrp.exceptions.DataInsertionFailedException;
+import com.fwrp.exceptions.DataNotExistsException;
+import com.fwrp.exceptions.NegativeInventoryException;
+import com.fwrp.models.*;
+import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
  * @author Ke Yan
  */
 public class CharityService {
-    public List<Inventory> getDonationInventories() throws ClassNotFoundException, SQLException {
+    public HashMap<Food, Integer[]>  getAllInventoryData() throws SQLException, ClassNotFoundException{
         InventoryDbService dbService = new InventoryDbService();
-        List<Inventory> donationInventories = dbService.getDonationInventories();
-        return donationInventories;
+        HashMap<Food, Integer[]> foodSurplusMap = dbService.getAllInventoryData();
+        
+        return foodSurplusMap;
+    }
+    
+    public void storeNewClaim(int userId, int foodId, Date date, int quantity) throws DataAlreadyExistsException,DataInsertionFailedException, Exception{
+        ClaimDbService dbService = new ClaimDbService();
+        Claim claim = new Claim(userId, foodId, date, quantity);
+        dbService.CreateClaim(claim);
     }
 }
