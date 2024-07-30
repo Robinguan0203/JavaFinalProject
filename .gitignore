@@ -3,6 +3,3 @@
 /src/main/front
 .gitignore
 /src/main/resources/*.properties
-/nbproject/
-!/src/main/resources/database_aliyun.properties
-!/src/main/resources/database.properties
