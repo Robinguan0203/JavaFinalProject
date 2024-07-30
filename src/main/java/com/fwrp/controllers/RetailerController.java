@@ -173,9 +173,58 @@ public class RetailerController extends HttpServlet {
     
     private void storeNewFood(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String name = request.getParameter("name");
-        int expireDays = Integer.parseInt(request.getParameter("expireDays"));
-        double unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
-        double discount = Double.parseDouble(request.getParameter("discount"));
+        String expireDaysParam = request.getParameter("expireDays");
+        String unitPriceParam = request.getParameter("unitPrice");
+        String discountParam = request.getParameter("discount");
+        
+        int expireDays = 0;
+        double unitPrice = 0.0;
+        double discount = 0.0;
+        
+        // Validate and parse expireDays
+        if (expireDaysParam != null && !expireDaysParam.isEmpty()) {
+            try {
+                expireDays = Integer.parseInt(expireDaysParam);
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorMessage", "Invalid expireDays format.");
+                request.getRequestDispatcher("/views/food/add.jsp").forward(request, response);
+                return;
+            }
+        } else {
+            request.setAttribute("errorMessage", "expireDays is required.");
+            request.getRequestDispatcher("/views/food/add.jsp").forward(request, response);
+            return;
+        }
+
+        // Validate and parse unitPrice
+        if (unitPriceParam != null && !unitPriceParam.isEmpty()) {
+            try {
+                unitPrice = Double.parseDouble(unitPriceParam);
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorMessage", "Invalid unitPrice format.");
+                request.getRequestDispatcher("/views/food/add.jsp").forward(request, response);
+                return;
+            }
+        } else {
+            request.setAttribute("errorMessage", "unitPrice is required.");
+            request.getRequestDispatcher("/views/food/add.jsp").forward(request, response);
+            return;
+        }
+
+        // Validate and parse discount
+        if (discountParam != null && !discountParam.isEmpty()) {
+            try {
+                discount = Double.parseDouble(discountParam);
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorMessage", "Invalid discount format.");
+                request.getRequestDispatcher("/views/food/add.jsp").forward(request, response);
+                return;
+            }
+        } else {
+            request.setAttribute("errorMessage", "discount is required.");
+            request.getRequestDispatcher("/views/food/add.jsp").forward(request, response);
+            return;
+        }
         
         String[] foodData = getFoodInputHistory(request);
         
@@ -210,21 +259,16 @@ public class RetailerController extends HttpServlet {
     }
     
     /**
-    * Handles the HTTP POST request to store new food information.
-    * <p>
-    * This method retrieves food details from the request parameters, validates the input using the
-    * {@link FoodValidator}, and then attempts to store the new food information using the 
-    * {@link RetailerService}. If validation or data storage fails, it forwards the request back to the
-    * "add.jsp" page with appropriate error messages. If successful, it redirects the user to the 
-    * "retailer.jsp" page with a success message.
-    * </p>
-    * 
-    * @param request the {@link HttpServletRequest} object that contains the request from the client
-    * @param response the {@link HttpServletResponse} object that will be used to return the response to the client
-    * @throws ServletException if an error occurs while processing the request or forwarding to another page
-    * @throws IOException if an input or output error occurs while handling the request or redirecting the response
+    * Retrieves the food input history from the HTTP request.
+    * This method extracts the parameters "name", "expireDays",
+    * "unitPrice", and "discount" from the request and returns
+    * them as a String array.
+    *
+    * @param request the HttpServletRequest from which the parameters are extracted
+    * @return a String array containing the values of "name", "expireDays",
+    *         "unitPrice", and "discount" parameters from the request
     */
-    private String[] getFoodInputHistory(HttpServletRequest request) {
+    protected  String[] getFoodInputHistory(HttpServletRequest request) {
         String[] inputHistory = new String[4];
         inputHistory[0] = request.getParameter("name");
         inputHistory[1] = request.getParameter("expireDays");
@@ -248,7 +292,7 @@ public class RetailerController extends HttpServlet {
     * @throws ServletException if an error occurs while processing the request or forwarding to another page
     * @throws IOException if an input or output error occurs while handling the request or forwarding the response
     */
-    private void addQuantities(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void addQuantities(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<Food> foods = new ArrayList<>();
         try {
@@ -321,7 +365,7 @@ public class RetailerController extends HttpServlet {
     * @throws ServletException if an error occurs while processing the request or forwarding to another page
     * @throws IOException if an input or output error occurs while handling the request or forwarding the response
     */
-    private void changeFoodExpireDays(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void changeFoodExpireDays(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RetailerService retailerService = new RetailerService();
         ArrayList<Food> foods = new ArrayList<>();
         try {
@@ -908,6 +952,10 @@ public class RetailerController extends HttpServlet {
         }
        
      }
+    
+    protected RetailerService createRetailerService() {
+        return new RetailerService();
+    }
     
     /*
     private void viewTransactions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

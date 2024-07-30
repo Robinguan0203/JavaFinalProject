@@ -53,17 +53,25 @@
         %>
         <input type="hidden" name="action" value="register" />
 
-        <label for="firstname">First Name:</label>
-        <input class="input" type="text" id="firstname" name="firstname" value="<%= firstname %>" required><br>
-
-        <label for="lastname">Last Name:</label>
-        <input class="input" type="text" id="lastname" name="lastname" value="<%= lastname %>" required><br>
+        <div class="form-group">
+            <div class="name-row">
+                <div class="name-field">
+                    <label for="firstname">First Name:</label>
+                    <input class="input" type="text" id="firstname" name="firstname" value="<%= firstname %>" placeholder="Please fill in first name..." required>
+                </div>
+                <div class="name-field">
+                    <label for="lastname">Last Name:</label>
+                    <input class="input" type="text" id="lastname" name="lastname" value="<%= lastname %>" placeholder="Please fill in last name..." required>
+                </div>
+            </div>
+        </div>
+        
 
         <label for="phone">Phone:</label>
-        <input class="input" type="text" id="phone" name="phone" value="<%= phone %>"required><br>
+        <input class="input" type="text" id="phone" name="phone" value="<%= phone %>" placeholder="Only numbers accepted..."required><br>
 
         <label for="email">Email:</label>
-        <input class="input" type="email" id="email" name="email" value="<%= email %>" required><br>
+        <input class="input" type="email" id="email" name="email" value="<%= email %>" placeholder="Please fill in email address..." required><br>
 
         <label for="password">Password:</label>
         <input class="input" type="password" id="password" name="password" required><br>
@@ -81,15 +89,19 @@
 
         <div id="organizationField" style="display:<%= "2".equals(type) ? "block" : "none" %>;">
             <label for="organization">Organization Name:</label>
-            <input class="input" type="text" id="organization" name="organization" value="<%= organization %>"><br>
+            <input class="input" type="text" id="organization" name="organization" value="<%= organization %>" placeholder="Please fill in organization name..."><br>
         </div>
 
-        <button type="submit">Register</button>
+        <div class="form-group center-button">
+            <center><button type="submit">Register</button></center>
+        </div>
+        <div class="form-group">
+            <p>If you already have an account, <a href="${pageContext.request.contextPath}/index.jsp">please login</a>.</p>
+        </div>
     </form>
     <%@ include file="../footer.jsp" %>
 </body>
 </html>
-<%@ include file="../footer.jsp" %>
 <style>
     body {
         display: flex;
@@ -98,9 +110,10 @@
         justify-content: center;
         height: 100vh; /* Ensure body takes full height of viewport */
         margin: 0; /* Remove default margin */
-        height: 90vh; /* Full viewport height */
     }
-
+    .container {
+        padding: 20px;
+    }
     h1 {
         margin-top: 20px;
     }
@@ -109,53 +122,74 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        width: 60%; /* Adjust width as needed */
         margin-top: 20px;
-        width: 100%;
-    }
-    
-    .form-body {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Center-align the form items */
-        width: 30%; /* Set a width for the form */
+        text-align: center; /* Center align text and inline elements */
     }
 
+    
     .form-group {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         margin-bottom: 15px;
-        width:100%;
+        width: 100%;
     }
+    
+    .name-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .name-field {
+        display: flex;
+        flex-direction: column;
+        width: 45%; /* Adjust width to fit your layout */
+    }
+
+    .name-field label {
+        margin-bottom: 5px;
+    }
+
+    .name-field input {
+        width: 100%;
+    }
+
 
     label {
         margin-bottom: 5px;
     }
 
-    input {
+    .input {
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
-        border: 1px solid #B2EBF2; /* ???? */
-        border-radius: 4px; /* ???? */
+        border: 1px solid #B2EBF2;
+        border-radius: 4px;
     }
 
     button {
-        background-color: #E0F7FA; /* ???????footer????? */
-        border: 1px solid #B2EBF2; /* ??????????? */
+        background-color: #E0F7FA;
+        border: 1px solid #B2EBF2;
         border-radius: 4px;
-        color: #00796B; /* ???? */
+        color: #00796B;
         font-size: 16px;
-        padding: 10px 15px; /* ????? */
+        padding: 10px 15px;
         cursor: pointer;
         text-align: center;
-        width: 125px; /* ????????? */
-        margin-top: 10px; /* ?????? */
+        width: 125px;
+        margin-top: 10px;
     }
 
     button:hover {
-        background-color: #B2EBF2; /* ?????????? */
+        background-color: #B2EBF2;
+    }
+    
+    .center-button {
+        display: flex;
+        justify-content: center;
+        width: 50%;
     }
 
     .register-container {
