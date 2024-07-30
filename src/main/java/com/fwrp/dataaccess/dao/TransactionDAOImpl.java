@@ -15,7 +15,7 @@ import java.util.Date;
 
 /**
  * This class implements the TransactionDAO interface to provide a concrete implementation.
- * It provides methods to add, retrieve, and remove users from a data source.
+ * It provides methods to add, retrieve, and remove transactions from a data source.
  * 
  * @author Robin Guan(041117292)
  * @version 1.0
@@ -23,6 +23,15 @@ import java.util.Date;
  */
 public class TransactionDAOImpl implements TransactionDAO {
 
+    /**
+     * Adds a new transaction to the data source.
+     * 
+     * @param transactionDTO The transaction object to be added.
+     * @param conn SQL connection
+     * @return boolean Returns true if the transaction was successfully added, false otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     */
+    @Override
     public boolean addTransaction(TransactionDTO transactionDTO, Connection conn) throws SQLException {        
         boolean isSuccess = false;
         
@@ -59,6 +68,14 @@ public class TransactionDAOImpl implements TransactionDAO {
         return isSuccess;
     }
 
+    /**
+     * Deletes a transaction from the data source.
+     * 
+     * @param transactionDTO The transaction object to be deleted.
+     * @param conn SQL connection
+     * @return boolean Returns true if the transaction was successfully deleted, false otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     */
     @Override
     public boolean deleteTransaction(TransactionDTO transactionDTO, Connection conn) throws SQLException {
         boolean isSuccess = false;
@@ -74,6 +91,14 @@ public class TransactionDAOImpl implements TransactionDAO {
         return isSuccess;
     }
     
+    /**
+     * Retrieves all transactions from the data source.
+     * 
+     * @param conn SQL connection
+     * @return ArrayList<TransactionDTO> A list of all transactions.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     */
+    @Override
     public ArrayList<TransactionDTO> getAllTransactions(Connection conn) throws SQLException{
         ArrayList<TransactionDTO> transactionDTOs = new ArrayList<>();
         

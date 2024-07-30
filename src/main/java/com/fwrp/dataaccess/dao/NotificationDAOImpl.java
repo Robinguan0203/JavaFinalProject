@@ -30,6 +30,17 @@ public class NotificationDAOImpl implements NotificationDAO {
         return isSuccess;
     }
 
+    /**
+    * Retrieves a list of notifications for a specific user filtered by notification method.
+    * 
+    * @param userId The ID of the user for whom notifications are to be retrieved.
+    * @param method The method by which the notification was sent (e.g., email, SMS).
+    * @param conn The SQL connection used to access the database.
+    * @return ArrayList<NotificationDTO> A list of {@link NotificationDTO} objects containing the notifications
+    *         for the specified user and method.
+    * @throws SQLException if a database access error occurs or the SQL query fails
+    */
+    @Override
     public ArrayList<NotificationDTO> getNotificationByUserIdAndMethod(int userId, int method, Connection conn) throws SQLException {
         ArrayList<NotificationDTO> notificationDTOs = new ArrayList<>();
         
@@ -55,6 +66,15 @@ public class NotificationDAOImpl implements NotificationDAO {
         return notificationDTOs;
     }
 
+    /**
+    * Retrieves the count of notifications for a specific user filtered by notification method.
+    * 
+    * @param userId The ID of the user for whom the notification count is to be retrieved.
+    * @param method The method by which the notifications were sent (e.g., email, SMS).
+    * @param conn The SQL connection used to access the database.
+    * @return int The number of notifications for the specified user and method.
+    * @throws SQLException if a database access error occurs or the SQL query fails
+    */
     public int getNotifictionCountByUserIdAndMethod(int userId, int method, Connection conn) throws SQLException {
         int count = 0;
         

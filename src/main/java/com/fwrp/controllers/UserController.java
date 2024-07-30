@@ -41,14 +41,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Ke Yan
+ * Servlet implementation for managing user-related actions such as login, registration, and viewing notifications.
+ * <p>
+ * This servlet handles various HTTP GET and POST requests, including user login, registration, logout, and viewing notifications.
+ * It forwards requests to appropriate JSP pages based on the user's action and handles potential errors by displaying error messages.
+ * </p>
+ * 
+ * @author Robin Guan(041117292)
  */
 @WebServlet("/UserController")
 public class UserController extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
     
-     @Override
+    /**
+     * Handles GET requests to navigate to different user views based on the action parameter.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @param response the {@link HttpServletResponse} object that will be used to send the response to the client
+     * @throws ServletException if a servlet error occurs during request processing
+     * @throws IOException if an I/O error occurs during request or response handling
+     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
@@ -67,6 +80,14 @@ public class UserController extends HttpServlet {
     }
 
 
+    /**
+     * Handles POST requests for user login, registration, logout, and viewing notifications.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @param response the {@link HttpServletResponse} object that will be used to send the response to the client
+     * @throws ServletException if a servlet error occurs during request processing
+     * @throws IOException if an I/O error occurs during request or response handling
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -94,8 +115,16 @@ public class UserController extends HttpServlet {
             default:
                 response.getWriter().println("Unknown action");
         }  
-   }
+    }
 
+    /**
+     * Handles user login by verifying credentials and setting user session attributes.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @param response the {@link HttpServletResponse} object that will be used to send the response to the client
+     * @throws ServletException if a servlet error occurs during request processing
+     * @throws IOException if an I/O error occurs during request or response handling
+     */
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -147,6 +176,14 @@ public class UserController extends HttpServlet {
         
     }
     
+    /**
+     * Handles user registration by validating inputs and registering a new user.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @param response the {@link HttpServletResponse} object that will be used to send the response to the client
+     * @throws ServletException if a servlet error occurs during request processing
+     * @throws IOException if an I/O error occurs during request or response handling
+     */
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
@@ -190,6 +227,12 @@ public class UserController extends HttpServlet {
         }
     }
     
+    /**
+     * Retrieves the registration history from the request parameters.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @return an array of strings containing registration input data
+     */
     private String[] getRegistrationHistory(HttpServletRequest request) {
         String[] inputHistory = new String[8];
         inputHistory[0] = request.getParameter("firstname");
@@ -201,7 +244,15 @@ public class UserController extends HttpServlet {
         return inputHistory;
     }
     
-     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * Handles user logout by invalidating the session and redirecting to the index page with a success message.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @param response the {@link HttpServletResponse} object that will be used to send the response to the client
+     * @throws ServletException if a servlet error occurs during request processing
+     * @throws IOException if an I/O error occurs during request or response handling
+     */
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
@@ -210,7 +261,14 @@ public class UserController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/index.jsp?errorMessage=You have been logged out.");
     }
      
-     private void getNotificationCount(HttpServletRequest request) throws SQLException, ClassNotFoundException{
+    /**
+     * Retrieves and sets the notification counts in the session for the logged-in user.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if a class cannot be found
+     */
+    private void getNotificationCount(HttpServletRequest request) throws SQLException, ClassNotFoundException{
         HttpSession session = request.getSession(false);
         int count[] = new int[2];
         int phoneNotificationCount = 0;
@@ -230,8 +288,17 @@ public class UserController extends HttpServlet {
             }
         }
        
-     }
+    }
      
+    /**
+     * Handles viewing notifications based on the specified method (phone or email).
+     * 
+     * @param method the notification method (phone or email)
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @param response the {@link HttpServletResponse} object that will be used to send the response to the client
+     * @throws ServletException if a servlet error occurs during request processing
+     * @throws IOException if an I/O error occurs during request or response handling
+     */
     private void viewNotification(int method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = new UserService();        
         HttpSession session = request.getSession(false);
@@ -253,27 +320,36 @@ public class UserController extends HttpServlet {
 
             } catch (SQLException | ClassNotFoundException ex) {
                 int userType = user.getType(); // 假设 getType() 返回的是 int
-
-                if (userType == UserTypeConstant.RETAILER) {                    
-                    request.setAttribute("errorMessage", ex.getMessage());
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");            
-                    dispatcher.forward(request, response);
-                } else if (userType == UserTypeConstant.CONSUMER) {
-                    request.setAttribute("errorMessage", ex.getMessage());
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/consumer.jsp");            
-                    dispatcher.forward(request, response);
-                } else if (userType == UserTypeConstant.CHARITY) {
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/charity.jsp");            
-                    dispatcher.forward(request, response);
-                } else {
-                    // 处理未知用户类型
-                    request.setAttribute("errorMessage", "Unknown user type.");
-                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                switch (userType) {
+                    case UserTypeConstant.RETAILER:
+                        {
+                            request.setAttribute("errorMessage", ex.getMessage());
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/retailer.jsp");
+                            dispatcher.forward(request, response);
+                            break;
+                        }
+                    case UserTypeConstant.CONSUMER:
+                        {
+                            request.setAttribute("errorMessage", ex.getMessage());
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/consumer.jsp");
+                            dispatcher.forward(request, response);
+                            break;
+                        }
+                    case UserTypeConstant.CHARITY:
+                        {
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/charity.jsp");
+                            dispatcher.forward(request, response);
+                            break;
+                        }
+                    default:
+                        // 处理未知用户类型
+                        request.setAttribute("errorMessage", "Unknown user type.");
+                        request.getRequestDispatcher("/index.jsp").forward(request, response);
+                        break;
                 }
             }
         } else {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
     }
-
 }

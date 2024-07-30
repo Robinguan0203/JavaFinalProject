@@ -18,22 +18,62 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- *
- * @author Ke Yan
+ * Service class for retailer-related operations.
+ * This class provides methods to manage food items, inventory, and notifications for retailers.
+ * 
+ * <p>
+ * Example use case: Storing new food items, adding food quantities, managing expire info, and sending notifications.
+ * </p>
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 1.0
  */
 public class RetailerService {
+    /**
+     * Stores a new food item in the database.
+     * 
+     * @param name the name of the food
+     * @param expireDays the number of days until the food expires
+     * @param unitPrice the unit price of the food
+     * @param discount the discount rate of the food
+     * @throws DataAlreadyExistsException if the food already exists in the database
+     * @throws DataInsertionFailedException if the insertion fails
+     * @throws Exception if any other exception occurs
+     */
     public void storeNewFood(String name, int expireDays, double unitPrice, double discount) throws DataAlreadyExistsException,DataInsertionFailedException, Exception{
         FoodDbService dbService = new FoodDbService();
         Food food = new Food(name, expireDays, unitPrice, discount);
         dbService.AddFood(food);
     }
     
+    /**
+     * Stores a new food item in the database.
+     * 
+     * @param name the name of the food
+     * @param expireDays the number of days until the food expires
+     * @param unitPrice the unit price of the food
+     * @param discount the discount rate of the food
+     * @throws DataAlreadyExistsException if the food already exists in the database
+     * @throws DataInsertionFailedException if the insertion fails
+     * @throws Exception if any other exception occurs
+     */
     public ArrayList<Food> getAllFoods() throws ClassNotFoundException, SQLException{
         FoodDbService dbService = new FoodDbService();
         ArrayList<Food> foods = dbService.getAllFoods();
         return foods;
     }
     
+    /**
+     * Adds quantities of a food item to the inventory.
+     * 
+     * @param FoodId the ID of the food
+     * @param quantity the quantity to add
+     * @param retailer the retailer managing the inventory change
+     * @throws NegativeInventoryException if the inventory becomes negative
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     */
     public void addFoodQuantities(int FoodId, int quantity, Retailer retailer) throws NegativeInventoryException, SQLException, ClassNotFoundException{
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(FoodId);
@@ -49,6 +89,15 @@ public class RetailerService {
         transaction.updateExpireInfo();
     }
     
+    /**
+     * Updates the expiration days of a food item.
+     * 
+     * @param foodId the ID of the food
+     * @param expireDays the new number of expiration days
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     * @throws DataInsertionFailedException if the update fails
+     */
     public void storeFoodExpireDays(int foodId, int expireDays) throws SQLException, ClassNotFoundException, DataInsertionFailedException{
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(foodId);
@@ -56,7 +105,13 @@ public class RetailerService {
         foodDbService.updateFood(food);
     }
     
-   
+   /**
+     * Retrieves all expiration information items from the database.
+     * 
+     * @return a list of all expiration information items
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     */
     public ArrayList<ExpireInfo> getAllExpireInfoItems() throws SQLException, ClassNotFoundException {
         ArrayList<ExpireInfo> expireInfos = new ArrayList<>();        
         InventoryDbService dbService = new InventoryDbService();
@@ -72,6 +127,13 @@ public class RetailerService {
         return expireInfos;
     }
     
+    /**
+     * Retrieves expiration information items that are close to expiring.
+     * 
+     * @return a list of expiration information items close to expiring
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     */
     public ArrayList<ExpireInfo> getExpireInfoClosedToExpireItems() throws SQLException, ClassNotFoundException {
         ArrayList<ExpireInfo> expireInfos = new ArrayList<>();        
         InventoryDbService dbService = new InventoryDbService();
@@ -87,6 +149,15 @@ public class RetailerService {
         return expireInfos;
     }
     
+    /**
+     * Updates the expiration date of an expiration information item.
+     * 
+     * @param expireInfoId the ID of the expiration information item
+     * @param expireDate the new expiration date
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     * @throws DataNotExistsException if the expiration information item does not exist
+     */
     public void updateExpireDateOfExpireInfo(int expireInfoId, Date expireDate) throws SQLException, ClassNotFoundException, DataNotExistsException{
         InventoryDbService dbService = new InventoryDbService();
         ExpireInfo expireInfo = dbService.getExpireInfoById(expireInfoId);
@@ -101,6 +172,15 @@ public class RetailerService {
 
     }
     
+    /**
+     * Updates the surplus status of an expiration information item.
+     * 
+     * @param expireInfoId the ID of the expiration information item
+     * @param isSurplus the new surplus status
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     * @throws DataNotExistsException if the expiration information item does not exist
+     */
     public void updateIsSurplusOfExpireInfo(int expireInfoId, boolean isSurplus) throws SQLException, ClassNotFoundException, DataNotExistsException{
         InventoryDbService dbService = new InventoryDbService();
         ExpireInfo expireInfo = dbService.getExpireInfoById(expireInfoId);
@@ -113,6 +193,13 @@ public class RetailerService {
         }
     }
 
+    /**
+     * Retrieves a summary of surplus food items.
+     * 
+     * @return a map of food items and their surplus quantities
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     */
     public HashMap<Food, Integer[]> getFoodSurplusSummary() throws SQLException, ClassNotFoundException{
         InventoryDbService dbService = new InventoryDbService();
         HashMap<Food, Integer[]> foodSurplusMap = dbService.getFoodSurplusSummary();
@@ -120,6 +207,17 @@ public class RetailerService {
         return foodSurplusMap;
     }
     
+    /**
+     * Lists surplus food items.
+     * 
+     * @param FoodId the ID of the food
+     * @param qtyDiscount the quantity to discount
+     * @param qtyDonation the quantity to donate
+     * @param retailer the retailer managing the inventory change
+     * @throws NegativeInventoryException if the inventory becomes negative
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     */
     public void listSurplusFood(int FoodId, int qtyDiscount,int qtyDonation, Retailer retailer) throws NegativeInventoryException, SQLException, ClassNotFoundException{
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(FoodId);
@@ -131,6 +229,13 @@ public class RetailerService {
         transaction.storeTransaction();
     }
     
+    /**
+     * Retrieves all inventory data.
+     * 
+     * @return a map of food items and their quantities
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     */
     public HashMap<Food, Integer[]>  getAllInventoryData() throws SQLException, ClassNotFoundException{
         InventoryDbService dbService = new InventoryDbService();
         HashMap<Food, Integer[]> foodSurplusMap = dbService.getAllInventoryData();
@@ -138,6 +243,14 @@ public class RetailerService {
         return foodSurplusMap;
     }
 
+    /**
+     * Sends notifications.
+     * 
+     * @param notification the notification message
+     * @return true if the notification was sent successfully, false otherwise
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the class is not found
+     */
     public boolean sendNotifications(String notification) throws SQLException, ClassNotFoundException {
         NotificationDbService dbService = new NotificationDbService();
         return dbService.sendNotification(notification);

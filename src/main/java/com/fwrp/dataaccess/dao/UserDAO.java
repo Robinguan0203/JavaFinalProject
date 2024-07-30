@@ -7,20 +7,20 @@ import java.sql.SQLException;
 
 /**
  * This interface defines the standard operations to be performed on User model object(s).
- * It provides methods to add, retrieve, and remove user from a data source.
+ * It provides methods to add, retrieve, update, and remove users from a data source.
  * 
- * @author Robin Guan(041117292)
+ * @author Robin Guan (041117292)
  * @version 1.0
  * @since 17.0.8
  */
 public interface UserDAO {
-    /**
+     /**
      * Adds a new user to the data source.
      * 
      * @param userDTO The user object to be added.
      * @param conn SQL connection
-     * @return Boolean Returns true if the user was successfully added, false otherwise.
-     * @throws java.sql.SQLException
+     * @return boolean Returns true if the user was successfully added, false otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     boolean addUser(UserDTO userDTO, Connection conn)  throws SQLException;
     
@@ -29,8 +29,8 @@ public interface UserDAO {
      * 
      * @param userId The ID of the user to retrieve.
      * @param conn SQL connection
-     * @return User Returns the user object if found, null otherwise.
-     * @throws java.sql.SQLException
+     * @return UserDTO Returns the user object if found, null otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     UserDTO getUserById(int userId, Connection conn)  throws SQLException;
     
@@ -39,8 +39,8 @@ public interface UserDAO {
      * 
      * @param email The email of the user to retrieve.
      * @param conn SQL Connection
-     * @return User Returns the user object if found, null otherwise.
-     * @throws java.sql.SQLException
+     * @return UserDTO Returns the user object if found, null otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     UserDTO getUserByEmail(String email, Connection conn)  throws SQLException;
     
@@ -50,18 +50,18 @@ public interface UserDAO {
      * @param email The email of the user to retrieve.
      * @param password The password of the user to retrieve.
      * @param conn SQL Connection
-     * @return User Returns the user object if found, null otherwise.
-     * @throws java.sql.SQLException
+     * @return UserDTO Returns the user object if found, null otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     UserDTO getUserByEmailAndPassword(String email, String password, Connection conn)  throws SQLException;
     
-    /**
-     * Update a user.
+     /**
+     * Updates an existing user in the data source.
      * 
      * @param userDTO The new user data to save.
      * @param conn SQL Connection
-     * @return Boolean Returns true if the user was successfully updated, false otherwise.
-     * @throws java.sql.SQLException
+     * @return boolean Returns true if the user was successfully updated, false otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     boolean updateUser(UserDTO userDTO, Connection conn)  throws SQLException;
     
@@ -70,8 +70,8 @@ public interface UserDAO {
      * 
      * @param userDTO The UserDTO object of the user to be removed.
      * @param conn SQL Connection
-     * @return Boolean Returns true if the course was successfully removed, false otherwise.
-     * @throws java.sql.SQLException
+     * @return boolean Returns true if the user was successfully removed, false otherwise.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     boolean removeUser(UserDTO userDTO, Connection conn)  throws SQLException;
     

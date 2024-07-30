@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
- * This class implements the ExpireInfoDAO interface to provide a concrete implementation.
- * It provides methods to add, retrieve, and remove users from a data source.
+ * This class provides a concrete implementation of the ExpireInfoDAO interface.
+ * It performs CRUD operations on the ExpireInfo model object.
  * 
- * @author Robin Guan(041117292)
+ * @author Robin Guan（041117292）
  * @version 1.0
  * @since 17.0.8
  */
@@ -30,9 +30,10 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
      * 
      * @param expireInfoDTO The ExpireInfoDTO object to be added.
      * @param conn SQL connection
-     * @return Boolean Returns true if the course was successfully added, false otherwise.
-     * @throws java.sql.SQLException
+     * @return Boolean Returns true if the expireInfo was successfully added, false otherwise.
+     * @throws SQLException if a database access error occurs
      */
+    @Override
     public boolean addExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn) throws SQLException {
         boolean isSuccess = false;
         
@@ -53,6 +54,15 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return isSuccess;
     }
     
+    /**
+     * Retrieves an expireInfo by its ID.
+     * 
+     * @param expireInfoId The ID of the expireInfo to retrieve.
+     * @param conn SQL connection
+     * @return ExpireInfoDTO Returns the ExpireInfoDTO object if found, null otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public ExpireInfoDTO getExpireInfoById(int expireInfoId, Connection conn) throws SQLException{
         ExpireInfoDTO expireInfoDTO = new ExpireInfoDTO();
         
@@ -72,6 +82,15 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return expireInfoDTO;
     }
 
+    /**
+     * Retrieves expireInfos by food ID, ordered by expire date.
+     * 
+     * @param foodID The food_id of the expireInfos to retrieve.
+     * @param conn SQL connection
+     * @return ArrayList<ExpireInfoDTO> A list of ExpireInfoDTO objects.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public ArrayList<ExpireInfoDTO> getExpireInfoByFoodId(int foodID, Connection conn) throws SQLException {
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
         
@@ -94,6 +113,15 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return expireInfoDTOs;
     }
 
+    /**
+     * Retrieves expireInfos that are earlier than the designated expire date.
+     * 
+     * @param expireDate The expire date to compare.
+     * @param conn SQL connection
+     * @return ArrayList<ExpireInfoDTO> A list of ExpireInfoDTO objects.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public ArrayList<ExpireInfoDTO> getExpireInfoByExpireDate(Date expireDate, Connection conn) throws SQLException {
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
         System.out.println(expireDate);
@@ -117,6 +145,14 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return expireInfoDTOs;
     }
     
+    /**
+     * Retrieves all expireInfos.
+     * 
+     * @param conn SQL connection
+     * @return ArrayList<ExpireInfoDTO> A list of all ExpireInfoDTO objects.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public ArrayList<ExpireInfoDTO> getAllExpireInfo(Connection conn) throws SQLException {
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
         try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM expire_infos ORDER BY expire_date ASC")){
@@ -137,6 +173,15 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return expireInfoDTOs;
     }
 
+    /**
+     * Updates an existing expireInfo.
+     * 
+     * @param expireInfoDTO The updated ExpireInfoDTO object.
+     * @param conn SQL connection
+     * @return Boolean Returns true if the expireInfo was successfully updated, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public boolean updateExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn) throws SQLException {
         boolean isSuccess = false;
 
@@ -159,6 +204,15 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return isSuccess;
     }
 
+    /**
+     * Deletes an expireInfo from the data source.
+     * 
+     * @param expireInfoDTO The ExpireInfoDTO object to be removed.
+     * @param conn SQL connection
+     * @return Boolean Returns true if the expireInfo was successfully deleted, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public boolean deleteExpireInfo(ExpireInfoDTO expireInfoDTO, Connection conn) throws SQLException {
         boolean isSuccess = false;
 
@@ -175,6 +229,14 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
         return isSuccess;
     }
     
+    /**
+     * Retrieves a summary of food surplus.
+     * 
+     * @param conn SQL connection
+     * @return HashMap<Integer, Integer[]> A map where the key is the food ID and the value is an array containing surplus quantities and inventory quantities.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public HashMap<Integer, Integer[]> getFoodSurplusSummary(Connection conn) throws SQLException{
         HashMap<Integer, Integer[]> foodSurplusMap = new HashMap<>();
         

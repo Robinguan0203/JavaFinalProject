@@ -12,23 +12,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * This class implements the FoodDAO interface to provide a concrete implementation.
- * It provides methods to add, retrieve, and remove users from a data source.
+ * This class implements the {@link FoodDAO} interface to provide concrete methods for
+ * performing operations on food data in a data source. It provides implementations to
+ * add, retrieve, update, and remove food items.
  * 
- * @author Robin Guan(041117292)
+ * @author Robin Guan（041117292）
  * @version 1.0
  * @since 17.0.8
  */
 public class FoodDAOImpl implements FoodDAO {
 
     /**
-     * Adds a new food to the data source.
+     * Adds a new food item to the data source.
      * 
-     * @param food The Food object to be added.
-     * @param conn SQL Connection
-     * @return Boolean Returns true if the course was successfully added, false otherwise.
-     * @throws java.sql.SQLException
+     * @param food The {@link Food} object to be added.
+     * @param conn SQL connection
+     * @return boolean Returns true if the food was successfully added, false otherwise.
+     * @throws SQLException if a database access error occurs
      */
+    @Override
     public boolean addFood(Food food, Connection conn)  throws SQLException{
         boolean isSuccess = false;
 
@@ -49,6 +51,14 @@ public class FoodDAOImpl implements FoodDAO {
         return isSuccess;
     }
 
+    /**
+     * Retrieves all food items from the data source.
+     * 
+     * @param conn SQL connection
+     * @return ArrayList<Food> A list of {@link Food} objects.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public ArrayList<Food> getAllFoods(Connection conn) throws SQLException{
         ArrayList<Food> foods = new ArrayList<>();
         try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM foods ORDER BY name ASC")){
@@ -68,6 +78,16 @@ public class FoodDAOImpl implements FoodDAO {
         
         return foods;
     }
+    
+    /**
+     * Retrieves a food item by its ID.
+     * 
+     * @param foodId The ID of the food to retrieve.
+     * @param conn SQL connection
+     * @return Food Returns the {@link Food} object if found, null otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public Food getFoodById(int foodId, Connection conn)  throws SQLException{       
         Food food = null;
         
@@ -90,6 +110,15 @@ public class FoodDAOImpl implements FoodDAO {
         return food;
     }
     
+     /**
+     * Retrieves a food item by its name.
+     * 
+     * @param name The name of the food to retrieve.
+     * @param conn SQL connection
+     * @return Food Returns the {@link Food} object if found, null otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public Food getFoodByName(String name, Connection conn)  throws SQLException{    
         Food food = null;
         
@@ -112,6 +141,15 @@ public class FoodDAOImpl implements FoodDAO {
         return food;
     }
 
+    /**
+     * Updates the details of an existing food item.
+     * 
+     * @param food The {@link Food} object containing updated data.
+     * @param conn SQL connection
+     * @return boolean Returns true if the food was successfully updated, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public boolean updateFood(Food food, Connection conn)  throws SQLException{          
         boolean isSuccess = false;
 
@@ -134,6 +172,15 @@ public class FoodDAOImpl implements FoodDAO {
         return isSuccess;
     }
 
+     /**
+     * Removes a food item from the data source.
+     * 
+     * @param food The {@link Food} object to be removed.
+     * @param conn SQL connection
+     * @return boolean Returns true if the food was successfully removed, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public boolean removeFood(Food food, Connection conn)  throws SQLException{   
         boolean isSuccess = false;
 

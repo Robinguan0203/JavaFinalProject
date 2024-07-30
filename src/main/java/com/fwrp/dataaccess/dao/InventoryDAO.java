@@ -12,54 +12,68 @@ import java.util.HashMap;
 
 /**
  * This interface defines the standard operations to be performed on Inventory model object(s).
- * It provides methods to add, retrieve, and remove user from a data source.
- *
- * @author Robin Guan(041117292)
+ * It provides methods to add, retrieve, update, and remove inventory data from a data source.
+ * 
+ * @author Robin Guan（041117292）
  * @version 1.0
  * @since 17.0.8
  */
 public interface InventoryDAO {
     /**
-     * Adds a new inventory to the data source.
-     *
-     * @param foodId The Inventory of the food to be added.
+     * Adds a new inventory entry for a specific food item to the data source.
+     * 
+     * @param foodId The ID of the food item for which inventory is being added.
      * @param conn SQL connection
-     * @return Boolean Returns true if the user was successfully added, false otherwise.
-     * @throws java.sql.SQLException
+     * @return boolean Returns true if the inventory was successfully added, false otherwise.
+     * @throws SQLException if a database access error occurs
      */
     boolean addInventoryByFoodId(int foodId, Connection conn)  throws SQLException ;
 
     /**
-     * Retrieves a inventory by food ID.
-     *
-     * @param foodId The ID of the food to retrieve.
+     * Retrieves inventory information for a specific food item by its ID.
+     * 
+     * @param foodId The ID of the food item to retrieve inventory for.
      * @param conn SQL connection
-     * @return Inventory Returns the Inventory object if found, null otherwise.
-     * @throws java.sql.SQLException
+     * @return InventoryDTO Returns the {@link InventoryDTO} object if found, null otherwise.
+     * @throws SQLException if a database access error occurs
      */
     InventoryDTO getInventoryByFoodId(int foodId, Connection conn)  throws SQLException ;
 
     /**
-     * Update a inventory.
-     *
-     * @param inventoryDTO The new inventory data to save.
+     * Updates the inventory data for a specific food item.
+     * 
+     * @param inventoryDTO The {@link InventoryDTO} object containing updated inventory data.
      * @param conn SQL connection
-     * @return Boolean Returns true if the user was successfully updated, false otherwise.
-     * @throws java.sql.SQLException
+     * @return boolean Returns true if the inventory was successfully updated, false otherwise.
+     * @throws SQLException if a database access error occurs
      */
     boolean updateInventory(InventoryDTO inventoryDTO, Connection conn)  throws SQLException ;
 
     /**
-     * Removes a user from the data source.
-     *
-     * @param inventoryDTO The Inventory object of the inventory to be removed.
+     * Removes the inventory entry for a specific food item from the data source.
+     * 
+     * @param inventoryDTO The {@link InventoryDTO} object representing the inventory to be removed.
      * @param conn SQL connection
-     * @return Boolean Returns true if the course was successfully removed, false otherwise.
-     * @throws java.sql.SQLException
+     * @return boolean Returns true if the inventory was successfully removed, false otherwise.
+     * @throws SQLException if a database access error occurs
      */
     boolean removeInventory(InventoryDTO inventoryDTO, Connection conn)  throws SQLException ;
 
+    /**
+     * Retrieves a list of all donation inventories.
+     * 
+     * @param conn SQL connection
+     * @return List<Inventory> A list of {@link Inventory} objects representing donation inventories.
+     * @throws SQLException if a database access error occurs
+     */
     List<Inventory> getDonationInventories(Connection conn) throws SQLException ;
 
+    /**
+     * Retrieves all inventory data, including quantities for each item.
+     * 
+     * @param conn SQL connection
+     * @return HashMap<Integer, Integer[]> A map where the key is the food ID and the value is an array containing inventory data.
+     * @throws SQLException if a database access error occurs
+     */
     HashMap<Integer, Integer[]> getAllInventoryData(Connection conn) throws SQLException;
 }

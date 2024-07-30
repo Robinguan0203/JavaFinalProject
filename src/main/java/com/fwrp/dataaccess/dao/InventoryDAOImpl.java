@@ -17,15 +17,24 @@ import java.util.List;
 import java.util.HashMap;
 
 /**
- * This class implements the InventoryDAO interface to provide a concrete implementation.
- * It provides methods to add, retrieve, and remove users from a data source.
- *
- * @author Robin Guan(041117292)
+ * This class implements the {@link InventoryDAO} interface to provide a concrete implementation.
+ * It provides methods to add, retrieve, update, and remove inventory data from a data source.
+ * 
+ * @author Robin Guan（041117292）
  * @version 1.0
  * @since 17.0.8
  */
 public class InventoryDAOImpl implements InventoryDAO {
 
+    /**
+     * Adds a new inventory entry for a specific food item to the data source.
+     * 
+     * @param foodId The ID of the food item for which inventory is being added.
+     * @param conn SQL connection
+     * @return boolean Returns true if the inventory was successfully added, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public boolean addInventoryByFoodId(int foodId, Connection conn)  throws SQLException{
         boolean isSuccess = false;
 
@@ -42,6 +51,15 @@ public class InventoryDAOImpl implements InventoryDAO {
         return isSuccess;
     }
 
+    /**
+     * Retrieves inventory information for a specific food item by its ID.
+     * 
+     * @param foodId The ID of the food item to retrieve inventory for.
+     * @param conn SQL connection
+     * @return InventoryDTO Returns the {@link InventoryDTO} object if found, null otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public InventoryDTO getInventoryByFoodId(int foodId, Connection conn)  throws SQLException{
         InventoryDTO inventoryDTO  = null;
 
@@ -67,6 +85,15 @@ public class InventoryDAOImpl implements InventoryDAO {
         return inventoryDTO;
     }
 
+    /**
+     * Updates the inventory data for a specific food item.
+     * 
+     * @param inventoryDTO The {@link InventoryDTO} object containing updated inventory data.
+     * @param conn SQL connection
+     * @return boolean Returns true if the inventory was successfully updated, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    @Override
     public boolean updateInventory(InventoryDTO inventoryDTO, Connection conn)  throws SQLException{
         boolean isSuccess = false;
 
@@ -91,6 +118,14 @@ public class InventoryDAOImpl implements InventoryDAO {
         return isSuccess;
     }
 
+    /**
+     * Removes the inventory entry for a specific food item from the data source.
+     * 
+     * @param inventoryDTO The {@link InventoryDTO} object representing the inventory to be removed.
+     * @param conn SQL connection
+     * @return boolean Returns true if the inventory was successfully removed, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
     public boolean removeInventory(InventoryDTO inventoryDTO, Connection conn)  throws SQLException{
         boolean isSuccess = false;
 
@@ -106,6 +141,13 @@ public class InventoryDAOImpl implements InventoryDAO {
         return isSuccess;
     }
 
+    /**
+     * Retrieves a list of all donation inventories.
+     * 
+     * @param conn SQL connection
+     * @return List<Inventory> A list of {@link Inventory} objects representing donation inventories.
+     * @throws SQLException if a database access error occurs
+     */
     public List<Inventory> getDonationInventories(Connection conn) throws SQLException {
         Inventory inventory  = null;
         Food food=null;
@@ -132,6 +174,13 @@ public class InventoryDAOImpl implements InventoryDAO {
         return donationInventories;
     }
 
+    /**
+     * Retrieves all inventory data, including quantities for each item.
+     * 
+     * @param conn SQL connection
+     * @return HashMap<Integer, Integer[]> A map where the key is the food ID and the value is an array containing surplus quantity and inventory quantities.
+     * @throws SQLException if a database access error occurs
+     */
     public HashMap<Integer, Integer[]> getAllInventoryData(Connection conn) throws SQLException{
         HashMap<Integer, Integer[]> foodSurplusMap = new HashMap<>();
 
