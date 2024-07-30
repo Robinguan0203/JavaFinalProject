@@ -2,6 +2,7 @@
 .idea
 /src/main/front
 .gitignore
-/src/main/resources/database.properties
 /src/main/resources/*.properties
 /nbproject/
+!/src/main/resources/database_aliyun.properties
+!/src/main/resources/database.properties

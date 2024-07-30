@@ -1,66 +1,48 @@
 package com.fwrp.models;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
-@Entity
-@Table(name = "claims")
 public class Claim {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+    private int userId;
+    private int foodId;
+    private Date date;
     private int quantity;
     
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
-    @ManyToOne
-    @JoinColumn(name = "food_id")
-    private Food food;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Charity charity;
-
-    // Getters and Setters
-    public int getId() {
-        return id;
+    public Claim(){
+        
     }
-
-    public void setId(int id) {
+    
+    public Claim(int userId, int foodId, 
+            Date date, int quantity){
+        this.userId = userId;
+        this.foodId = foodId;
+        this.date = date;
+        this.quantity = quantity;
+    }
+    
+    public Claim(int id, int userId, int foodId, 
+            Date date, int quantity){
         this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
+        this.userId = userId;
+        this.foodId = foodId;
+        this.date = date;
         this.quantity = quantity;
     }
 
-    public Date getDate() {
-        return date;
-    }
+    // Getters and Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
-    public Food getFood() {
-        return food;
-    }
+    public int getFoodId() { return foodId; }
+    public void setFoodId(int foodId) { this.foodId = foodId; }
 
-    public void setFood(Food food) {
-        this.food = food;
-    }
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
 
-    public Charity getCharity() {
-        return charity;
-    }
-
-    public void setCharity(Charity charity) {
-        this.charity = charity;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 }

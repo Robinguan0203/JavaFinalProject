@@ -1,9 +1,11 @@
 package com.fwrp.dataaccess.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import com.fwrp.models.Claim;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-@Repository
-public interface ClaimDAO extends JpaRepository<Claim, Integer> {
+public interface ClaimDAO {
+    boolean createClaim(Claim claim, Connection conn) throws SQLException;
+    Claim getClaimByUserId(int userId, Connection conn) throws SQLException;
 }
