@@ -48,16 +48,16 @@ public class RetailerService {
     }
     
     /**
-     * Stores a new food item in the database.
-     * 
-     * @param name the name of the food
-     * @param expireDays the number of days until the food expires
-     * @param unitPrice the unit price of the food
-     * @param discount the discount rate of the food
-     * @throws DataAlreadyExistsException if the food already exists in the database
-     * @throws DataInsertionFailedException if the insertion fails
-     * @throws Exception if any other exception occurs
-     */
+    * Retrieves a list of all food items from the database.
+    * <p>
+    * This method creates an instance of {@link FoodDbService} to access the database and fetch all food items.
+    * The method then returns an {@link ArrayList} of {@link Food} objects representing the food items retrieved.
+    * </p>
+    * 
+    * @return an {@link ArrayList} containing all food items retrieved from the database
+    * @throws ClassNotFoundException if the database driver class is not found
+    * @throws SQLException if a database access error occurs or this method is called on a closed connection
+    */
     public ArrayList<Food> getAllFoods() throws ClassNotFoundException, SQLException{
         FoodDbService dbService = new FoodDbService();
         ArrayList<Food> foods = dbService.getAllFoods();

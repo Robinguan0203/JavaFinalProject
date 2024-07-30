@@ -203,7 +203,7 @@ public class TransactionDTO {
      * 
      * @param orderId The order ID to set, or null if not applicable.
      */
-    public void setOrderId(int orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
@@ -212,7 +212,7 @@ public class TransactionDTO {
      * 
      * @param claimId The claim ID to set, or null if not applicable.
      */
-    public void setClaimId(int claimId) {
+    public void setClaimId(Integer claimId) {
         this.claimId = claimId;
     }
 

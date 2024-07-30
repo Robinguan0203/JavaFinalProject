@@ -36,7 +36,7 @@ public class FoodDbService {
      * and updating food items.
      * </p>
      */
-    private FoodDAO foodDAO = null;
+    protected FoodDAO foodDAO = null;
     
     /**
      * The Data Access Object (DAO) for performing inventory-related database operations.
@@ -45,7 +45,7 @@ public class FoodDbService {
      * for food items.
      * </p>
      */
-    private InventoryDAO inventoryDAO = null;
+    protected InventoryDAO inventoryDAO = null;
     
     /**
      * Constructs a {@code FoodDbService} object and initializes DAO objects for food and inventory operations.

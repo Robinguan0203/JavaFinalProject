@@ -75,14 +75,4 @@ public class Food {
         this.discount = discount;
     }
     
-    public void storeFood() throws DataAlreadyExistsException, DataInsertionFailedException, SQLException, Exception{
-        FoodDbService foodDbService = new FoodDbService();
-        
-        try {
-            foodDbService.AddFood(this);
-        } catch (DataAlreadyExistsException | DataInsertionFailedException | SQLException e) {
-            throw e; // Rethrow the specific exceptions
-        } 
-    }
-
 }

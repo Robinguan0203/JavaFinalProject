@@ -17,15 +17,7 @@ public class Retailer extends User {
     public void logout(){
         
     }
-    
-    public Food CreateFood(String name, int expireDays, 
-            double unitprice, double discount){
-        
-        Food food = new Food(name, expireDays, unitprice, discount);
-        
-        return food;
-    }
-    
+           
     public ManageInventoryChange createInventorychange(Food food, 
             int qtyNormal, int qtyDiscount, int qtyDonation){
         

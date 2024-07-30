@@ -45,7 +45,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/CharityController")
 public class CharityController extends HttpServlet {
-    
+    /*
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); 
@@ -145,6 +145,7 @@ public class CharityController extends HttpServlet {
 
         return inputHistory;
     }
+    */
 }
 
 
