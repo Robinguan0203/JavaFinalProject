@@ -10,7 +10,7 @@ import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.controllers.usercommand.IUserCommand;
 import com.fwrp.controllers.usercommand.UserCommandFactory;
 import com.fwrp.controllers.userstrategy.INavigationStrategy;
-import com.fwrp.controllers.userstrategy.NavigationStrategyFactory;
+import com.fwrp.controllers.userstrategy.NavigationStrategySelector;
 import com.fwrp.dataaccess.DataSource;
 import static com.fwrp.dataaccess.DataSource.openPropsFile;
 import com.fwrp.dbService.UserDbService;
@@ -66,9 +66,9 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
-        INavigationStrategy strategy = NavigationStrategyFactory.getStrategy(action);
-        strategy.navigate(request, response);
+        NavigationStrategySelector strategySelector = new NavigationStrategySelector();
+        strategySelector.selectNavigationStrategy(action);
+        strategySelector.navigate(request, response);
     }
 
     /**
