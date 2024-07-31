@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 public class NavigationStrategySelector {
     private NavigationStrategyHandler handler;
     
+    public NavigationStrategySelector(){
+        this.handler = new NavigationStrategyHandler();
+    }
+    
     public void selectNavigationStrategy(String action){
         switch(action){
             case "viewRetailer":
@@ -35,5 +39,4 @@ public class NavigationStrategySelector {
     public void navigate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         handler.navigate(request, response);
     }
-    
 }
