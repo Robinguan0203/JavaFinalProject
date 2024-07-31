@@ -99,11 +99,11 @@ public class ExpireInfoDTOTest {
         expireInfoDTO.setIsSurplus(isSurplus);
         assertEquals(isSurplus, expireInfoDTO.isIsSurplus());
     }
-
+    
+    // fix issue  
     @Test
     public void testTransferToExpireInfo() throws SQLException, ClassNotFoundException {
-        Food testFood = new Food();
-        testFood = foodDbService.getFoodById(2);
+        Food testFood = foodDbService.getFoodById(2);
 
         expireInfoDTO.setId(1);
         expireInfoDTO.setFoodId(2);
@@ -117,6 +117,11 @@ public class ExpireInfoDTOTest {
         assertEquals(expireInfoDTO.getExpireDate(), result.getExpireDate());
         assertEquals(expireInfoDTO.getQuantity(), result.getQuantity());
         assertEquals(expireInfoDTO.isIsSurplus(), result.isIsSurplus());
-        assertEquals(testFood, result.getFood());
+
+        
+        assertEquals(testFood.getId(), result.getFood().getId());
+        assertEquals(testFood.getName(), result.getFood().getName());
+        assertEquals(testFood.getExpireDays(), result.getFood().getExpireDays());
+        
     }
 }
