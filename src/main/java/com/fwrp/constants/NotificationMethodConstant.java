@@ -18,4 +18,5 @@ public class NotificationMethodConstant {
      * Represents the PHONE.
      */
     public static final int PHONE = 2;
+    public static final int SYSTEM = 3;
 }

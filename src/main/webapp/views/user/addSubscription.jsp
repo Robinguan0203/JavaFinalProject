@@ -14,9 +14,9 @@
 
             <label for="options">Please select a method to notify:</label>
             <select name="method" id="options">
-                <option value="1">Mobile Phone</option>
-                <option value="2">Email</option>
-                <option value="3">System Notification</option>
+                <option value="1">Email</option>
+                <option value="2">PHONE</option>
+                <option value="3">SYSTEM</option>
             </select>
             <button type="submit">Add</button>
         </form>

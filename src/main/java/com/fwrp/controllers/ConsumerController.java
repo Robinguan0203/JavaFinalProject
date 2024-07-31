@@ -105,9 +105,9 @@ public class ConsumerController extends HttpServlet {
         manageSubscription(req,resp);
     }
     public enum MethodType {
-        MOBILE(1, "Mobile Phone"),
-        EMAIL(2, "Email"),
-        SYSTEM(3, "System Notification");
+        EMAIL(1, "EMAIL"),
+        PHONE(2, "PHONE"),
+        SYSTEM(3, "SYSTEM");
 
         private final int code;
         private final String description;
