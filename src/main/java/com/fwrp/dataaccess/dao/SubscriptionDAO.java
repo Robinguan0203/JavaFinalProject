@@ -1,9 +1,15 @@
 package com.fwrp.dataaccess.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.fwrp.dataaccess.dto.SubscriptionDTO;
 import org.springframework.stereotype.Repository;
-import com.fwrp.models.Subscription;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 @Repository
-public interface SubscriptionDAO extends JpaRepository<Subscription, Integer> {
+public interface SubscriptionDAO{
+    boolean addSubscription(int userId,int method , Connection conn)  throws SQLException;
+    List<SubscriptionDTO> getAllMethodsByUserId(int userId, Connection conn) throws SQLException;
+    boolean deleteSubscription(int id, Connection conn)  throws SQLException;
 }
