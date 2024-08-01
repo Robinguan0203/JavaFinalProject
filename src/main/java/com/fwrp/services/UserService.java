@@ -107,7 +107,7 @@ public class UserService {
      * @throws ClassNotFoundException if the database driver class cannot be found
      */
     public int[] getNotificationCount(User user) throws SQLException, ClassNotFoundException {
-        int[] count = new int[2];
+        int[] count = new int[3];
         UserDbService userDbService = new UserDbService();
         
         count = userDbService.getNotificationCountByUser(user);

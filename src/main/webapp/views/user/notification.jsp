@@ -82,8 +82,10 @@
                                         <td>
                                             <% if(notification.getMethod() == NotificationMethodConstant.EMAIL) { %>
                                             Email
-                                            <% }else { %>
+                                            <% }else if(notification.getMethod() == NotificationMethodConstant.PHONE) { %>
                                             Phone
+                                            <% }else if(notification.getMethod() == NotificationMethodConstant.SYSTEM) { %>
+                                            System
                                             <%}%>
                                         </td>
                                         <td><%= notification.getDate() %></td>

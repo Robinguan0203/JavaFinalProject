@@ -24,8 +24,10 @@ public class UserCommandFactory {
                 return new LogoutCommand();
             case "viewPhoneNotification":
                 return new ViewNotificationCommand(NotificationMethodConstant.PHONE);
-            case "viewEmailPhoneNotification":
+            case "viewEmailNotification":
                 return new ViewNotificationCommand(NotificationMethodConstant.EMAIL);
+            case "viewSystemNotification":
+                return new ViewNotificationCommand(NotificationMethodConstant.SYSTEM);
             default:
                 return new UnknownCommand(); 
         }

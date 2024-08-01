@@ -29,6 +29,7 @@
                 <% 
                     Integer phoneNotificationCount = (Integer) session.getAttribute("phoneNotificationCount");
                     Integer emailNotificationCount = (Integer) session.getAttribute("emailNotificationCount");
+                    Integer systemNotificationCount = (Integer) session.getAttribute("systemNotificationCount");
                     //out.print(phoneNotificationCount);
                     //out.print(emailNotificationCount);
                     if (phoneNotificationCount == null) {
@@ -36,6 +37,10 @@
                     }
                     if (emailNotificationCount == null) {
                         emailNotificationCount = 0;
+                    }
+                    
+                    if (systemNotificationCount == null) {
+                        systemNotificationCount = 0;
                     }
                     
                     if (user != null) {
@@ -83,11 +88,22 @@
                 <%}%>
                 <% if(emailNotificationCount > 0){%>
                 <form action="${pageContext.request.contextPath}/UserController" method="post" class="notification-icon">
-                    <input type="hidden" name="action" value="viewEmailPhoneNotification" />
+                    <input type="hidden" name="action" value="viewEmailNotification" />
                     <button type="submit" class="notification-button">
                         <i class="fas fa-envelope"></i>
                         <% if (emailNotificationCount > 0) { %>
                             <span class="notification-count"><%= emailNotificationCount %></span>
+                        <% } %>
+                    </button>
+                </form>
+                <%}%>
+                <% if(systemNotificationCount > 0){%>
+                <form action="${pageContext.request.contextPath}/UserController" method="post" class="notification-icon">
+                    <input type="hidden" name="action" value="viewSystemNotification" />
+                    <button type="submit" class="notification-button">
+                        <i class="fas fa-bell "></i>
+                        <% if (systemNotificationCount > 0) { %>
+                            <span class="notification-count"><%= systemNotificationCount %></span>
                         <% } %>
                     </button>
                 </form>

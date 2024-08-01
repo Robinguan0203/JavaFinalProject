@@ -231,12 +231,13 @@ public class UserDbService {
      */
     public int[] getNotificationCountByUser(User user) throws SQLException, ClassNotFoundException{
         Connection conn = null;
-        int[] count = new int[2];
+        int[] count = new int[3];
         
         try{
             conn = DataSource.getInstance().getConnection();
             count[0] = notificationDAO.getNotifictionCountByUserIdAndMethod(user.getId(), NotificationMethodConstant.EMAIL, conn);
             count[1] = notificationDAO.getNotifictionCountByUserIdAndMethod(user.getId(), NotificationMethodConstant.PHONE, conn);
+            count[2] = notificationDAO.getNotifictionCountByUserIdAndMethod(user.getId(), NotificationMethodConstant.SYSTEM, conn);
         }catch(SQLException e){
             throw e;
         } finally{
