@@ -4,33 +4,11 @@
  */
 package com.fwrp.controllers;
 
-import com.fwrp.exceptions.DataAlreadyExistsException;
-import com.fwrp.exceptions.DataInsertionFailedException;
-import com.fwrp.exceptions.DataNotExistsException;
-import com.fwrp.exceptions.NegativeInventoryException;
-import com.fwrp.models.ExpireInfo;
-import com.fwrp.models.Food;
-import com.fwrp.models.Charity;
-import com.fwrp.models.Transaction;
-import com.fwrp.models.User;
-import com.fwrp.services.CharityService;
-import com.fwrp.services.UserService;
-import com.fwrp.validator.ExpireDateValidator;
-import com.fwrp.validator.FoodExpireDaysValidator;
-import com.fwrp.validator.FoodQuantityValidator;
-import com.fwrp.validator.FoodValidator;
-import com.fwrp.validator.IsSurplusValidator;
-import com.fwrp.validator.SurplusValidator;
+import com.fwrp.dbService.InventoryDbService;
+import com.fwrp.models.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +23,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/CharityController")
 public class CharityController extends HttpServlet {
-    /*
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); 
@@ -58,15 +36,21 @@ public class CharityController extends HttpServlet {
         
         Charity charity = this.getCharityFromSession(request);
         request.setAttribute("charity", charity);
-        
+
         String action = request.getParameter("action");
         switch (action) {
             case "checkInventory":
-                checkInventory(request, response);
+                try {
+                    checkInventory(request, response);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
-            case "createClaim":
-                createClaim(request,response);
-                break;           
+            case "storeClaim":
+                storeClaim(request,response);
+                break;
+            case "showClaim":
+                showClaim(request,response);
             default:
                 response.getWriter().println("Unknown action");
         }
@@ -80,62 +64,38 @@ public class CharityController extends HttpServlet {
         return null;
     }   
 
-    private void checkInventory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        CharityService charityService = new CharityService();
-        
-        
+    private void checkInventory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
+        InventoryDbService dbService = new InventoryDbService();
+        RequestDispatcher dispatcher;
         try {
-            HashMap<Food, Integer[]> foodInventoryMap = charityService.getAllInventoryData();
-            int count = foodInventoryMap.size();
-            request.setAttribute("count", count);
-            request.setAttribute("foodInventoryMap", foodInventoryMap);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/inventory.jsp");
-            dispatcher.forward(request, response);
- 
-        } catch (SQLException | ClassNotFoundException ex) {
-            request.setAttribute("errorMessage", ex.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/charity.jsp");            
-            dispatcher.forward(request, response);
-            return;
+            List<Inventory> inventoryList = dbService.getDonationInventories();
+            request.setAttribute("inventoryList", inventoryList);
+            dispatcher = request.getRequestDispatcher("/views/charity/donationInventory.jsp");
+        }catch(ClassNotFoundException e){
+            dispatcher = request.getRequestDispatcher("/views/charity.jsp");
+        }catch(SQLException e){
+            dispatcher = request.getRequestDispatcher("/views/charity.jsp");
         }
-    }
-    
-    private void createClaim(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/charity/claim.jsp");
         dispatcher.forward(request, response);
-        response.getWriter().println("Create claim functionality");
     }
-    
-    private void storeNewClaim(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String name = request.getParameter("name");
-        int expireDays = Integer.parseInt(request.getParameter("expireDays"));
-        double unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
-        double discount = Double.parseDouble(request.getParameter("discount"));
-        
-        String[] claimData = getClaimInputHistory(request);       
-        
-        RetailerService retailerService = new RetailerService();
-        try {
-            retailerService.storeNewFood(name, expireDays, unitPrice, discount);
-            response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Food%20added%20successfully.");
-        } catch(DataAlreadyExistsException ee){
-            request.setAttribute("errorMessage", "Food Already Exist.");
-            request.setAttribute("foodData", foodData);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
-            dispatcher.forward(request, response);
-        } catch (DataInsertionFailedException ex) {
-            request.setAttribute("errorMessage", ex.getMessage());
-            request.setAttribute("foodData", foodData);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
-            dispatcher.forward(request, response);
-        } catch (Exception e){
-            request.setAttribute("errorMessage", e.getMessage());
-            request.setAttribute("foodData", foodData);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/food/add.jsp");
-            dispatcher.forward(request, response);
-        }
+
+    private void showClaim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        //int id=Integer.parseInt(req.getParameter("id"));
+         req.setAttribute("id",req.getParameter("id"));
+         req.setAttribute("foodName",req.getParameter("foodName"));
+         req.setAttribute("qtyDonation",req.getParameter("qtyDonation"));
+         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/charity/claim.jsp");
+         dispatcher.forward(req, resp);
+         resp.getWriter().println("Create claim functionality");
     }
-    
+
+    private void storeClaim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        //int id=Integer.parseInt(req.getParameter("id"));
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/charity/donationInventory.jsp");
+        dispatcher.forward(req, resp);
+        resp.getWriter().println("Create claim functionality");
+    }
+
     private String[] getClaimInputHistory(HttpServletRequest request) {
         String[] inputHistory = new String[4];
         inputHistory[0] = request.getParameter("name");
@@ -145,7 +105,7 @@ public class CharityController extends HttpServlet {
 
         return inputHistory;
     }
-    */
+
 }
 
 

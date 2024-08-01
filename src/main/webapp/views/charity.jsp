@@ -4,17 +4,6 @@
     Author     : Ke Yan
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
 <%@page import="com.fwrp.models.User"%>
 <%@ include file="./header.jsp" %>
 <body>
@@ -52,10 +41,6 @@
             <form action="${pageContext.request.contextPath}/CharityController" method="post">
                 <input type="hidden" name="action" value="checkInventory" />
                 <button type="submit">Check Inventory</button>
-            </form>
-            <form action="${pageContext.request.contextPath}/CharityController" method="post">
-                <input type="hidden" name="action" value="createClaim" />
-                <button type="submit">Create Claim</button>
             </form>
         </div>
     </div>
