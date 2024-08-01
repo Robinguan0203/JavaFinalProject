@@ -3,18 +3,7 @@
     Created on : Jul 30, 2024, 3:00:37 AM
     Author     : Ke Yan
 --%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
 <%@ include file="../header.jsp" %>
 <body>
     <%@ include file="../nav.jsp" %>
@@ -26,23 +15,26 @@
         <div class="form-section">                            
             <form action="${pageContext.request.contextPath}/CharityController" method="post">
                 <% 
-                    String[] claimData= (String[]) request.getAttribute("claimData");
-                    String foodIdValue = "";
-                    String quantityValue = "";                   
-                    if(claimData != null && claimData.length > 0){
-                        foodIdValue = claimData[0];
-                        quantityValue = claimData[1];                        
-                    }                        
-                %>
-                <input class="input" type="hidden" name="action" value="storeNewFood" />
-                
-                <label for="name">Food ID:</label>
-                <input class="input" type="number" id="foodId" name="foodId" value="<%= foodIdValue %>" required />
+                    String id= request.getAttribute("id").toString();
+                    String foodName = request.getAttribute("foodName").toString();
+                    String qtyDonation = request.getAttribute("qtyDonation").toString();
 
-                <label for="expireDays">Quantity:</label>
-                <input class="input" type="number" id="quantity" name="quantity" value="<%= quantityValue %>" min="1" required />
+                %>
+                <input class="input" type="hidden" name="action" value="storeClaim" />
                 
-                <button type="submit">Create</button>
+                <label for="id">Id:</label>
+                <input class="input" type="number" id="id" name="id" readonly value="<%= id %>"  />
+
+                <label for="foodName">Food Name:</label>
+                <input class="input" type="text" id="foodName" name="foodName" readonly value="<%= foodName %>"   />
+
+                <label for="qtyDonation">Remain Donation Quantity:</label>
+                <input class="input" type="number" id="qtyDonation" name="qtyDonation" readonly value="<%= qtyDonation %>"   />
+
+                <label for="claimQty">Claim Quantity:</label>
+                <input class="input" type="number" id="claimQty" name="claimQty"    />
+                
+                <button type="submit">Claim</button>
             </form>
         </div>
     </div>
