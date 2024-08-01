@@ -256,12 +256,12 @@ public class RetailerService {
         return dbService.sendNotification(notification);
     }
     
-    /*
-    public ArrayList<Transaction> getAllTransactions(){        
+    
+    public ArrayList<Transaction> getAllTransactions() throws SQLException, ClassNotFoundException{        
         InventoryDbService dbService = new InventoryDbService();
         ArrayList<Transaction> transactions = dbService.getTransactions();
         
         return transactions;
     }
-    */
+    
 }

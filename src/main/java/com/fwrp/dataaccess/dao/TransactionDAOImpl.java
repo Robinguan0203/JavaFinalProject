@@ -136,4 +136,43 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactionDTOs;
     }
     
+    @Override
+    public ArrayList<TransactionDTO> getTransactionsByUserId(int userId, Connection conn) throws SQLException{
+        ArrayList<TransactionDTO> transactionDTOs = new ArrayList<>();
+        
+        try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM "
+                + "transactions WHERE user_id = ? ORDER BY id DESC")){
+            pstmt.setInt(1, userId);
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()){
+                    int id = rs.getInt("id");
+                    int foodId = rs.getInt("food_id");
+                    Integer orderId = rs.getObject("order_id") != null ? rs.getInt("order_id") : 0;
+                    Integer claimId = rs.getObject("claim_id") != null ? rs.getInt("claim_id") : 0;
+                    Date operateDate = rs.getDate("date");
+                    int type = rs.getInt("type");
+                    int qtyNormal = rs.getInt("quantity_normal");
+                    int qtyDiscount = rs.getInt("quantity_discount");
+                    int qtyDonation = rs.getInt("quantity_Donation");
+                    
+                    TransactionDTO dto = new TransactionDTO();
+                    dto.setId(id);
+                    dto.setFoodId(foodId);
+                    dto.setUserId(userId);
+                    dto.setOrderId(orderId);
+                    dto.setClaimId(claimId);
+                    dto.setDate(operateDate);
+                    dto.setType(type);
+                    dto.setQtyNormal(qtyNormal);
+                    dto.setQtyDiscount(qtyDiscount);
+                    dto.setQtyDonation(qtyDonation);
+                    
+                    transactionDTOs.add(dto);
+                }
+            }
+        }
+        
+        return transactionDTOs;
+    }
+    
 }

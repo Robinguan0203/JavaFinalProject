@@ -4,6 +4,16 @@
  */
 package com.fwrp.dataaccess.dto;
 
+import com.fwrp.constants.UserTypeConstant;
+import com.fwrp.dbService.FoodDbService;
+import com.fwrp.dbService.UserDbService;
+import com.fwrp.models.Consumer;
+import com.fwrp.models.Food;
+import com.fwrp.models.ManageInventoryChange;
+import com.fwrp.models.Retailer;
+import com.fwrp.models.Transaction;
+import com.fwrp.models.User;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -261,5 +271,35 @@ public class TransactionDTO {
         this.qtyDonation = qtyDonation;
     }
     
-    
+    public Transaction transferToTransaction() throws ClassNotFoundException, SQLException{
+        Transaction transaction = null;
+        FoodDbService foodDbService = new FoodDbService();
+        Food food = foodDbService.getFoodById(this.getFoodId());
+        UserDbService userDBService = new UserDbService();
+        User user = userDBService.getUserById(this.getUserId());     
+        
+        switch(user.getType()){
+            case UserTypeConstant.CHARITY:
+                throw new SQLException("ordeId is " + orderId);
+            case UserTypeConstant.CONSUMER:
+                throw new SQLException("claimId is " +claimId);
+            case UserTypeConstant.RETAILER:
+                Retailer retailer = (Retailer) user;
+                ManageInventoryChange manageInventoryChange = 
+                    retailer.createInventorychange(
+                        food, 
+                        this.getQtyNormal(), 
+                        this.getQtyDiscount(), 
+                        this.getQtyDonation());
+                transaction = manageInventoryChange.createTransaction();
+                transaction.setDate(date);
+                break;
+            default:
+                throw new ClassNotFoundException("Wrong User Type!");
+        }
+        
+        
+        return transaction;      
+
+    }
 }
