@@ -47,9 +47,9 @@
                                 <th>Date</th>
                                 <th>Food Name</th>
                                 <th>Operation Type</th>
-                                <th>Inventory Normal</th>
-                                <th>Listed For Discount</th>
-                                <th>Listed For Donation</th>
+                                <th>Normal</th>
+                                <th>For Discount</th>
+                                <th>For Donation</th>
                                 <th>Operated By</th>
                             </tr>
                         </thead>

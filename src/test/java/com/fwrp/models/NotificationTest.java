@@ -16,7 +16,6 @@ public class NotificationTest {
 
     @Before
     public void setUp() {
-        // 初始化 Notification 对象和 User 对象
         notification = new Notification();
         user = new Retailer(); // Assuming User has a default constructor
     }

@@ -34,17 +34,14 @@ public class StoreListSurplusCommand  implements IRetailerCommand{
         SurplusValidator validator = new SurplusValidator();
         int count = 0;
          
-        // 获取之前存储的 expireInfos
         HashMap<Food, Integer[]> foodExpireQtyMap = buildFoodExpireQtyMap(request);                
         
         HashMap<Integer, Integer[]> listDataToStore = new HashMap<>();
         HashMap<Integer, Integer[]> tempDataMap = new HashMap<>();
         Retailer retailer = this.getRetailerFromSession(request);
          
-        // 处理 'action' 参数，确定请求的操作
         String action = request.getParameter("action");
         if ("storeListSurplus".equals(action)) {
-           // 遍历参数映射
            for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
                String paramName = entry.getKey();
                String[] paramValues = entry.getValue();
@@ -61,7 +58,6 @@ public class StoreListSurplusCommand  implements IRetailerCommand{
                             qtyToDiscount = Integer.parseInt(paramValues[0]);
                         }
                        
-                       // 获取或创建临时数组
                        Integer[] qtyArray = tempDataMap.getOrDefault(id, new Integer[2]);
                        qtyArray[0] = qtyToDiscount;
                        tempDataMap.put(id, qtyArray);
@@ -75,7 +71,7 @@ public class StoreListSurplusCommand  implements IRetailerCommand{
                         return; 
                    }
                }
-               // 检查参数名称是否以 'qtyToDonate_' 开头
+
                if (paramName.startsWith("qtyToDonate_")) {
                    String idStr = paramName.substring("qtyToDonate_".length());
                    try {
@@ -88,7 +84,6 @@ public class StoreListSurplusCommand  implements IRetailerCommand{
                             qtyToDonate = Integer.parseInt(paramValues[0]);
                         }
 
-                       // 获取或创建临时数组
                        Integer[] qtyArray = tempDataMap.getOrDefault(id, new Integer[2]);
                        qtyArray[1] = qtyToDonate;
                        tempDataMap.put(id, qtyArray);
@@ -148,7 +143,6 @@ public class StoreListSurplusCommand  implements IRetailerCommand{
             
         }
 
-        // 重定向到成功页面或其他处理逻辑
         response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Surplus%20quantities%20listed%20successfully.");
     }
     
@@ -179,7 +173,6 @@ public class StoreListSurplusCommand  implements IRetailerCommand{
             food.setId(Integer.parseInt(foodIds[i]));
             food.setName(foodNames[i]);
             food.setExpireDays(Integer.parseInt(foodExpireDays[i]));
-            // 转换为 double 类型并设置属性
             try {
                 food.setUnitPrice(Double.parseDouble(foodUnitprices[i]));
             } catch (NumberFormatException e) {
@@ -247,7 +240,6 @@ public class StoreListSurplusCommand  implements IRetailerCommand{
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 int[] count = userService.getNotificationCountByUser(user);
-                // 假设你有获取通知计数的方法
                 emailNotificationCount = count[0];
                 phoneNotificationCount = count[1];
                 SystemNotificationCount = count[2];

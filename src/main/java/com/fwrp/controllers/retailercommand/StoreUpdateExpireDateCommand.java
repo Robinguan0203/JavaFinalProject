@@ -33,21 +33,16 @@ public class StoreUpdateExpireDateCommand implements IRetailerCommand{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         RetailerService retailerService = new RetailerService();
          
-        // 获取之前存储的 expireInfos
         ArrayList<ExpireInfo> expireInfos = buildExpireInfoExpireDate(request);                
          
-         // 处理 'action' 参数，确定请求的操作
          String action = request.getParameter("action");
          if ("storeUpdateExpireDate".equals(action)) {
-            // 遍历参数映射
             for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
                 String paramName = entry.getKey();
                 String[] paramValues = entry.getValue();
                 Date newExpireDate = null;
 
-                // 检查参数名称是否以 'newExpireDate_' 开头
                 if (paramName.startsWith("newExpireDate_")) {
-                    // 提取 'newExpireDate_' 后的 ID 部分
                     String idStr = paramName.substring("newExpireDate_".length());
     
                     int id = Integer.parseInt(idStr);
@@ -117,7 +112,6 @@ public class StoreUpdateExpireDateCommand implements IRetailerCommand{
             food.setId(Integer.parseInt(foodIds[i]));
             food.setName(foodNames[i]);
             food.setExpireDays(Integer.parseInt(foodExpireDays[i]));
-            // 转换为 double 类型并设置属性
             try {
                 food.setUnitPrice(Double.parseDouble(foodUnitprices[i]));
             } catch (NumberFormatException e) {

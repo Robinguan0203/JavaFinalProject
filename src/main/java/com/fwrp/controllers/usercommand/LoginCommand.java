@@ -95,7 +95,6 @@ public class LoginCommand implements IUserCommand{
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 int[] count = userService.getNotificationCountByUser(user);
-                // 假设你有获取通知计数的方法
                 emailNotificationCount = count[0];
                 phoneNotificationCount = count[1];
                 systemNotificationCount = count[2];

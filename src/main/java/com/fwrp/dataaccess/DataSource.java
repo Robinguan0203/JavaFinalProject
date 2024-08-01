@@ -20,7 +20,7 @@ import java.util.Properties;
  * It also loads database connection properties from a configuration file.
  * </p>
  * 
- * @author Robin Guan（041117292）
+ * @author Robin Guan(041117292)
  * @version 1.0
  * @since 17.0.8
  */

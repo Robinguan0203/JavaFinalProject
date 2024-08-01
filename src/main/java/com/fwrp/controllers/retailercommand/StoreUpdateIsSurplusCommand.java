@@ -28,19 +28,15 @@ public class StoreUpdateIsSurplusCommand implements IRetailerCommand{
         Map<String, String[]> parameterMap = request.getParameterMap();
         RetailerService retailerService = new RetailerService();
          
-        // 获取之前存储的 expireInfos
         ArrayList<ExpireInfo> expireInfos = (ArrayList<ExpireInfo>) request.getAttribute("expireInfos");                         
          
-         // 处理 'action' 参数，确定请求的操作
          String action = request.getParameter("action");
          if ("storeUpdateIsSurplus".equals(action)) {
-            // 遍历参数映射
             for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
                 String paramName = entry.getKey();
                 String[] paramValues = entry.getValue();
                 boolean newIsSurplus;
 
-                // 检查参数名称是否以 'newExpireDate_' 开头
                 if (paramName.startsWith("newIsSurplus_")) {
                     String idStr = paramName.substring("newIsSurplus_".length());    
                     int id = Integer.parseInt(idStr);

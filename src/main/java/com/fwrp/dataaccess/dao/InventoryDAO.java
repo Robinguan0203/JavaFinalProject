@@ -14,7 +14,7 @@ import java.util.HashMap;
  * This interface defines the standard operations to be performed on Inventory model object(s).
  * It provides methods to add, retrieve, update, and remove inventory data from a data source.
  * 
- * @author Robin Guan（041117292）
+ * @author Robin Guan(041117292)
  * @version 1.0
  * @since 17.0.8
  */

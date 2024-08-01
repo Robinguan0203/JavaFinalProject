@@ -19,7 +19,7 @@ import java.util.TreeMap;
  * This class provides a concrete implementation of the ExpireInfoDAO interface.
  * It performs CRUD operations on the ExpireInfo model object.
  * 
- * @author Robin Guan（041117292）
+ * @author Robin Guan(041117292)
  * @version 1.0
  * @since 17.0.8
  */

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * performing operations on food data in a data source. It provides implementations to
  * add, retrieve, update, and remove food items.
  * 
- * @author Robin Guan（041117292）
+ * @author Robin Guan(041117292)
  * @version 1.0
  * @since 17.0.8
  */

@@ -81,7 +81,6 @@ public class RetailerController extends HttpServlet {
     }
 
     private Retailer getRetailerFromSession(HttpServletRequest request) {
-        // 从session中获取Retailer对象的逻辑
         return (Retailer) request.getSession().getAttribute("retailer");
     }
 }

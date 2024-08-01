@@ -167,10 +167,10 @@ public class InventoryDbService {
         } finally {
             if (conn != null) {
                 try {
-                    conn.setAutoCommit(true); // 恢复自动提交
-                    conn.close(); // 关闭连接
+                    conn.setAutoCommit(true); 
+                    conn.close(); 
                 } catch (SQLException e) {
-                    e.printStackTrace(); // 如果关闭连接失败，记录异常
+                    e.printStackTrace(); 
                 }
             }
         }

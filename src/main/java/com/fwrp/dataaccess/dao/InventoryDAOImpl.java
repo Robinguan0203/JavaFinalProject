@@ -20,7 +20,7 @@ import java.util.HashMap;
  * This class implements the {@link InventoryDAO} interface to provide a concrete implementation.
  * It provides methods to add, retrieve, update, and remove inventory data from a data source.
  * 
- * @author Robin Guan（041117292）
+ * @author Robin Guan(041117292)
  * @version 1.0
  * @since 17.0.8
  */

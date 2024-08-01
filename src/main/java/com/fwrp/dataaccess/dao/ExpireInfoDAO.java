@@ -12,7 +12,7 @@ import java.util.TreeMap;
  * This interface defines standard operations for managing {@link ExpireInfoDTO} objects in a data source.
  * It provides methods to add, retrieve, update, and remove expiration information.
  * 
- * @author Robin Guan（041117292）
+ * @author Robin Guan(041117292)
  * @version 1.0
  * @since 17.0.8
  */
