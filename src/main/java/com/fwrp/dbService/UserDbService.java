@@ -20,6 +20,7 @@ import com.fwrp.models.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides methods for performing database operations related to users and notifications.
@@ -43,6 +44,8 @@ public class UserDbService {
      */
     private UserDAO userDAO = null;
     
+    private List<NotificationCountObserver> observers = new ArrayList<>();
+    
     /**
      * The Data Access Object (DAO) for performing notification-related database operations.
      * <p>
@@ -57,7 +60,10 @@ public class UserDbService {
      */
     public UserDbService(){
         userDAO = new UserDAOImpl();   
-        notificationDAO = new NotificationDAOImpl();   
+        notificationDAO = new NotificationDAOImpl();  
+        observers.add(new EmailNotificationCountObserver());
+        observers.add(new PhoneNotificationCountObserver());
+        observers.add(new SystemNotificationCountObserver());
     }
     
     /**
@@ -252,5 +258,13 @@ public class UserDbService {
      
         return count;
         
+    }
+    
+    public int[] getNotificationCount(User user) throws SQLException, ClassNotFoundException {
+        int[] count = new int[observers.size()];
+        for (int i = 0; i < observers.size(); i++) {
+            count[i] = observers.get(i).getNotificationCount(user);
+        }
+        return count;
     }
 }

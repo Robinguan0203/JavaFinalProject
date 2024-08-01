@@ -97,22 +97,10 @@ public class UserService {
         
         return notifications;
     }
-    
-    /**
-     * Retrieves the notification count for a user.
-     * 
-     * @param user the User object for whom notification counts are to be retrieved
-     * @return an array containing the count of notifications
-     * @throws SQLException if a database access error occurs
-     * @throws ClassNotFoundException if the database driver class cannot be found
-     */
-    public int[] getNotificationCount(User user) throws SQLException, ClassNotFoundException {
-        int[] count = new int[3];
+        
+    public int[] getNotificationCountByUser(User user) throws SQLException, ClassNotFoundException {
         UserDbService userDbService = new UserDbService();
-        
-        count = userDbService.getNotificationCountByUser(user);
-        
-        return count;
+        return userDbService.getNotificationCount(user);
     }
 
 }

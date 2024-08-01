@@ -86,7 +86,6 @@ public class LoginCommand implements IUserCommand{
      */
     private void getNotificationCount(HttpServletRequest request) throws SQLException, ClassNotFoundException{
         HttpSession session = request.getSession(false);
-        int count[] = new int[3];
         int phoneNotificationCount = 0;
         int emailNotificationCount = 0;
         int systemNotificationCount = 0;
@@ -95,7 +94,7 @@ public class LoginCommand implements IUserCommand{
         if (session != null) {
             User user = (User) session.getAttribute("user");
             if (user != null) {
-                count = userService.getNotificationCount(user);
+                int[] count = userService.getNotificationCountByUser(user);
                 // 假设你有获取通知计数的方法
                 emailNotificationCount = count[0];
                 phoneNotificationCount = count[1];
