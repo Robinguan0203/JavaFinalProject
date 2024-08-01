@@ -6,6 +6,8 @@ package com.fwrp.dbService;
 
 import com.fwrp.constants.OtherConstants;
 import com.fwrp.dataaccess.DataSource;
+import com.fwrp.dataaccess.dao.ClaimDAO;
+import com.fwrp.dataaccess.dao.ClaimDAOImpl;
 import com.fwrp.dataaccess.dao.ExpireInfoDAO;
 import com.fwrp.dataaccess.dao.ExpireInfoDAOImpl;
 import com.fwrp.dataaccess.dao.FoodDAO;
@@ -13,18 +15,21 @@ import com.fwrp.dataaccess.dao.FoodDAOImpl;
 import com.fwrp.dataaccess.dao.InventoryDAO;
 import com.fwrp.dataaccess.dao.InventoryDAOImpl;
 import com.fwrp.dataaccess.dao.OrderDAO;
+import com.fwrp.dataaccess.dao.OrderDAOImpl;
 import com.fwrp.dataaccess.dao.TransactionDAO;
 import com.fwrp.dataaccess.dao.TransactionDAOImpl;
 import com.fwrp.dataaccess.dao.UserDAO;
 import com.fwrp.dataaccess.dao.UserDAOImpl;
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
 import com.fwrp.dataaccess.dto.InventoryDTO;
+import com.fwrp.dataaccess.dto.OrderDTO;
 import com.fwrp.dataaccess.dto.TransactionDTO;
 import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.ExpireInfo;
 import com.fwrp.models.Food;
 import com.fwrp.models.Inventory;
+import com.fwrp.models.Order;
 import com.fwrp.models.Transaction;
 import com.fwrp.models.User;
 
@@ -80,7 +85,9 @@ public class InventoryDbService {
     * Handles database interactions related to user data.
     */
     private UserDAO userDAO = null;
-    //private OrderDAO orderDAO = null;
+    
+    private OrderDAO orderDAO = null;
+    private ClaimDAO claimDAO = null;
 
     
     /**
@@ -93,7 +100,8 @@ public class InventoryDbService {
         expireInfoDAO = new ExpireInfoDAOImpl();
         foodDAO = new FoodDAOImpl();
         userDAO = new UserDAOImpl();
-        //orderDAO = new OrderDAOImple();
+        orderDAO = new OrderDAOImpl();
+        claimDAO = new ClaimDAOImpl();
     }
 
     /**
@@ -439,29 +447,18 @@ public class InventoryDbService {
         return inventoryMap;  
     }
 
-    /*
-    public ArrayList<Transaction> getTransactions() throws SQLException{
-        ArrayList<Transaction> transactions = null;
+    public ArrayList<Transaction> getTransactions() throws SQLException, ClassNotFoundException{
+        ArrayList<Transaction> transactions = new ArrayList<>();
 
-        Connection conn = null;
-
-        conn = DataSource.getInstance().getConnection();
+        Connection conn = DataSource.getInstance().getConnection();
         ArrayList<TransactionDTO> dtos = transactionDAO.getAllTransactions(conn);
+        
         if(!dtos.isEmpty()){
             for(TransactionDTO dto: dtos){
-                Food food = foodDAO.getFoodById(dto.getFoodId(), conn);
-                UserDTO userDTO = userDAO.getUserById(0, conn);
-                User user = UserFactory.createUser(userDTO.getType());
-                user = userDTO.transferToUser(user);
-                Order order = null;
-                if(dto.getFoodId() != 0 && dto.getFoodId() != null){
-                    order = OrderDAO.
-                }
-
-
+                Transaction transaction = dto.transferToTransaction();
+                transactions.add(transaction);
             }
         }
+        return transactions;
     }
-    */
-
 }

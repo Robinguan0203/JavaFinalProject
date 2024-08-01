@@ -96,5 +96,6 @@ public class OrderDTO {
     public Order toOrder(Food food, Consumer consumer) {
         return new Order(this.id, this.quantity, this.date, this.unitPrice, this.discount, food, consumer);
     }
+    
 }
 

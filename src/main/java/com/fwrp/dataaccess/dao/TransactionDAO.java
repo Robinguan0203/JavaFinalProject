@@ -42,4 +42,6 @@ public interface TransactionDAO{
      * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     ArrayList<TransactionDTO> getAllTransactions(Connection conn) throws SQLException;
+    
+    ArrayList<TransactionDTO> getTransactionsByUserId(int userId, Connection conn) throws SQLException;
 }

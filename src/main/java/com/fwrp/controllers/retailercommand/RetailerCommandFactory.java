@@ -37,6 +37,8 @@ public class RetailerCommandFactory {
                 return new StoreListSurplusCommand();
             case "viewInventory":
                 return new ViewInventoryCommand();
+            case "viewTransactions":
+                return new ViewTransactionsCommand();
             default:
                 return new UnknownCommand(); // 处理未知操作
         }
