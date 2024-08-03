@@ -40,13 +40,19 @@
         <div class="actions">
             <form action="${pageContext.request.contextPath}/CharityController" method="post">
                 <input type="hidden" name="action" value="checkInventory" />
-                <button type="submit">Check Inventory</button>
+                <button type="submit">Donation List</button>
             </form>
         </div>
         <div class="actions">
             <form action="${pageContext.request.contextPath}/CharityController" method="post">
                 <input type="hidden" name="action" value="checkTransaction" />
-                <button type="submit">Check Transaction</button>
+                <button type="submit">Transaction</button>
+            </form>
+        </div>
+        <div class="actions">
+            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+                <input type="hidden" name="action" value="manageSubscription" />
+                <button type="submit">Subscription</button>
             </form>
         </div>
     </div>

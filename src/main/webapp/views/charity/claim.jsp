@@ -27,8 +27,8 @@
                 <input class="input" type="number" id="id" name="id" readonly value="<%= id %>"  />
 
                 <label for="foodName">Food Name:</label>
-                <input class="input" type="hidden" id="foodId" name="foodId" readonly value="<%= food.getId() %>"   />
-                <input class="input" type="text" id="foodName" name="foodName" readonly value="<%= food.getName() %>"   />
+                <input class="input" type="hidden" id="foodId" name="foodId" readonly value="<%= foodId %>"   />
+                <input class="input" type="text" id="foodName" name="foodName" readonly value="<%= foodName %>"   />
 
                 <label for="qtyDonation">Remain Donation Quantity:</label>
                 <input class="input" type="number" id="qtyDonation" name="qtyDonation" readonly value="<%= qtyDonation %>"   />
