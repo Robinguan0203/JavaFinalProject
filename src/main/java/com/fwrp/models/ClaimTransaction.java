@@ -11,6 +11,7 @@ import com.fwrp.dbService.InventoryDbService;
 import com.fwrp.exceptions.NegativeInventoryException;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -20,6 +21,9 @@ import java.util.logging.Logger;
  * @author Siqian
  */
 public class ClaimTransaction extends Transaction {
+
+    private Charity charity;
+    private Claim claim;
     private int qtyNormal;
     private int qtyDiscount;
     private int qtyDonation;
@@ -32,37 +36,49 @@ public class ClaimTransaction extends Transaction {
         return qtyNormal;
     }
 
-    public int getQtyDiscount() {
-        return qtyDiscount;
-    }
-
-    public int getQtyDonation() {
-        return qtyDonation;
-    }
-
     public void setQtyNormal(int qtyNormal) {
         this.qtyNormal = qtyNormal;
+    }
+    
+    public int getQtyDiscount() {
+        return qtyNormal;
     }
 
     public void setQtyDiscount(int qtyDiscount) {
         this.qtyDiscount = qtyDiscount;
+    }
+    
+    public int getQtyDonation() {
+        return qtyDonation;
     }
 
     public void setQtyDonation(int qtyDonation) {
         this.qtyDonation = qtyDonation;
     }
 
-    @Override
-    public void storeTransaction() throws NegativeInventoryException, SQLException {
-        InventoryDbService dbService = new InventoryDbService();
-        try {
-            dbService.addTransaction(this.createTransactionDTO());
-        } catch (NegativeInventoryException | SQLException e) {
-            throw e;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(com.fwrp.models.RetailerTransaction.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Charity getCharity() {
+        return charity;
     }
+
+    public Claim getClaim() {
+        return claim;
+    }
+
+    public void setRetailer(Charity charity) {
+        this.charity = charity;
+    }
+
+    public void setClaim(Claim claim) {
+        this.claim = claim;
+    }
+    
+
+    @Override
+    public void storeTransaction() throws NegativeInventoryException, SQLException, ClassNotFoundException {
+        InventoryDbService dbService = new InventoryDbService();
+        dbService.addTransaction(this.createTransactionDTO());
+    }
+    
 
     @Override
     public TransactionDTO createTransactionDTO() {
@@ -70,48 +86,44 @@ public class ClaimTransaction extends Transaction {
         dto.setFoodId(this.getFood().getId());
         dto.setUserId(this.getUser().getId());
         dto.setDate(this.getDate());
-        dto.setType(TransactionTypeConstant.CLAIM);
-        dto.setQtyNormal(this.qtyNormal);
-        dto.setQtyDiscount(this.qtyDiscount);
-        dto.setQtyDonation(this.qtyDonation);
+        dto.setClaimId(this.getClaim().getId());
+        dto.setType(this.getType());
+        dto.setQtyNormal(this.getQtyNormal());
+        dto.setQtyDiscount(this.getQtyDiscount());
+        dto.setQtyDonation(this.getQtyDonation());
 
         return dto;
     }
 
     @Override
-    public void updateExpireInfo() throws SQLException {
-        ExpireInfoDTO newExpireInfoDTO = this.createNewExpireInfoDTO();
-        if (this.getQtyNormal() > 0) {
-            InventoryDbService dbService = new InventoryDbService();
-            try {
-                dbService.addExpireInfo(newExpireInfoDTO);
-            } catch (SQLException e) {
-                throw e;
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(com.fwrp.models.RetailerTransaction.class.getName()).log(Level.SEVERE, null, ex);
+    public void updateExpireInfo() throws SQLException, ClassNotFoundException {
+        InventoryDbService dbService = new InventoryDbService();
+        ArrayList<ExpireInfoDTO> expireInfoDTOs = dbService.getExpireInfoByFoodId(this.getFood().getId());
+        int remainingQty = -this.getQtyDonation();
+        ArrayList<ExpireInfoDTO> expireInfoToUpdateDTOs = new ArrayList<>();
+        ArrayList<ExpireInfoDTO> expireInfoToDeleteDTOs = new ArrayList<>();
+        
+        for(ExpireInfoDTO dto: expireInfoDTOs){
+            int currentQty = dto.getQuantity();
+            
+            if (currentQty > remainingQty) {
+                dto.setQuantity(currentQty - remainingQty);
+                expireInfoToUpdateDTOs.add(dto);
+                break;
+            } else{
+                remainingQty -= currentQty;
+                expireInfoToDeleteDTOs.add(dto);                
             }
         }
-    }
 
-    public ExpireInfoDTO createNewExpireInfoDTO() {
-        Date currentDate = new Date();
+        for (ExpireInfoDTO expireInfo : expireInfoToUpdateDTOs) {
+            dbService.updateExpireInfo(expireInfo);
+        }
 
-        // 使用 Calendar 类来增加过期天数
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        calendar.add(Calendar.DAY_OF_YEAR, this.getFood().getExpireDays());
-
-        // 获取过期日期
-        Date expireDate = calendar.getTime();
-
-        ExpireInfoDTO newExpireInfoDTO = new ExpireInfoDTO();
-        newExpireInfoDTO.setFoodId(this.getFood().getId());
-        newExpireInfoDTO.setQuantity(this.getQtyNormal());
-        newExpireInfoDTO.setExpireDate(expireDate);
-        newExpireInfoDTO.setIsSurplus(false);
-
-        return newExpireInfoDTO;
-
+        for (ExpireInfoDTO expireInfo : expireInfoToDeleteDTOs) {
+            dbService.deleteExpireInfo(expireInfo);
+        }
+        
     }
 }
 

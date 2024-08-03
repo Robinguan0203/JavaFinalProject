@@ -78,7 +78,7 @@
                 <td class="border border-slate-300 p-2">#${i.getId()}</td>
                 <td class="border border-slate-300 p-2">${i.getFood().getName()}</td>
                 <td class="border border-slate-300 p-2">${i.getDate()}</td>
-                <td class="border border-slate-300 p-2">${i.getQuantity()}</td>
+                <td class="border border-slate-300 p-2">${i.getQtyDonation()}</td>
                 <td class="border border-slate-300 p-2">
                     <form action="${pageContext.request.contextPath}/CharityController" method="post">
                         <input type="hidden" name="action" value="deleteClaim" />

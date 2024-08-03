@@ -30,31 +30,18 @@ public class ClaimDbService {
         claimDAO = new ClaimDAOImpl(); 
         inventoryDAO = new InventoryDAOImpl(); 
     }
-    public boolean CreateClaim(Claim claim) throws SQLException, ClassNotFoundException, DataInsertionFailedException {
+    public int CreateClaim(Claim claim) throws SQLException, ClassNotFoundException, DataInsertionFailedException {
         Connection conn = null;
+        int claimId;
         
         try{
-            conn = DataSource.getInstance().getConnection();
-            //start transaction
-            conn.setAutoCommit(false);
-            
-            boolean isClaimAdded = claimDAO.createClaim(claim, conn); 
-            if(!isClaimAdded){
-                throw new DataInsertionFailedException("Failed to add claim.");
-            } 
-            
-            
-            
-            conn.commit(); // 提交事务
+            conn = DataSource.getInstance().getConnection();            
+            claimId = claimDAO.createClaim(claim, conn); 
         } catch(SQLException e){
-            if (conn != null) {
-                conn.rollback(); // 回滚事务
-            }   
             throw e;
         } finally {
             if (conn != null) {
                 try {
-                    conn.setAutoCommit(true); 
                     conn.close(); 
                 } catch (SQLException e) {
                     e.printStackTrace(); 
@@ -63,7 +50,7 @@ public class ClaimDbService {
         }
         
         System.out.println("New claim created");
-        return true;
+        return claimId;
     }
 
     public int deleteClaimById(int id) throws SQLException, ClassNotFoundException {

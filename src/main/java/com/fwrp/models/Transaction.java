@@ -53,7 +53,7 @@ public abstract class Transaction {
     }
     
     public abstract TransactionDTO createTransactionDTO();
-    public abstract void storeTransaction()throws NegativeInventoryException, SQLException;
-    public abstract void updateExpireInfo() throws SQLException;
+    public abstract void storeTransaction()throws NegativeInventoryException, SQLException,ClassNotFoundException;
+    public abstract void updateExpireInfo() throws SQLException,ClassNotFoundException;
     
 }

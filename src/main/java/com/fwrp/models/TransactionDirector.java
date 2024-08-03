@@ -43,16 +43,17 @@ public class TransactionDirector {
                 
     }
     
-    public void buildClaimTransaction(Food food, Charity charity, Claim claim, int qtyDonation){
+    public void buildClaimTransaction(Food food, Charity charity, Claim claim, int qtyNormal, int qtyDiscount, int qtyDonation){
         Date currentDate = new Date();
         int type = TransactionTypeConstant.CLAIM;
-        
         builder.setFood(food)
                 .setUser(charity)
                 .setClaim(claim)
                 .setDate(currentDate)
                 .setType(type)
-                .setQtyDiscount(qtyDonation);
+                .setQtyNormal(qtyNormal)
+                .setQtyDiscount(qtyDiscount)
+                .setQtyDonation(qtyDonation);
     }
 
     public Transaction build(){

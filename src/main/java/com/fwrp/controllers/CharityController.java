@@ -10,6 +10,7 @@ import com.fwrp.dbService.FoodDbService;
 import com.fwrp.dbService.InventoryDbService;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
+import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.*;
 import com.fwrp.services.CharityService;
 import com.fwrp.services.ConsumerService;
@@ -20,6 +21,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,8 +67,11 @@ public class CharityController extends HttpServlet {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
-                }
+                } catch (NegativeInventoryException ex) {
+                Logger.getLogger(CharityController.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 break;
+
             case "showClaim":
                 showClaim(request,response);
             case "checkTransaction":
@@ -113,10 +119,12 @@ public class CharityController extends HttpServlet {
             request.setAttribute("inventoryList", inventoryList);
             request.setAttribute("claimList", claimList);
             dispatcher = request.getRequestDispatcher("/views/charity/donationInventory.jsp");
-        }catch(ClassNotFoundException e){
+        }catch(ClassNotFoundException | SQLException e){
+            request.setAttribute("errorMessage", e.getMessage());
             dispatcher = request.getRequestDispatcher("/views/charity.jsp");
-        }catch(SQLException e){
-            dispatcher = request.getRequestDispatcher("/views/charity.jsp");
+            dispatcher.forward(request, response);
+            return;
+            //dispatcher = request.getRequestDispatcher("/views/charity.jsp");
         }
         dispatcher.forward(request, response);
     }
@@ -144,7 +152,7 @@ public class CharityController extends HttpServlet {
     }
 
 
-    private void storeClaim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, SQLException, ClassNotFoundException {
+    private void storeClaim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, SQLException, ClassNotFoundException, NegativeInventoryException {
         //int id=Integer.parseInt(req.getParameter("id"));
         HttpSession session = req.getSession(false);
 
@@ -167,32 +175,20 @@ public class CharityController extends HttpServlet {
         int claimQty=Integer.parseInt(req.getParameter("claimQty"));
 
         CharityService charityService = new CharityService();
-        FoodDbService foodDbService = new FoodDbService();
-        Food food=foodDbService.getFoodById(foodId);
+        //FoodDbService foodDbService = new FoodDbService();
+        //Food food=foodDbService.getFoodById(foodId);
         try {
-            charityService.storeNewClaim(charity.getId(),food, claimDate, claimQty);
-
-
-            ClaimTransaction claimTransaction=new ClaimTransaction();
-            claimTransaction.setQtyDonation(qtyDonation);
-            claimTransaction.setDate(claimDate);
-            claimTransaction.setFood(food);
-            claimTransaction.setUser(charity);
-            claimTransaction.storeTransaction();
+            charityService.storeNewClaim(foodId, claimQty, charity);                  
 
             checkInventory(req, resp);
-        }catch(SQLException e){
-            storeClaim(req, resp);
-        } catch (DataAlreadyExistsException e) {
+
+        } catch (IOException |ClassNotFoundException |ServletException |DataInsertionFailedException e) {
             throw new RuntimeException(e);
-        } catch (DataInsertionFailedException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        } 
 
         //dispatcher.forward(req, resp);
         resp.getWriter().println("Create claim successfully!");
+
     }
 
     public void checkTransaction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

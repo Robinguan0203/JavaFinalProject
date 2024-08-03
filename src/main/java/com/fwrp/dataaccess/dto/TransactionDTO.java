@@ -274,10 +274,19 @@ public class TransactionDTO {
         UserDbService userDBService = new UserDbService();
         User user = userDBService.getUserById(this.getUserId());
         ManageInventoryChange manageInventoryChange=null;
+        Claim claim = null;
         switch(user.getType()){
             case UserTypeConstant.CHARITY:
                 Charity charity = (Charity) user;
-                // todo
+                claim =
+                    charity.createInventorychange(
+                            food,
+                            this.getQtyNormal(),
+                            this.getQtyDiscount(),
+                            - this.getQtyDonation());
+                
+                transaction = claim.createTransaction();
+                transaction.setDate(date);
                 break;
             case UserTypeConstant.CONSUMER:
 //                throw new SQLException("claimId is " +claimId);
