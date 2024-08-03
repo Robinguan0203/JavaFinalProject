@@ -13,13 +13,10 @@ import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.models.*;
 import com.fwrp.services.CharityService;
 import com.fwrp.services.ConsumerService;
-import com.fwrp.services.RetailerService;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -224,20 +221,7 @@ public class CharityController extends HttpServlet {
         }
         return null;
     }
-    private void manageSubscription(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/manageSubscription.jsp");
-        Charity charity=this.getCharityrFromSession(req);
-        ConsumerService consumerService = new ConsumerService();
-        try {
-            List<SubscriptionDTO> subscriptionDTOList=consumerService.getAllMethodsByUserId(charity.getId());
-            req.setAttribute("subscriptionList", subscriptionDTOList);
-        } catch(ClassNotFoundException | SQLException ee){
-            req.setAttribute("errorMessage", ee.getMessage());
-            dispatcher.forward(req, resp);
-        }
-        dispatcher.forward(req, resp);
-        resp.getWriter().println("Manage Subscription");
-    }
+
 
     private String[] getClaimInputHistory(HttpServletRequest request) {
         String[] inputHistory = new String[4];

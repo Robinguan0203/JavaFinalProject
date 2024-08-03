@@ -69,9 +69,9 @@
             <tr>
                 <td class="border border-slate-300 p-2">#<%= item.getId() %></td>
 <%--                <td class="border border-slate-300 p-2"><%= item.getUserId() %></td>--%>
-                <td class="border border-slate-300 p-2"><%= com.fwrp.controllers.ConsumerController.MethodType.getDescriptionByCode(item.getMethod()) %></td>
+                <td class="border border-slate-300 p-2"><%= com.fwrp.controllers.UserController.MethodType.getDescriptionByCode(item.getMethod()) %></td>
                 <td class="border border-slate-300 p-2">
-                    <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+                    <form action="${pageContext.request.contextPath}/UserController" method="post">
                         <input type="hidden" name="action" value="deleteSubscription" />
                         <input type="hidden" class="input" id="id" name="id" value="<%= item.getId() %>" required />
                         <button class="bg-red-100 hover:bg-red-300 p-4 m-2 rounded-md" type="submit">Delete</button>
@@ -87,7 +87,7 @@
             }
         %>
         <div class="flex items-center justify-center">
-            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+            <form action="${pageContext.request.contextPath}/UserController" method="post">
                 <input type="hidden" name="action" value="showAddSubscription" />
                 <button class="bg-green-100 hover:bg-green-300 p-4 rounded-md justify-items-end" type="submit">Add Subscription</button>
             </form>

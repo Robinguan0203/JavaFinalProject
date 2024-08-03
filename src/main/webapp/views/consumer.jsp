@@ -34,7 +34,7 @@
         </div>
 
         <div class="actions">
-            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+            <form action="${pageContext.request.contextPath}/UserController" method="post">
                 <input type="hidden" name="action" value="manageSubscription" />
                 <button type="submit">Manage Subscription</button>
             </form>

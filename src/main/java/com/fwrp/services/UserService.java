@@ -5,7 +5,9 @@
 package com.fwrp.services;
 
 import com.fwrp.dataaccess.dto.NotificationDTO;
+import com.fwrp.dataaccess.dto.SubscriptionDTO;
 import com.fwrp.dataaccess.dto.UserDTO;
+import com.fwrp.dbService.SubscriptionDbService;
 import com.fwrp.dbService.UserDbService;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
@@ -14,6 +16,7 @@ import com.fwrp.models.Notification;
 import com.fwrp.models.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class for managing user-related operations.
@@ -103,4 +106,18 @@ public class UserService {
         return userDbService.getNotificationCount(user);
     }
 
+    public void addSubscription(int userId,int method) throws Exception{
+        SubscriptionDbService dbService = new SubscriptionDbService();
+        dbService.addSubscription(userId,method);
+    }
+
+    public List<SubscriptionDTO> getAllMethodsByUserId(int userId) throws ClassNotFoundException, SQLException {
+        SubscriptionDbService dbService = new SubscriptionDbService();
+        return dbService.getAllMethodsByUserId(userId);
+    }
+
+    public void deleteSubscription(int id) throws Exception{
+        SubscriptionDbService dbService = new SubscriptionDbService();
+        dbService.deleteSubscription(id);
+    }
 }

@@ -8,7 +8,7 @@
         <center><h2>Add Subscription</h2></center>
     </div>
     <div class="form-section">
-        <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+        <form action="${pageContext.request.contextPath}/UserController" method="post">
 
             <input class="input" type="hidden" name="action" value="addSubscription" />
 

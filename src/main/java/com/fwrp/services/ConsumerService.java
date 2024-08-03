@@ -17,18 +17,5 @@ import java.util.List;
  * @author Yaozhou XIe
  */
 public class ConsumerService {
-    public void addSubscription(int userId,int method) throws Exception{
-        SubscriptionDbService dbService = new SubscriptionDbService();
-        dbService.addSubscription(userId,method);
-    }
 
-    public List<SubscriptionDTO> getAllMethodsByUserId(int userId) throws ClassNotFoundException, SQLException {
-        SubscriptionDbService dbService = new SubscriptionDbService();
-        return dbService.getAllMethodsByUserId(userId);
-    }
-
-    public void deleteSubscription(int id) throws Exception{
-        SubscriptionDbService dbService = new SubscriptionDbService();
-        dbService.deleteSubscription(id);
-    }
 }

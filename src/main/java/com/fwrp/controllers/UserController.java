@@ -13,6 +13,8 @@ import com.fwrp.controllers.userstrategy.INavigationStrategy;
 import com.fwrp.controllers.userstrategy.NavigationStrategySelector;
 import com.fwrp.dataaccess.DataSource;
 import static com.fwrp.dataaccess.DataSource.openPropsFile;
+
+import com.fwrp.dataaccess.dto.SubscriptionDTO;
 import com.fwrp.dbService.UserDbService;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
@@ -22,6 +24,7 @@ import com.fwrp.models.Consumer;
 import com.fwrp.models.Notification;
 import com.fwrp.models.Retailer;
 import com.fwrp.models.User;
+import com.fwrp.services.ConsumerService;
 import com.fwrp.services.UserService;
 import com.fwrp.validator.UserValidator;
 import java.io.IOException;
@@ -32,6 +35,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,10 +88,117 @@ public class UserController extends HttpServlet {
         String action = request.getParameter("action");
         IUserCommand command = UserCommandFactory.getCommand(action);
 
+        User user = this.getUserFromSession(request);
+        request.setAttribute("user", user);
+
+        switch (action) {
+            case "manageSubscription":
+                manageSubscription(request,response);
+            case "showAddSubscription":
+                showAddSubscription(request,response);
+                break;
+            case "addSubscription":
+                addSubscription(request,response);
+                break;
+            case "deleteSubscription":
+                deleteSubscription(request,response);
+                break;
+            default:
+                response.getWriter().println("Unknown action");
+        }
         if (command != null) {
             command.execute(request, response);
         } else {
             response.getWriter().println("Unknown action");
         }
+    }
+
+    private User getUserFromSession(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return (User) session.getAttribute("user");
+        }
+        return null;
+    }
+
+    private void manageSubscription(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/manageSubscription.jsp");
+        User user=this.getUserFromSession(req);
+        UserService userService = new UserService();
+        try {
+            List<SubscriptionDTO> subscriptionDTOList=userService.getAllMethodsByUserId(user.getId());
+            req.setAttribute("subscriptionList", subscriptionDTOList);
+        } catch(ClassNotFoundException | SQLException ee){
+            req.setAttribute("errorMessage", ee.getMessage());
+            dispatcher.forward(req, resp);
+        }
+        dispatcher.forward(req, resp);
+        resp.getWriter().println("Manage Subscription");
+    }
+
+    private void showAddSubscription(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/addSubscription.jsp");
+
+        dispatcher.forward(req, resp);
+        resp.getWriter().println("Show Add Subscription");
+    }
+
+    private void addSubscription(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        int method = Integer.parseInt(req.getParameter("method"));
+
+        User user=this.getUserFromSession(req);
+        UserService userService = new UserService();
+        try {
+            userService.addSubscription(user.getId(),method);
+        } catch(DataAlreadyExistsException ee){
+            req.setAttribute("errorMessage", "Subscription Already Exist.");
+        } catch (DataInsertionFailedException ex) {
+            req.setAttribute("errorMessage", ex.getMessage());
+        } catch (Exception e){
+            req.setAttribute("errorMessage", e.getMessage());
+        }
+        manageSubscription(req,resp);
+    }
+    public enum MethodType {
+        EMAIL(1, "EMAIL"),
+        PHONE(2, "PHONE"),
+        SYSTEM(3, "SYSTEM");
+
+        private final int code;
+        private final String description;
+
+        MethodType(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public static String getDescriptionByCode(int code) {
+            for (MethodType type : values()) {
+                if (type.getCode() == code) {
+                    return type.getDescription();
+                }
+            }
+            return "Unknown";
+        }
+    }
+
+    private void deleteSubscription(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        int id = Integer.parseInt(req.getParameter("id"));
+
+        UserService userService = new UserService();
+        try {
+            userService.deleteSubscription(id);
+        } catch (Exception ex) {
+            req.setAttribute("errorMessage", ex.getMessage());
+        }
+        manageSubscription(req,resp);
     }
 }

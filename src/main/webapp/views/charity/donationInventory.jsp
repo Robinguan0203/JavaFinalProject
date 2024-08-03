@@ -5,15 +5,20 @@
   Time: 17:53
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<head>
-    <title>Donation Inventory</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="${pageContext.request.contextPath}/static/css/fwrp.css" rel="stylesheet" type="text/css"/>
-</head>
+<%@ include file="../header.jsp" %>
+<%--<html>--%>
+<%--<head>--%>
+<%--    <title>Donation Inventory</title>--%>
+<%--&lt;%&ndash;    <meta content="width=device-width, initial-scale=1.0" name="viewport">&ndash;%&gt;--%>
+<%--    <link href="${pageContext.request.contextPath}/static/css/fwrp.css" rel="stylesheet" type="text/css"/>--%>
+<%--</head>--%>
+<link href="${pageContext.request.contextPath}/static/css/fwrp.css" rel="stylesheet" type="text/css"/>
 <body>
+<%@ include file="../nav.jsp" %>
+<%@ include file="../messageBar.jsp" %>
 <div class="container mx-auto px-12 py-6">
     <table class="w-full p-4 table-auto border-collapse border border-slate-400">
         <caption class="caption-top text-2xl mb-4">
@@ -86,5 +91,6 @@
         </tbody>
     </table>
 </div>
+<%@ include file="../footer.jsp" %>
 </body>
 </html>

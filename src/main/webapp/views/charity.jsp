@@ -37,20 +37,20 @@
                 </center>
             </div>
         </div>            
-        <div class="actions">
+        <div class="actions" style="margin-bottom:5px">
             <form action="${pageContext.request.contextPath}/CharityController" method="post">
                 <input type="hidden" name="action" value="checkInventory" />
                 <button type="submit">Donation List</button>
             </form>
         </div>
-        <div class="actions">
+        <div class="actions" style="margin-bottom:5px">
             <form action="${pageContext.request.contextPath}/CharityController" method="post">
                 <input type="hidden" name="action" value="checkTransaction" />
                 <button type="submit">Transaction</button>
             </form>
         </div>
         <div class="actions">
-            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+            <form action="${pageContext.request.contextPath}/UserController" method="post">
                 <input type="hidden" name="action" value="manageSubscription" />
                 <button type="submit">Subscription</button>
             </form>
