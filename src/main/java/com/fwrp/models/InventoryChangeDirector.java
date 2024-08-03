@@ -29,6 +29,15 @@ public class InventoryChangeDirector {
                 
     }
     
+    public void buildClaim(Food food, Charity charity,int qtyDonation){
+        Date currentDate = new Date();
+        builder.setFood(food)
+                .setUser(charity)
+                .setDate(currentDate)
+                .setQtyDonation(qtyDonation);
+                
+    }
+    
     public InventoryChange build(){
         return builder.getInventoryChange();
     }

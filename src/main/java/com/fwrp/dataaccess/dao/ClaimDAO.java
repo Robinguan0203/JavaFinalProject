@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ClaimDAO {
-    boolean createClaim(Claim claim, Connection conn) throws SQLException;
+    int createClaim(Claim claim, Connection conn) throws SQLException;
     List<Claim> getClaimByUserId(int userId, Connection conn) throws SQLException;
     int deleteClaimById(int id,Connection conn) throws SQLException;
 }

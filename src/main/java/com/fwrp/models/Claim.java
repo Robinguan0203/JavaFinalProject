@@ -1,41 +1,42 @@
 package com.fwrp.models;
 
-import java.sql.Date;
+import java.util.Date;
 
-public class Claim {
+
+public class Claim implements InventoryChange{
     private int id;
-    private int userId;
+    private Charity charity;
     private Food food;
     private Date date;
-    private int quantity;
+    private int qtyDonation;
     
     public Claim(){
         
     }
     
-    public Claim(int userId, Food food,
-            Date date, int quantity){
-        this.userId = userId;
+    public Claim(Charity charity, Food food,
+            Date date, int qtyDonation){
+        this.charity = charity;
         this.food = food;
         this.date = date;
-        this.quantity = quantity;
+        this.qtyDonation = qtyDonation;
     }
     
-    public Claim(int id, int userId, Food food,
-            Date date, int quantity){
+    public Claim(int id, Charity charity, Food food,
+            Date date, int qtyDonation){
         this.id = id;
-        this.userId = userId;
+        this.charity = charity;
         this.food = food;
         this.date = date;
-        this.quantity = quantity;
+        this.qtyDonation = qtyDonation;
     }
 
     // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public Charity getCharity() { return charity; }
+    public void setCharity(Charity charity) { this.charity = charity; }
 
     public Food getFood() { return food; }
     public void setFood(Food food) { this.food = food; }
@@ -43,6 +44,28 @@ public class Claim {
     public Date getDate() { return date; }
     public void setDate(Date date) { this.date = date; }
 
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public int getQtyDonation() { return qtyDonation; }
+    public void setQtyDonation(int qtyDonation) { this.qtyDonation = qtyDonation; }
+
+   public ClaimTransaction createTransaction() {
+        ClaimTransaction transaction = null;
+        Order order = null;
+        Claim claim = this;
+        int qtyNormal = 0;
+        int qtyDiscount = 0;
+        int this_qtyDonation = this.getQtyDonation();
+        
+        ClaimTransactionCreator creator = new ClaimTransactionCreator();
+        transaction = creator.createTransaction(
+                this.getFood(),
+                this.getCharity(),
+                order,
+                claim,
+                qtyNormal, 
+                qtyDiscount, 
+                - this_qtyDonation
+        );
+        
+        return transaction;
+    } 
 }

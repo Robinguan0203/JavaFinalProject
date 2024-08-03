@@ -55,15 +55,9 @@ public class RetailerTransaction extends Transaction{
     }
     
     @Override
-    public void storeTransaction() throws NegativeInventoryException, SQLException {
-        InventoryDbService dbService = new InventoryDbService();
-        try{
-            dbService.addTransaction(this.createTransactionDTO());
-        } catch(NegativeInventoryException | SQLException e){
-            throw e;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RetailerTransaction.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void storeTransaction() throws NegativeInventoryException, SQLException, ClassNotFoundException {
+        InventoryDbService dbService = new InventoryDbService();        
+        dbService.addTransaction(this.createTransactionDTO());
     }
         
     @Override
@@ -81,17 +75,11 @@ public class RetailerTransaction extends Transaction{
     }
 
     @Override
-    public void updateExpireInfo() throws SQLException {
+    public void updateExpireInfo() throws SQLException, ClassNotFoundException {
         ExpireInfoDTO newExpireInfoDTO = this.createNewExpireInfoDTO();
         if(this.getQtyNormal() > 0){
             InventoryDbService dbService = new InventoryDbService();
-            try{
-                dbService.addExpireInfo(newExpireInfoDTO);
-            } catch(SQLException e){
-                throw e;
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(RetailerTransaction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            dbService.addExpireInfo(newExpireInfoDTO);           
         }
     }
     

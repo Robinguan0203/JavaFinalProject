@@ -275,6 +275,50 @@ public class InventoryDbService {
         System.out.println("Food expire Info added");
         return true;
     }
+    
+    public ArrayList<ExpireInfoDTO> getExpireInfoByFoodId(int foodId) throws SQLException, ClassNotFoundException{
+        ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
+        Connection conn = null;
+        try{
+            conn = DataSource.getInstance().getConnection();
+            expireInfoDTOs = expireInfoDAO.getExpireInfoByFoodId(foodId, conn);
+        } catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }
+            throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return expireInfoDTOs;
+    }
+    
+    public boolean deleteExpireInfo(ExpireInfoDTO expireInfoDTO)throws SQLException, ClassNotFoundException{
+        Connection conn = null;
+
+        try{
+            conn = DataSource.getInstance().getConnection();
+            boolean isExpireInfoDeleted = expireInfoDAO.deleteExpireInfo(expireInfoDTO, conn);
+            if(!isExpireInfoDeleted){
+                throw new SQLException("Expire Information deletion fails.");
+            }
+        }catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }
+            throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        System.out.println("Food expire info Info deleted");
+        return true;
+    }
 
     /**
      * Queries for expiration information that is close to expiring.

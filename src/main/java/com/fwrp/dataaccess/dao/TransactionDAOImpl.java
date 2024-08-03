@@ -181,8 +181,8 @@ public class TransactionDAOImpl implements TransactionDAO {
                             transaction.setFood(food);
                             transaction.setDate(operateDate);
                             transaction.setType(type);
-                            transaction.setQtyNormal(qtyNormal);
-                            transaction.setQtyDiscount(qtyDiscount);
+                            //transaction.setQtyNormal(qtyNormal);
+                            //transaction.setQtyDiscount(qtyDiscount);
                             transaction.setQtyDonation(qtyDonation);
                             transactions.add(transaction);
                             break;

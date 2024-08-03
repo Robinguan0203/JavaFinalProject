@@ -52,7 +52,7 @@
                     HashMap<Food, Integer[]> foodInventoryMap= (HashMap<Food, Integer[]>) request.getAttribute("foodInventoryMap");
                     if (foodInventoryMap == null || foodInventoryMap.isEmpty()) { 
                 %>
-                    <p>No Food Expire Data Information Found</p>
+                    <p>No Inventory Data Found</p>
                 <% 
                     } else { 
                 %>
