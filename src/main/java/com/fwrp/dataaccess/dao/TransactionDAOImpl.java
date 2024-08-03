@@ -4,7 +4,13 @@
  */
 package com.fwrp.dataaccess.dao;
 
+import com.fwrp.constants.UserTypeConstant;
+import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dto.TransactionDTO;
+import com.fwrp.dbService.FoodDbService;
+import com.fwrp.dbService.UserDbService;
+import com.fwrp.models.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -137,42 +143,59 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
     
     @Override
-    public ArrayList<TransactionDTO> getTransactionsByUserId(int userId, Connection conn) throws SQLException{
-        ArrayList<TransactionDTO> transactionDTOs = new ArrayList<>();
-        
-        try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM "
-                + "transactions WHERE user_id = ? ORDER BY id DESC")){
+    public ArrayList<Transaction> getTransactionsByUserId(int userId, Connection conn) throws SQLException, ClassNotFoundException {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        UserDbService userDbService = new UserDbService();
+        User user=userDbService.getUserById(userId);
+
+        if (conn == null || conn.isClosed()) {
+//            throw new SQLException("Connection is closed or null");
+            conn = DataSource.getInstance().getConnection();
+        }
+
+        try(PreparedStatement pstmt = conn.prepareStatement("SELECT a.id,a.food_id,b.`name` as food_name,a.user_id,a.date,a.type,a.quantity_normal,a.quantity_discount,a.quantity_donation from TRANSACTIONS a,foods b where a.food_id=b.id and a.user_id=?")){
             pstmt.setInt(1, userId);
             try(ResultSet rs = pstmt.executeQuery()){
                 while (rs.next()){
                     int id = rs.getInt("id");
                     int foodId = rs.getInt("food_id");
-                    Integer orderId = rs.getObject("order_id") != null ? rs.getInt("order_id") : 0;
-                    Integer claimId = rs.getObject("claim_id") != null ? rs.getInt("claim_id") : 0;
+//                    Integer orderId = rs.getObject("order_id") != null ? rs.getInt("order_id") : 0;
+//                    Integer claimId = rs.getObject("claim_id") != null ? rs.getInt("claim_id") : 0;
                     Date operateDate = rs.getDate("date");
                     int type = rs.getInt("type");
                     int qtyNormal = rs.getInt("quantity_normal");
                     int qtyDiscount = rs.getInt("quantity_discount");
                     int qtyDonation = rs.getInt("quantity_Donation");
-                    
-                    TransactionDTO dto = new TransactionDTO();
-                    dto.setId(id);
-                    dto.setFoodId(foodId);
-                    dto.setUserId(userId);
-                    dto.setOrderId(orderId);
-                    dto.setClaimId(claimId);
-                    dto.setDate(operateDate);
-                    dto.setType(type);
-                    dto.setQtyNormal(qtyNormal);
-                    dto.setQtyDiscount(qtyDiscount);
-                    dto.setQtyDonation(qtyDonation);
-                    
-                    transactionDTOs.add(dto);
+
+                    //FoodDbService foodDbService = new FoodDbService();
+                    Food food=new Food();
+                    food.setId(id);
+                    food.setName(rs.getString("food_name"));
+
+                    switch(user.getType()) {
+                        case UserTypeConstant.CHARITY:
+                            ClaimTransaction transaction = new ClaimTransaction();
+                            transaction.setId(id);
+                            transaction.setUser(user);
+                            transaction.setFood(food);
+                            transaction.setDate(operateDate);
+                            transaction.setType(type);
+                            transaction.setQtyNormal(qtyNormal);
+                            transaction.setQtyDiscount(qtyDiscount);
+                            transaction.setQtyDonation(qtyDonation);
+                            transactions.add(transaction);
+                            break;
+                        case UserTypeConstant.CONSUMER:
+                            break;
+                        default:
+                            throw new ClassNotFoundException("Wrong User Type!");
+                    }
                 }
             }
         }
         
-        return transactionDTOs;
+        return transactions;
     }
     
 }

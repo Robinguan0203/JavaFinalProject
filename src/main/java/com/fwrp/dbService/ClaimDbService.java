@@ -10,12 +10,15 @@ import com.fwrp.dataaccess.dao.ClaimDAO;
 import com.fwrp.dataaccess.dao.ClaimDAOImpl;
 import com.fwrp.dataaccess.dao.InventoryDAO;
 import com.fwrp.dataaccess.dao.InventoryDAOImpl;
+import com.fwrp.dataaccess.dto.SubscriptionDTO;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.models.Claim;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Ke Yan
@@ -27,13 +30,13 @@ public class ClaimDbService {
         claimDAO = new ClaimDAOImpl(); 
         inventoryDAO = new InventoryDAOImpl(); 
     }
-    public boolean CreateClaim(Claim claim) throws DataAlreadyExistsException, DataInsertionFailedException, Exception {      
+    public boolean CreateClaim(Claim claim) throws SQLException, ClassNotFoundException, DataInsertionFailedException {
         Connection conn = null;
         
         try{
             conn = DataSource.getInstance().getConnection();
             //start transaction
-            conn.setAutoCommit(false);                      
+            conn.setAutoCommit(false);
             
             boolean isClaimAdded = claimDAO.createClaim(claim, conn); 
             if(!isClaimAdded){
@@ -61,5 +64,40 @@ public class ClaimDbService {
         
         System.out.println("New claim created");
         return true;
+    }
+
+    public int deleteClaimById(int id) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+
+        try{
+            conn = DataSource.getInstance().getConnection();
+            return claimDAO.deleteClaimById(id, conn);
+        }catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }
+            throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+    public List<Claim> getClaimByUserId(int userId) throws SQLException, ClassNotFoundException{
+        Connection conn = null;
+
+        try{
+            conn = DataSource.getInstance().getConnection();
+            return claimDAO.getClaimByUserId(userId, conn);
+        }catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }
+            throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
+        }
     }
 }

@@ -7,12 +7,8 @@ package com.fwrp.dataaccess.dto;
 import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.dbService.FoodDbService;
 import com.fwrp.dbService.UserDbService;
-import com.fwrp.models.Consumer;
-import com.fwrp.models.Food;
-import com.fwrp.models.ManageInventoryChange;
-import com.fwrp.models.Retailer;
-import com.fwrp.models.Transaction;
-import com.fwrp.models.User;
+import com.fwrp.models.*;
+
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -276,16 +272,19 @@ public class TransactionDTO {
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(this.getFoodId());
         UserDbService userDBService = new UserDbService();
-        User user = userDBService.getUserById(this.getUserId());     
-        
+        User user = userDBService.getUserById(this.getUserId());
+        ManageInventoryChange manageInventoryChange=null;
         switch(user.getType()){
             case UserTypeConstant.CHARITY:
-                throw new SQLException("ordeId is " + orderId);
+                Charity charity = (Charity) user;
+                // todo
+                break;
             case UserTypeConstant.CONSUMER:
-                throw new SQLException("claimId is " +claimId);
+//                throw new SQLException("claimId is " +claimId);
+                break;
             case UserTypeConstant.RETAILER:
                 Retailer retailer = (Retailer) user;
-                ManageInventoryChange manageInventoryChange = 
+                manageInventoryChange =
                     retailer.createInventorychange(
                         food, 
                         this.getQtyNormal(), 

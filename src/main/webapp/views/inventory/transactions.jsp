@@ -69,7 +69,10 @@
                                 switch(transaction.getType()){
                                 case TransactionTypeConstant.CLAIM:
                                     type = "CLAIM";
-                                    
+                                    com.fwrp.models.ClaimTransaction thisTransaction2 = (com.fwrp.models.ClaimTransaction) transaction;
+                                    qtyNormal = thisTransaction2.getQtyNormal();
+                                    qtyDiscount = thisTransaction2.getQtyDiscount();
+                                    qtyDonation = thisTransaction2.getQtyDonation();
                                     break;
                                 case TransactionTypeConstant.ORDER:
                                     type = "ORDER";

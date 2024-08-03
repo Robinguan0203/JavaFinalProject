@@ -452,7 +452,7 @@ public class InventoryDbService {
 
         Connection conn = DataSource.getInstance().getConnection();
         ArrayList<TransactionDTO> dtos = transactionDAO.getAllTransactions(conn);
-        
+
         if(!dtos.isEmpty()){
             for(TransactionDTO dto: dtos){
                 Transaction transaction = dto.transferToTransaction();
@@ -460,5 +460,20 @@ public class InventoryDbService {
             }
         }
         return transactions;
+    }
+
+    public ArrayList<Transaction> getTransactionsByUserId(int userId) throws SQLException, ClassNotFoundException{
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        Connection conn = DataSource.getInstance().getConnection();
+        ArrayList<Transaction> dtos = transactionDAO.getTransactionsByUserId(userId,conn);
+
+//        if(!dtos.isEmpty()){
+//            for(TransactionDTO dto: dtos){
+//                Transaction transaction = dto.transferToTransaction();
+//                transactions.add(transaction);
+//            }
+//        }
+        return dtos;
     }
 }

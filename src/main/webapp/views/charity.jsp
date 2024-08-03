@@ -43,6 +43,12 @@
                 <button type="submit">Check Inventory</button>
             </form>
         </div>
+        <div class="actions">
+            <form action="${pageContext.request.contextPath}/CharityController" method="post">
+                <input type="hidden" name="action" value="checkTransaction" />
+                <button type="submit">Check Transaction</button>
+            </form>
+        </div>
     </div>
     <%@ include file="./footer.jsp" %>
 </body>

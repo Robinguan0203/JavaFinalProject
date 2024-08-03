@@ -1,6 +1,8 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.TransactionDTO;
+import com.fwrp.models.Transaction;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,5 +45,5 @@ public interface TransactionDAO{
      */
     ArrayList<TransactionDTO> getAllTransactions(Connection conn) throws SQLException;
     
-    ArrayList<TransactionDTO> getTransactionsByUserId(int userId, Connection conn) throws SQLException;
+    ArrayList<Transaction> getTransactionsByUserId(int userId, Connection conn) throws SQLException, ClassNotFoundException;
 }

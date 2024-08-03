@@ -29,9 +29,23 @@ public class CharityService {
         return foodSurplusMap;
     }
     
-    public void storeNewClaim(int userId, int foodId, Date date, int quantity) throws DataAlreadyExistsException,DataInsertionFailedException, Exception{
+    public void storeNewClaim(int userId, Food food, Date date, int quantity) throws DataAlreadyExistsException,DataInsertionFailedException, Exception{
         ClaimDbService dbService = new ClaimDbService();
-        Claim claim = new Claim(userId, foodId, date, quantity);
+        Claim claim = new Claim(userId, food, date, quantity);
+
         dbService.CreateClaim(claim);
+    }
+
+    public int deleteClaimById(int id) throws SQLException, ClassNotFoundException {
+        ClaimDbService dbService = new ClaimDbService();
+
+        return dbService.deleteClaimById(id);
+    }
+
+    public ArrayList<Transaction> getTransactionsByUserId(int userId) throws SQLException, ClassNotFoundException{
+        InventoryDbService dbService = new InventoryDbService();
+        ArrayList<Transaction> transactions = dbService.getTransactionsByUserId(userId);
+
+        return transactions;
     }
 }

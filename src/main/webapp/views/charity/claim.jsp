@@ -16,6 +16,7 @@
             <form action="${pageContext.request.contextPath}/CharityController" method="post">
                 <% 
                     String id= request.getAttribute("id").toString();
+                    String foodId = request.getAttribute("foodId").toString();
                     String foodName = request.getAttribute("foodName").toString();
                     String qtyDonation = request.getAttribute("qtyDonation").toString();
 
@@ -26,7 +27,8 @@
                 <input class="input" type="number" id="id" name="id" readonly value="<%= id %>"  />
 
                 <label for="foodName">Food Name:</label>
-                <input class="input" type="text" id="foodName" name="foodName" readonly value="<%= foodName %>"   />
+                <input class="input" type="hidden" id="foodId" name="foodId" readonly value="<%= food.getId() %>"   />
+                <input class="input" type="text" id="foodName" name="foodName" readonly value="<%= food.getName() %>"   />
 
                 <label for="qtyDonation">Remain Donation Quantity:</label>
                 <input class="input" type="number" id="qtyDonation" name="qtyDonation" readonly value="<%= qtyDonation %>"   />

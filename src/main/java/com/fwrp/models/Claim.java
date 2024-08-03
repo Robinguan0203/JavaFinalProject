@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Claim {
     private int id;
     private int userId;
-    private int foodId;
+    private Food food;
     private Date date;
     private int quantity;
     
@@ -13,19 +13,19 @@ public class Claim {
         
     }
     
-    public Claim(int userId, int foodId, 
+    public Claim(int userId, Food food,
             Date date, int quantity){
         this.userId = userId;
-        this.foodId = foodId;
+        this.food = food;
         this.date = date;
         this.quantity = quantity;
     }
     
-    public Claim(int id, int userId, int foodId, 
+    public Claim(int id, int userId, Food food,
             Date date, int quantity){
         this.id = id;
         this.userId = userId;
-        this.foodId = foodId;
+        this.food = food;
         this.date = date;
         this.quantity = quantity;
     }
@@ -37,8 +37,8 @@ public class Claim {
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
 
-    public int getFoodId() { return foodId; }
-    public void setFoodId(int foodId) { this.foodId = foodId; }
+    public Food getFood() { return food; }
+    public void setFood(Food food) { this.food = food; }
 
     public Date getDate() { return date; }
     public void setDate(Date date) { this.date = date; }
