@@ -28,6 +28,14 @@ public class UserCommandFactory {
                 return new ViewNotificationCommand(NotificationMethodConstant.EMAIL);
             case "viewSystemNotification":
                 return new ViewNotificationCommand(NotificationMethodConstant.SYSTEM);
+            case "manageSubscription":
+                return new ManageSubscriptionCommand();
+            case "showAddSubscription":
+                return new ShowAddSubscriptionCommand();
+            case "addSubscription":
+                return new AddSubscriptionCommand();
+            case "deleteSubscription":
+                return new DeleteSubscriptionCommand();
             default:
                 return new UnknownCommand(); 
         }
