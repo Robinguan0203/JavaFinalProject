@@ -13,16 +13,38 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- *
- * @author robin
+ * This class implements the NotificationCountObserver interface to provide
+ * functionality for counting email notifications for a given user.
+ * It interacts with the NotificationDAO to retrieve the count of email notifications.
+ * 
+ * @version 1.0
+ * @since 17.0.8
+ * 
+ * @author Robin Guan
  */
 public class EmailNotificationCountObserver implements NotificationCountObserver {
+	
+	/**
+	 * Data Access Object for notifications
+	 */
     private NotificationDAO notificationDAO;
     
+	/**
+     * Constructor for EmailNotificationCountObserver.
+     * Initializes the NotificationDAO implementation.
+     */
     public EmailNotificationCountObserver(){
         notificationDAO = new NotificationDAOImpl();
     }
     
+	 /**
+     * Retrieves the count of email notifications for a given user.
+     * 
+     * @param user The user for whom the notification count is to be retrieved.
+     * @return int The count of email notifications for the specified user.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     @Override
     public int getNotificationCount(User user) throws SQLException, ClassNotFoundException {
         Connection conn = null;

@@ -22,11 +22,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author robin
+ * This class implements the command to add food in the retailer system.
+ * <p>
+ * It forwards the request to the add food view and prints a message indicating the add food functionality.
+ * </p>
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 17.0.8
  */
 public class StoreListSurplusCommand  implements IRetailerCommand{
 
+	/**
+	 * Executes the request to list surplus quantities for a retailer.
+	 *
+	 * @param request  the HttpServletRequest object that contains the request the client has made to the servlet
+	 * @param response the HttpServletResponse object that contains the response the servlet sends to the client
+	 * @throws ServletException if the request could not be handled
+	 * @throws IOException      if an input or output error is detected when the servlet handles the request
+	 */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> parameterMap = request.getParameterMap();

@@ -22,11 +22,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author robin
+ * Command to update the expiration date of food items for a retailer.
+ * 
+ * <p>This class implements the IRetailerCommand interface and handles the 
+ * execution of updating expiration dates by validating input parameters and 
+ * interacting with the RetailerService.</p>
+ * 
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 17.0.8
  */
 public class StoreUpdateExpireDateCommand implements IRetailerCommand{
 
+	/**
+     * Executes the command to update the expiration dates of food items.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> parameterMap = request.getParameterMap();
@@ -94,6 +110,12 @@ public class StoreUpdateExpireDateCommand implements IRetailerCommand{
         response.sendRedirect(request.getContextPath() + "/views/retailer.jsp?successMessage=Food%20expire%20dates%20updated%20successfully.");
     }
     
+	/**
+     * Builds a list of ExpireInfo objects from the request parameters.
+     * 
+     * @param request The HttpServletRequest object that contains the request the client made to the servlet.
+     * @return A list of ExpireInfo objects.
+     */
     private ArrayList<ExpireInfo> buildExpireInfoExpireDate(HttpServletRequest request){
         String[] expireInfoIds = request.getParameterValues("expireInfoId");
         String[] foodIds = request.getParameterValues("foodId");

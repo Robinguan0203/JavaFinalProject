@@ -267,6 +267,15 @@ public class TransactionDTO {
         this.qtyDonation = qtyDonation;
     }
     
+	/**
+	 * Transfers the current object to a Transaction object based on the user type.
+	 * This method retrieves the necessary food and user information, and then creates
+	 * a transaction based on the type of user (Charity, Consumer, or Retailer).
+	 * 
+	 * @return Transaction The created transaction object.
+	 * @throws ClassNotFoundException if the user type is invalid.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 */
     public Transaction transferToTransaction() throws ClassNotFoundException, SQLException{
         Transaction transaction = null;
         FoodDbService foodDbService = new FoodDbService();

@@ -5,11 +5,22 @@
 package com.fwrp.models;
 
 /**
- *
- * @author robin
+ * Class responsible for creating Claim objects.
+ * Extends the InventoryChangeCreator class.
+ * Provides a method to create a Claim with specified parameters.
  */
 public class ClaimCreator extends InventoryChangeCreator{
 
+	/**
+     * Creates a Claim object with the specified parameters.
+     * 
+     * @param food the food associated with the claim
+     * @param user the user (charity) making the claim
+     * @param qtyNormal the normal quantity (not used in Claim)
+     * @param qtyDiscount the discount quantity (not used in Claim)
+     * @param qtyDonation the donation quantity for the claim
+     * @return the created Claim object
+     */
     @Override
     public Claim createInventoryChange(Food food, User user, 
            int qtyNormal, int qtyDiscount, int qtyDonation) {

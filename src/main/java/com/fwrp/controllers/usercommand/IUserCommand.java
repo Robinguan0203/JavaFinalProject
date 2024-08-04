@@ -10,9 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author robin
+ * Interface for user commands.
+ * 
+ * This interface defines a contract for executing user-related commands
+ * with HTTP request and response objects.
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public interface IUserCommand {
+	
+	/**
+     * Executes a user command.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

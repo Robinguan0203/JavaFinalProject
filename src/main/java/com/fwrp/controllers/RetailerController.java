@@ -43,20 +43,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class RetailerController
- * <p>
- * This servlet is responsible for handling requests related to retailer operations.
- * It manages actions such as adding food, updating inventory, and handling expiration information.
- * <p>
- * <b>URL Mapping:</b> /RetailerController
- * </p>
+ * Controller for handling retailer-related requests.
  * 
- * @author Robin Guan(041117292)
- * @version 1.0
+ * This servlet processes POST requests, checks for user authentication, 
+ * retrieves the retailer from the session, and executes the appropriate 
+ * command based on the action parameter.
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 @WebServlet("/RetailerController")
 public class RetailerController extends HttpServlet {    
     
+	/**
+     * Processes POST requests.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); 
@@ -80,6 +87,12 @@ public class RetailerController extends HttpServlet {
         }
     }
 
+	/**
+     * Retrieves the Retailer object from the session.
+     * 
+     * @param request The HttpServletRequest object that contains the request the client made to the servlet.
+     * @return The Retailer object from the session, or null if not found.
+     */
     private Retailer getRetailerFromSession(HttpServletRequest request) {
         return (Retailer) request.getSession().getAttribute("retailer");
     }

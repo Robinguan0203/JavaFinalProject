@@ -68,6 +68,13 @@ public interface InventoryDAO {
      */
     List<Inventory> getDonationInventories(Connection conn) throws SQLException ;
     
+	/**
+     * Retrieves a list of all discount inventories.
+     * 
+     * @param conn SQL connection
+     * @return List<Inventory> A list of {@link Inventory} objects representing discount inventories.
+     * @throws SQLException if a database access error occurs
+     */
     List<Inventory> getDiscountInventories(Connection conn) throws SQLException ;
 
     /**

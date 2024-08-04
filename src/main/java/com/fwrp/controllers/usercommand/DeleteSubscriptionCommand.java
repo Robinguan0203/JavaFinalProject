@@ -19,10 +19,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author robin
+ * Command to delete a subscription for a user.
+ * 
+ * This class implements the IUserCommand interface and handles the 
+ * execution of deleting a subscription by retrieving the subscription ID,
+ * deleting the subscription, and managing the subscription view.
+ * 
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public class DeleteSubscriptionCommand implements IUserCommand{
+	
+	 /**
+     * Executes the command to delete a subscription.
+     * 
+     * @param req  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param resp The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
@@ -36,6 +53,14 @@ public class DeleteSubscriptionCommand implements IUserCommand{
         manageSubscription(req,resp);
     }
     
+	/**
+     * Manages the subscription view.
+     * 
+     * @param req  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param resp The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     private void manageSubscription(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/manageSubscription.jsp");
         User user=this.getUserFromSession(req);
@@ -51,6 +76,12 @@ public class DeleteSubscriptionCommand implements IUserCommand{
         resp.getWriter().println("Manage Subscription");
     }
     
+	/**
+     * Retrieves the user from the session.
+     * 
+     * @param request The HttpServletRequest object that contains the request the client made to the servlet.
+     * @return The user retrieved from the session, or null if no user is found.
+     */
     private User getUserFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {

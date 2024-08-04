@@ -5,9 +5,17 @@
 package com.fwrp.models;
 
 /**
- *
- * @author robin
+ * Interface representing an inventory change.
+ * Provides a method to create a transaction.
+ * 
+ * @author Robin Guan
  */
 public interface InventoryChange {
+	
+	/**
+     * Creates a transaction.
+     * 
+     * @return a new Transaction object.
+     */
     Transaction createTransaction();
 }

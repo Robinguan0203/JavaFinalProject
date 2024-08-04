@@ -8,15 +8,33 @@ import com.fwrp.constants.TransactionTypeConstant;
 import java.util.Date;
 
 /**
- *
- * @author robin
+ * Director class for building different types of transactions.
+ * 
+ * This class uses the builder pattern to construct various types of transactions.
+ * 
+ * @autor Robin Guan
  */
 public class TransactionDirector {
     public ITransactionBuilder builder;
+	
+	/**
+     * Constructor for TransactionDirector.
+     * 
+     * @param builder the transaction builder
+     */
     public TransactionDirector(ITransactionBuilder builder){
         this.builder = builder;
     }
 
+	/**
+     * Builds a retailer transaction.
+     * 
+     * @param food the food item
+     * @param retailer the retailer
+     * @param qtyNormal the quantity of normal items
+     * @param qtyDiscount the quantity of discounted items
+     * @param qtyDonation the quantity of donated items
+     */
     public void buildRetailerTransaction(Food food, Retailer retailer,int qtyNormal, int qtyDiscount, int qtyDonation){
         Date currentDate = new Date();
         int type = TransactionTypeConstant.INVENTORY_CHANGE;
@@ -30,6 +48,16 @@ public class TransactionDirector {
                 .setQtyDonation(qtyDonation);
     }
     
+	 /**
+     * Builds an order transaction.
+     * 
+     * @param food the food item
+     * @param consumer the consumer
+     * @param order the order
+     * @param qtyNormal the quantity of normal items
+     * @param qtyDiscount the quantity of discounted items
+     * @param qtyDonation the quantity of donated items
+     */
     public void buildOrderTransaction(Food food, Consumer consumer, Order order, int qtyNormal, int qtyDiscount, int qtyDonation){
         Date currentDate = new Date();
         int type = TransactionTypeConstant.ORDER;
@@ -45,6 +73,16 @@ public class TransactionDirector {
                 
     }
     
+	/**
+     * Builds a claim transaction.
+     * 
+     * @param food the food item
+     * @param charity the charity
+     * @param claim the claim
+     * @param qtyNormal the quantity of normal items
+     * @param qtyDiscount the quantity of discounted items
+     * @param qtyDonation the quantity of donated items
+     */
     public void buildClaimTransaction(Food food, Charity charity, Claim claim, int qtyNormal, int qtyDiscount, int qtyDonation){
         Date currentDate = new Date();
         int type = TransactionTypeConstant.CLAIM;
@@ -58,6 +96,11 @@ public class TransactionDirector {
                 .setQtyDonation(qtyDonation);
     }
 
+	/**
+     * Builds and returns the transaction.
+     * 
+     * @return the built transaction
+     */
     public Transaction build(){
         return builder.getTransaction();
     }

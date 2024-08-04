@@ -8,10 +8,24 @@ import com.fwrp.constants.NotificationMethodConstant;
 
 
 /**
- *
- * @author robin
+ * Factory class to create user commands based on action strings.
+ * 
+ * This class provides a static method to return an instance of 
+ * IUserCommand based on the provided action string.
+ * 
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public class UserCommandFactory {
+	
+	/**
+     * Returns an instance of IUserCommand based on the provided action string.
+     * 
+     * @param action The action string that determines which command to create.
+     * @return An instance of IUserCommand corresponding to the action.
+     */
     public static IUserCommand getCommand(String action) {
         switch (action) {
             case "login":

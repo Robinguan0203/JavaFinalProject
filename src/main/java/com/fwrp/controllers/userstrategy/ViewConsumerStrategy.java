@@ -11,11 +11,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author robin
+ * Navigation strategy for viewing the consumer page.
+ * 
+ * This class implements the INavigationStrategy interface and handles 
+ * the navigation by forwarding the request to the "views/consumer.jsp" page.
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public class ViewConsumerStrategy implements INavigationStrategy {
     
+	/**
+     * Navigates to the consumer page.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     public void navigate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("views/consumer.jsp");

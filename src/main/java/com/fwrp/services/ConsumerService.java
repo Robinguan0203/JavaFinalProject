@@ -19,10 +19,23 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- *
+ * Service class for handling operations related to consumer inventory and orders.
+ * This class provides methods to retrieve inventory data, store new orders, delete orders, and get transactions by user ID.
+ * 
+ * @version 1.0
+ * @since 17.0.8
+ * 
  * @author Ke Yan
  */
 public class ConsumerService {
+	
+	/**
+     * Retrieves all inventory data.
+     * 
+     * @return HashMap<Food, Integer[]> A map containing food items and their corresponding inventory data.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public HashMap<Food, Integer[]>  getAllInventoryData() throws SQLException, ClassNotFoundException{
         InventoryDbService dbService = new InventoryDbService();
         HashMap<Food, Integer[]> foodSurplusMap = dbService.getAllInventoryData();
@@ -30,6 +43,17 @@ public class ConsumerService {
         return foodSurplusMap;
     }
     
+	/**
+     * Stores a new order for a given food item and consumer.
+     * 
+     * @param FoodId The ID of the food item.
+     * @param qtyDiscount The quantity of the discount.
+     * @param consumer The consumer making the order.
+     * @throws NegativeInventoryException if the inventory goes negative.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     * @throws DataInsertionFailedException if the data insertion fails.
+     */
     public void storeNewOrder(int FoodId, int qtyDiscount, Consumer consumer) throws NegativeInventoryException, SQLException, ClassNotFoundException, DataInsertionFailedException{
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(FoodId);
@@ -43,21 +67,29 @@ public class ConsumerService {
         transaction.storeTransaction();
         transaction.updateExpireInfo();
     }
-    /*
-    public void storeNewOrder(int userId, Food food, Date date, int quantity) throws DataAlreadyExistsException,DataInsertionFailedException, Exception{
-        OrderDbService dbService = new OrderDbService();
-        Order order = new Order(userId, food, date, quantity);
 
-        dbService.CreateOrder(order);
-    }
-    */
-
+	/**
+     * Deletes an order by its ID.
+     * 
+     * @param id The ID of the order to be deleted.
+     * @return int The number of rows affected by the delete operation.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public int deleteOrderById(int id) throws SQLException, ClassNotFoundException {
         OrderDbService dbService = new OrderDbService();
 
         return dbService.deleteOrderById(id);
     }
-
+	
+	/**
+     * Retrieves transactions by user ID.
+     * 
+     * @param userId The ID of the user.
+     * @return ArrayList<Transaction> A list of transactions associated with the specified user ID.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public ArrayList<Transaction> getTransactionsByUserId(int userId) throws SQLException, ClassNotFoundException{
         InventoryDbService dbService = new InventoryDbService();
         ArrayList<Transaction> transactions = dbService.getTransactionsByUserId(userId);

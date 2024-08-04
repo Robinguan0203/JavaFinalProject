@@ -50,12 +50,11 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation for managing user-related actions such as login, registration, and viewing notifications.
- * <p>
+ * 
  * This servlet handles various HTTP GET and POST requests, including user login, registration, logout, and viewing notifications.
  * It forwards requests to appropriate JSP pages based on the user's action and handles potential errors by displaying error messages.
- * </p>
  * 
- * @author Robin Guan(041117292)
+ * Author: Robin Guan(041117292)
  */
 @WebServlet("/UserController")
 public class UserController extends HttpServlet {
@@ -97,6 +96,12 @@ public class UserController extends HttpServlet {
         //request.setAttribute("user", user);
     }
 
+	/**
+     * Retrieves the User object from the session.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @return the User object from the session, or null if no session exists or the attribute is not found
+     */
     private User getUserFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -105,6 +110,9 @@ public class UserController extends HttpServlet {
         return null;
     }
     
+	/**
+     * Enum representing different method types for user notifications.
+     */
     public enum MethodType {
         EMAIL(1, "EMAIL"),
         PHONE(2, "PHONE"),

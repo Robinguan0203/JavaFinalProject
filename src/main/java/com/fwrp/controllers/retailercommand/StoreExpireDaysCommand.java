@@ -15,8 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * This class implements the {@link IRetailerCommand} interface and handles the updating of food expire days.
+ * 
+ * 
+ * @throws ServletException if the request could not be handled
+ * @throws IOException if an input or output error is detected when the servlet handles the request
  *
- * @author robin
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 17.0.8
  */
 public class StoreExpireDaysCommand  implements IRetailerCommand{
 

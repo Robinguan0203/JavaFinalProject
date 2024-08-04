@@ -10,16 +10,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author robin
+ * Selector for navigation strategies.
+ * 
+ * This class selects and sets the appropriate navigation strategy 
+ * based on the provided action.
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public class NavigationStrategySelector {
+	
+	/**
+     * The handler that manages the navigation strategy.
+     */
     private NavigationStrategyHandler handler;
     
+	/**
+     * Constructs a NavigationStrategySelector and initializes the handler.
+     */
     public NavigationStrategySelector(){
         this.handler = new NavigationStrategyHandler();
     }
     
+	/**
+     * Selects the navigation strategy based on the provided action.
+     * 
+     * @param action The action to determine the navigation strategy.
+     */
     public void selectNavigationStrategy(String action){
         switch(action){
             case "viewRetailer":
@@ -36,6 +54,14 @@ public class NavigationStrategySelector {
         }
     }
     
+	/**
+     * Navigates using the selected strategy.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     public void navigate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         handler.navigate(request, response);
     }

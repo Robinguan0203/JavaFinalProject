@@ -5,8 +5,14 @@
 package com.fwrp.constants;
 
 /**
- *
- * @author robin
+ * This class defines constants for different transaction types.
+ * <p>
+ * The constants can be used to represent different types of transactions, such as ORDER, CLAIM, and INVENTORY_CHANGE.
+ * </p>
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 17.0.8
  */
 public class TransactionTypeConstant {
     /**
