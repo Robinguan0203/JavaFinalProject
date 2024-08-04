@@ -45,5 +45,14 @@ public interface TransactionDAO{
      */
     ArrayList<TransactionDTO> getAllTransactions(Connection conn) throws SQLException;
     
+	/**
+     * Retrieves transactions by user ID from the data source.
+     * 
+     * @param userId The ID of the user.
+     * @param conn The SQL connection used to access the database.
+     * @return ArrayList<Transaction> A list of transactions for the specified user.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the Transaction class is not found.
+     */
     ArrayList<Transaction> getTransactionsByUserId(int userId, Connection conn) throws SQLException, ClassNotFoundException;
 }

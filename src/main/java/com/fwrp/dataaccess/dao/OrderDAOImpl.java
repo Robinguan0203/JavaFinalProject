@@ -15,6 +15,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Implementation of the OrderDAO interface.
+ * Provides methods to create an order, retrieve orders by user ID, and delete an order by ID.
+ * 
+ * @version 1.0
+ * @since 17.0.8
+ */
 public class OrderDAOImpl implements OrderDAO {
     private static final String INSERT_ORDER_SQL = "INSERT INTO orders (user_id, food_id, date,quantity) VALUES (?, ?, ?, ?)";
     private static final String DELETE_ORDER_SQL = "delete from orders where id=?";
@@ -29,6 +36,15 @@ public class OrderDAOImpl implements OrderDAO {
     private InventoryDAO inventoryDAO = new InventoryDAOImpl();
     private ExpireInfoDAO expireInfoDAO = new ExpireInfoDAOImpl();
 
+
+	/**
+     * Creates a new order in the database.
+     * 
+     * @param order The {@link Order} object containing the order details.
+     * @param conn The SQL connection used to access the database.
+     * @return int The ID of the newly created order.
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     public int createOrder(Order order, Connection conn) throws SQLException {
         try(PreparedStatement pstmt = conn.prepareStatement(INSERT_ORDER_SQL,Statement.RETURN_GENERATED_KEYS)) {
@@ -53,6 +69,15 @@ public class OrderDAOImpl implements OrderDAO {
         } 
     }
 
+	/**
+     * Deletes an order by its ID.
+     * 
+     * @param id The ID of the order to be deleted.
+     * @param conn The SQL connection used to access the database.
+     * @return int The number of rows affected by the delete operation.
+     * @throws SQLException if a database access error occurs
+     */
+	 @Override
     public int deleteOrderById(int id,Connection conn) throws SQLException{
 
         try(PreparedStatement pstmt = conn.prepareStatement(DELETE_ORDER_SQL)) {
@@ -63,6 +88,15 @@ public class OrderDAOImpl implements OrderDAO {
         }
 
     }
+	
+	/**
+     * Retrieves a list of orders for a specific user.
+     * 
+     * @param userId The ID of the user for whom orders are to be retrieved.
+     * @param conn The SQL connection used to access the database.
+     * @return List<Order> A list of {@link Order} objects containing the orders for the specified user.
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     public List<Order> getOrderByUserId(int userId, Connection conn)  throws SQLException{
         List<Order> orderList= new ArrayList<>();

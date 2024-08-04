@@ -18,15 +18,40 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author robin
+ * Command to view notifications based on the specified method.
+ * 
+ * This class implements the IUserCommand interface and handles the 
+ * execution of viewing notifications by forwarding the request to 
+ * the appropriate JSP page based on the user type.
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public class ViewNotificationCommand implements IUserCommand{
+	
+	/**
+     * The notification method (e.g., phone, email, system).
+     */
     private int method;
     
+	/**
+     * Constructs a ViewNotificationCommand with the specified method.
+     * 
+     * @param method The notification method.
+     */
     public ViewNotificationCommand(int method){
         this.method = method;
     }
+	
+	/**
+     * Executes the command to view notifications.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         

@@ -260,6 +260,14 @@ public class UserDbService {
         
     }
     
+	/**
+	 * Retrieves the count of notifications for a given user from multiple observers.
+	 * 
+	 * @param user The user for whom the notification counts are to be retrieved.
+	 * @return int[] An array of notification counts from each observer.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 */
     public int[] getNotificationCount(User user) throws SQLException, ClassNotFoundException {
         int[] count = new int[observers.size()];
         for (int i = 0; i < observers.size(); i++) {

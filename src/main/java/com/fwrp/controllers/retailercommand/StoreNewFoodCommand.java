@@ -15,8 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author robin
+ * Command to store new food items for a retailer.
+ * 
+ * <p>This class implements the IRetailerCommand interface and handles the 
+ * execution of storing new food items by validating input parameters and 
+ * interacting with the RetailerService.</p>
+ * 
+ * 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 17.0.8
  */
 public class StoreNewFoodCommand  implements IRetailerCommand{
 

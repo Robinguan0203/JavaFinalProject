@@ -11,10 +11,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author robin
+ * Command to handle user logout.
+ * 
+ * This class implements the IUserCommand interface and handles the 
+ * execution of user logout by invalidating the session and redirecting 
+ * to the index page with a success message.
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public class LogoutCommand implements IUserCommand{
+	
+	/**
+     * Executes the command to handle user logout.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);

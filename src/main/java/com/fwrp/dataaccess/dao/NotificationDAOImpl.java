@@ -8,11 +8,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+/**
+ * Implementation of the NotificationDAO interface.
+ * Provides methods to send notifications, retrieve notifications by user ID and method,
+ * and get the count of notifications by user ID and method.
+ * 
+ * @version 1.0
+ * @since 17.0.8
+ */
 public class NotificationDAOImpl implements NotificationDAO {
+	
     /**
-     * @param notification
-     * @return
-     * @throws SQLException
+     * Sends a notification to all users subscribed to a specific method.
+     * 
+     * @param notification The notification message to be sent.
+     * @param conn The SQL connection used to access the database.
+     * @return boolean Returns true if the notification was successfully sent, false otherwise.
+     * @throws SQLException if a database access error occurs
      */
     @Override
     public boolean sendNotifications(String notification, Connection conn) throws SQLException {

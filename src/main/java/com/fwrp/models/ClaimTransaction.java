@@ -18,68 +18,151 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author Siqian
+ * Represents a ClaimTransaction.
+ * This class extends the Transaction class and includes properties and methods specific to a claim transaction.
  */
 public class ClaimTransaction extends Transaction {
 
+	/**
+     * The charity associated with the claim transaction.
+     */
     private Charity charity;
+	
+	/**
+     * The claim associated with the claim transaction.
+     */
     private Claim claim;
+	
+	/**
+     * The quantity of normal items in the claim transaction.
+     */
     private int qtyNormal;
+	
+	/**
+     * The quantity of discount items in the claim transaction.
+     */
     private int qtyDiscount;
+	
+	/**
+     * The quantity of donation items in the claim transaction.
+     */
     private int qtyDonation;
 
+	/**
+     * Default constructor for ClaimTransaction.
+     */
     public ClaimTransaction() {
 
     }
-
+	
+	/**
+     * Gets the quantity of normal items.
+     * 
+     * @return the quantity of normal items
+     */
     public int getQtyNormal() {
         return qtyNormal;
     }
 
+	/**
+     * Sets the quantity of normal items.
+     * 
+     * @param qtyNormal the quantity of normal items
+     */
     public void setQtyNormal(int qtyNormal) {
         this.qtyNormal = qtyNormal;
     }
     
+	/**
+     * Gets the quantity of discount items.
+     * 
+     * @return the quantity of discount items
+     */
     public int getQtyDiscount() {
         return qtyNormal;
     }
 
+	/**
+     * Sets the quantity of discount items.
+     * 
+     * @param qtyDiscount the quantity of discount items
+     */
     public void setQtyDiscount(int qtyDiscount) {
         this.qtyDiscount = qtyDiscount;
     }
     
+	/**
+     * Gets the quantity of donation items.
+     * 
+     * @return the quantity of donation items
+     */
     public int getQtyDonation() {
         return qtyDonation;
     }
-
+	
+	/**
+     * Sets the quantity of donation items.
+     * 
+     * @param qtyDonation the quantity of donation items
+     */
     public void setQtyDonation(int qtyDonation) {
         this.qtyDonation = qtyDonation;
     }
 
+	/**
+     * Gets the charity associated with the claim transaction.
+     * 
+     * @return the charity
+     */
     public Charity getCharity() {
         return charity;
     }
 
+	/**
+     * Gets the claim associated with the claim transaction.
+     * 
+     * @return the claim
+     */
     public Claim getClaim() {
         return claim;
     }
 
-    public void setRetailer(Charity charity) {
+	/**
+     * Sets the charity associated with the claim transaction.
+     * 
+     * @param charity the charity
+     */
+    public void setCharity(Charity charity) {
         this.charity = charity;
     }
 
+	/**
+     * Sets the claim associated with the claim transaction.
+     * 
+     * @param claim the claim
+     */
     public void setClaim(Claim claim) {
         this.claim = claim;
     }
     
-
+	/**
+     * Stores the transaction in the database.
+     * 
+     * @throws NegativeInventoryException if the inventory goes negative
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the database driver class is not found
+     */
     @Override
     public void storeTransaction() throws NegativeInventoryException, SQLException, ClassNotFoundException {
         InventoryDbService dbService = new InventoryDbService();
         dbService.addTransaction(this.createTransactionDTO());
     }
     
-
+	/**
+     * Creates a TransactionDTO object from the current transaction.
+     * 
+     * @return the created TransactionDTO
+     */
     @Override
     public TransactionDTO createTransactionDTO() {
         TransactionDTO dto = new TransactionDTO();
@@ -94,7 +177,13 @@ public class ClaimTransaction extends Transaction {
 
         return dto;
     }
-
+	
+	/**
+     * Updates the expiration information in the database.
+     * 
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the database driver class is not found
+     */
     @Override
     public void updateExpireInfo() throws SQLException, ClassNotFoundException {
         InventoryDbService dbService = new InventoryDbService();

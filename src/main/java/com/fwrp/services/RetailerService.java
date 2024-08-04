@@ -256,7 +256,13 @@ public class RetailerService {
         return dbService.sendNotification(notification);
     }
     
-    
+    /**
+	 * Retrieves all transactions.
+	 * 
+	 * @return ArrayList<Transaction> A list of all transactions.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 */
     public ArrayList<Transaction> getAllTransactions() throws SQLException, ClassNotFoundException{        
         InventoryDbService dbService = new InventoryDbService();
         ArrayList<Transaction> transactions = dbService.getTransactions();

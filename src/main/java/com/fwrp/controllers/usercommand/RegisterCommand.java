@@ -16,10 +16,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author robin
+ * Command to handle user registration.
+ * 
+ * This class implements the IUserCommand interface and handles the 
+ * execution of user registration by validating input data and 
+ * interacting with the UserService to register the user.
+ * 
+ * Author: Robin Guan
+ * Version: 1.0
+ * Since: 17.0.8
  */
 public class RegisterCommand implements IUserCommand{
+	
+	/**
+     * Executes the command to handle user registration.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String firstname = request.getParameter("firstname");

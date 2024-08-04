@@ -50,12 +50,11 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation for managing user-related actions such as login, registration, and viewing notifications.
- * <p>
+ * 
  * This servlet handles various HTTP GET and POST requests, including user login, registration, logout, and viewing notifications.
  * It forwards requests to appropriate JSP pages based on the user's action and handles potential errors by displaying error messages.
- * </p>
  * 
- * @author Robin Guan(041117292)
+ * Author: Robin Guan(041117292)
  */
 @WebServlet("/UserController")
 public class UserController extends HttpServlet {
@@ -87,33 +86,22 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         IUserCommand command = UserCommandFactory.getCommand(action);
-
-        switch (action) {
-            case "manageSubscription":
-                manageSubscription(request,response);
-                break;
-            case "showAddSubscription":
-                showAddSubscription(request,response);
-                break;
-            case "addSubscription":
-                addSubscription(request,response);
-                break;
-            case "deleteSubscription":
-                deleteSubscription(request,response);
-                break;
-            default:
-                if (command != null) {
-                    command.execute(request, response);
-                } else {
-                    response.getWriter().println("Unknown action");
-                }
+        if (command != null) {
+            command.execute(request, response);
+        } else {
+            response.getWriter().println("Unknown action");
         }
-
-
-        User user = this.getUserFromSession(request);
-        request.setAttribute("user", user);
+        
+        //User user = this.getUserFromSession(request);
+        //request.setAttribute("user", user);
     }
 
+	/**
+     * Retrieves the User object from the session.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request from the client
+     * @return the User object from the session, or null if no session exists or the attribute is not found
+     */
     private User getUserFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -121,45 +109,10 @@ public class UserController extends HttpServlet {
         }
         return null;
     }
-
-    private void manageSubscription(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/manageSubscription.jsp");
-        User user=this.getUserFromSession(req);
-        UserService userService = new UserService();
-        try {
-            List<SubscriptionDTO> subscriptionDTOList=userService.getAllMethodsByUserId(user.getId());
-            req.setAttribute("subscriptionList", subscriptionDTOList);
-        } catch(ClassNotFoundException | SQLException ee){
-            req.setAttribute("errorMessage", ee.getMessage());
-            dispatcher.forward(req, resp);
-        }
-        dispatcher.forward(req, resp);
-        resp.getWriter().println("Manage Subscription");
-    }
-
-    private void showAddSubscription(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/addSubscription.jsp");
-
-        dispatcher.forward(req, resp);
-        resp.getWriter().println("Show Add Subscription");
-    }
-
-    private void addSubscription(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        int method = Integer.parseInt(req.getParameter("method"));
-
-        User user=this.getUserFromSession(req);
-        UserService userService = new UserService();
-        try {
-            userService.addSubscription(user.getId(),method);
-        } catch(DataAlreadyExistsException ee){
-            req.setAttribute("errorMessage", "Subscription Already Exist.");
-        } catch (DataInsertionFailedException ex) {
-            req.setAttribute("errorMessage", ex.getMessage());
-        } catch (Exception e){
-            req.setAttribute("errorMessage", e.getMessage());
-        }
-        manageSubscription(req,resp);
-    }
+    
+	/**
+     * Enum representing different method types for user notifications.
+     */
     public enum MethodType {
         EMAIL(1, "EMAIL"),
         PHONE(2, "PHONE"),
@@ -189,17 +142,5 @@ public class UserController extends HttpServlet {
             }
             return "Unknown";
         }
-    }
-
-    private void deleteSubscription(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        int id = Integer.parseInt(req.getParameter("id"));
-
-        UserService userService = new UserService();
-        try {
-            userService.deleteSubscription(id);
-        } catch (Exception ex) {
-            req.setAttribute("errorMessage", ex.getMessage());
-        }
-        manageSubscription(req,resp);
     }
 }

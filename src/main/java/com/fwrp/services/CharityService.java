@@ -19,10 +19,23 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- *
+ * Service class for handling operations related to charity inventory and claims.
+ * This class provides methods to retrieve inventory data, store new claims, delete claims, and get transactions by user ID.
+ * 
+ * @version 1.0
+ * @since 17.0.8
+ * 
  * @author Ke Yan
  */
 public class CharityService {
+	
+	/**
+     * Retrieves all inventory data.
+     * 
+     * @return HashMap<Food, Integer[]> A map containing food items and their corresponding inventory data.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public HashMap<Food, Integer[]>  getAllInventoryData() throws SQLException, ClassNotFoundException{
         InventoryDbService dbService = new InventoryDbService();
         HashMap<Food, Integer[]> foodSurplusMap = dbService.getAllInventoryData();
@@ -30,6 +43,17 @@ public class CharityService {
         return foodSurplusMap;
     }
     
+	/**
+     * Stores a new claim for a given food item and charity.
+     * 
+     * @param FoodId The ID of the food item.
+     * @param qtyDonation The quantity of the donation.
+     * @param charity The charity making the claim.
+     * @throws NegativeInventoryException if the inventory goes negative.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     * @throws DataInsertionFailedException if the data insertion fails.
+     */
     public void storeNewClaim(int FoodId, int qtyDonation, Charity charity) throws NegativeInventoryException, SQLException, ClassNotFoundException, DataInsertionFailedException{
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(FoodId);
@@ -43,21 +67,29 @@ public class CharityService {
         transaction.storeTransaction();
         transaction.updateExpireInfo();
     }
-    /*
-    public void storeNewClaim(int userId, Food food, Date date, int quantity) throws DataAlreadyExistsException,DataInsertionFailedException, Exception{
-        ClaimDbService dbService = new ClaimDbService();
-        Claim claim = new Claim(userId, food, date, quantity);
-
-        dbService.CreateClaim(claim);
-    }
-    */
-
+    
+	/**
+     * Deletes a claim by its ID.
+     * 
+     * @param id The ID of the claim to be deleted.
+     * @return int The number of rows affected by the delete operation.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public int deleteClaimById(int id) throws SQLException, ClassNotFoundException {
         ClaimDbService dbService = new ClaimDbService();
 
         return dbService.deleteClaimById(id);
     }
 
+	/**
+     * Retrieves transactions by user ID.
+     * 
+     * @param userId The ID of the user.
+     * @return ArrayList<Transaction> A list of transactions associated with the specified user ID.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public ArrayList<Transaction> getTransactionsByUserId(int userId) throws SQLException, ClassNotFoundException{
         InventoryDbService dbService = new InventoryDbService();
         ArrayList<Transaction> transactions = dbService.getTransactionsByUserId(userId);

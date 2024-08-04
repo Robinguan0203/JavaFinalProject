@@ -21,11 +21,11 @@ package com.fwrp.exceptions;
  */
 public class DataInsertionFailedException extends Exception {
     
-    /** 
-    * @author Robin Guan
-    * @version 1.0
-    * @since 1.0
-    */
+    /**
+     * Constructs a new DataInsertionFailedException with the specified detail message.
+     * 
+     * @param message The detail message, which provides more information about the exception.
+     */
     public DataInsertionFailedException(String message) {
         super(message);
     }

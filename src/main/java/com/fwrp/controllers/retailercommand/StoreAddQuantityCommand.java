@@ -19,11 +19,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * This class implements the {@link IRetailerCommand} interface and handles the addition of food quantities.
+ * 
  *
- * @author robin
+ * @throws ServletException if the request could not be handled
+ * @throws IOException if an input or output error is detected when the servlet handles the request
+ 
+ * @author Robin Guan(041117292)
+ * @version 1.0
+ * @since 17.0.8
  */
 public class StoreAddQuantityCommand  implements IRetailerCommand{
 
+	/**
+     * Executes the command to add food quantities.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request the client made to the servlet
+     * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException if an input or output error is detected when the servlet handles the request
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int foodId = Integer.parseInt(request.getParameter("foodId"));
@@ -54,6 +69,12 @@ public class StoreAddQuantityCommand  implements IRetailerCommand{
         } 
     }
     
+	/**
+     * Retrieves the retailer object from the session.
+     * 
+     * @param request the {@link HttpServletRequest} object that contains the request the client made to the servlet
+     * @return the {@link Retailer} object from the session, or null if not found
+     */
     private Retailer getRetailerFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {

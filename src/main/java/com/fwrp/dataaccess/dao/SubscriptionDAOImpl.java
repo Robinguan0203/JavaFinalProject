@@ -9,8 +9,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the SubscriptionDAO interface.
+ * Provides methods to add a subscription, retrieve all subscription methods by user ID, and delete a subscription.
+ * 
+ * @version 1.0
+ * @since 17.0.8
+ */
 public class SubscriptionDAOImpl implements SubscriptionDAO {
 
+	/**
+     * Adds a new subscription for a user.
+     * 
+     * @param userId The ID of the user.
+     * @param method The subscription method.
+     * @param conn The SQL connection used to access the database.
+     * @return boolean True if the subscription was added successfully, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     public boolean addSubscription(int userId,int method , Connection conn)  throws SQLException{
         boolean isSuccess = false;
@@ -27,7 +43,14 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
         return isSuccess;
     }
 
-
+	/**
+     * Retrieves all subscription methods for a specific user.
+     * 
+     * @param userId The ID of the user.
+     * @param conn The SQL connection used to access the database.
+     * @return List<SubscriptionDTO> A list of {@link SubscriptionDTO} objects containing the subscription methods for the specified user.
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     public List<SubscriptionDTO> getAllMethodsByUserId(int userId, Connection conn) throws SQLException {
         List<SubscriptionDTO> subscriptionDTOS = new ArrayList<>();
@@ -51,6 +74,14 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
         return subscriptionDTOS;
     }
 
+	/**
+     * Deletes a subscription by its ID.
+     * 
+     * @param id The ID of the subscription to be deleted.
+     * @param conn The SQL connection used to access the database.
+     * @return boolean True if the subscription was deleted successfully, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     public boolean deleteSubscription(int id, Connection conn)  throws SQLException{
         boolean isSuccess = false;

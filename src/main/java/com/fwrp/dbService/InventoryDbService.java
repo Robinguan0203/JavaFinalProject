@@ -275,6 +275,14 @@ public class InventoryDbService {
         return true;
     }
     
+	/**
+	 * Retrieves a list of ExpireInfoDTO objects by food ID.
+	 * 
+	 * @param foodId The ID of the food for which the expire information is to be retrieved.
+	 * @return ArrayList<ExpireInfoDTO> A list of ExpireInfoDTO objects associated with the specified food ID.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 */
     public ArrayList<ExpireInfoDTO> getExpireInfoByFoodId(int foodId) throws SQLException, ClassNotFoundException{
         ArrayList<ExpireInfoDTO> expireInfoDTOs = new ArrayList<>();
         Connection conn = null;
@@ -295,6 +303,14 @@ public class InventoryDbService {
         return expireInfoDTOs;
     }
     
+	/**
+	 * Deletes the specified ExpireInfoDTO from the database.
+	 * 
+	 * @param expireInfoDTO The ExpireInfoDTO object to be deleted.
+	 * @return boolean True if the expire information was successfully deleted, otherwise false.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 */
     public boolean deleteExpireInfo(ExpireInfoDTO expireInfoDTO)throws SQLException, ClassNotFoundException{
         Connection conn = null;
 
@@ -517,6 +533,13 @@ public class InventoryDbService {
         return inventoryMap;  
     }
 
+	/**
+	 * Retrieves a list of all transactions from the database.
+	 * 
+	 * @return ArrayList<Transaction> A list of all transactions.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 */
     public ArrayList<Transaction> getTransactions() throws SQLException, ClassNotFoundException{
         ArrayList<Transaction> transactions = new ArrayList<>();
 
@@ -532,18 +555,20 @@ public class InventoryDbService {
         return transactions;
     }
 
+	/**
+	 * Retrieves a list of transactions for a specific user by their user ID.
+	 * 
+	 * @param userId The ID of the user for whom the transactions are to be retrieved.
+	 * @return ArrayList<Transaction> A list of transactions associated with the specified user ID.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 */
     public ArrayList<Transaction> getTransactionsByUserId(int userId) throws SQLException, ClassNotFoundException{
         ArrayList<Transaction> transactions = new ArrayList<>();
 
         Connection conn = DataSource.getInstance().getConnection();
         ArrayList<Transaction> dtos = transactionDAO.getTransactionsByUserId(userId,conn);
 
-//        if(!dtos.isEmpty()){
-//            for(TransactionDTO dto: dtos){
-//                Transaction transaction = dto.transferToTransaction();
-//                transactions.add(transaction);
-//            }
-//        }
         return dtos;
     }
 }

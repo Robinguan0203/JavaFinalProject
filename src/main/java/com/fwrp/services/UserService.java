@@ -101,21 +101,50 @@ public class UserService {
         return notifications;
     }
         
+	/**
+	 * Retrieves the notification count for a given user.
+	 * 
+	 * @param user The user for whom the notification count is to be retrieved.
+	 * @return int[] An array containing the notification counts.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 */
     public int[] getNotificationCountByUser(User user) throws SQLException, ClassNotFoundException {
         UserDbService userDbService = new UserDbService();
         return userDbService.getNotificationCount(user);
     }
 
+	/**
+	 * Adds a subscription for a user with a specified method.
+	 * 
+	 * @param userId The ID of the user.
+	 * @param method The subscription method.
+	 * @throws Exception if an error occurs while adding the subscription.
+	 */
     public void addSubscription(int userId,int method) throws Exception{
         SubscriptionDbService dbService = new SubscriptionDbService();
         dbService.addSubscription(userId,method);
     }
 
+	/**
+	 * Retrieves all subscription methods for a given user ID.
+	 * 
+	 * @param userId The ID of the user.
+	 * @return List<SubscriptionDTO> A list of subscription methods associated with the specified user ID.
+	 * @throws ClassNotFoundException if the JDBC driver class is not found.
+	 * @throws SQLException if a database access error occurs or the SQL query fails.
+	 */
     public List<SubscriptionDTO> getAllMethodsByUserId(int userId) throws ClassNotFoundException, SQLException {
         SubscriptionDbService dbService = new SubscriptionDbService();
         return dbService.getAllMethodsByUserId(userId);
     }
-
+	
+	/**
+	 * Deletes a subscription by its ID.
+	 * 
+	 * @param id The ID of the subscription to be deleted.
+	 * @throws Exception if an error occurs while deleting the subscription.
+	 */
     public void deleteSubscription(int id) throws Exception{
         SubscriptionDbService dbService = new SubscriptionDbService();
         dbService.deleteSubscription(id);

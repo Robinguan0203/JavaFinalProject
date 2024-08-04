@@ -32,12 +32,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author Ke Yan
+ * CharityController handles HTTP requests for charity-related actions.
+ * 
+ * This servlet manages various charity operations such as checking inventory,
+ * storing claims, showing claims, checking transactions, and deleting claims.
+ * It ensures that the user is authenticated before performing any actions.
+ * 
+ * Version: 1.0
+ * Since: 17.0.8
  */
 @WebServlet("/CharityController")
 public class CharityController extends HttpServlet {
 
+	/**
+     * Handles POST requests for various charity actions.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); 
@@ -89,6 +103,12 @@ public class CharityController extends HttpServlet {
         }
     }
     
+	/**
+     * Retrieves the Charity object from the session.
+     * 
+     * @param request The HttpServletRequest object that contains the request the client made to the servlet.
+     * @return The Charity object from the session, or null if not found.
+     */
     private Charity getCharityFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -97,6 +117,15 @@ public class CharityController extends HttpServlet {
         return null;
     }
 
+	/**
+     * Checks the inventory and forwards the request to the appropriate view.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     * @throws ClassNotFoundException If the class could not be found.
+     */
     private void checkInventory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
         HttpSession session = request.getSession(false);
 
@@ -129,6 +158,14 @@ public class CharityController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+	/**
+     * Shows the claim details and forwards the request to the appropriate view.
+     * 
+     * @param req  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param resp The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     * @throws ServletException If the request could not be handled.
+     */
     private void showClaim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         //int id=Integer.parseInt(req.getParameter("id"));
 
@@ -141,6 +178,16 @@ public class CharityController extends HttpServlet {
          resp.getWriter().println("Create claim functionality");
     }
 
+	/**
+     * Deletes a claim and checks the inventory.
+     * 
+     * @param req  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param resp The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     * @throws SQLException     If a database access error occurs.
+     * @throws ClassNotFoundException If the class could not be found.
+     * @throws ServletException If the request could not be handled.
+     */
     private void deleteClaim(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException, ClassNotFoundException, ServletException {
         int id=Integer.parseInt(req.getParameter("id"));
 
@@ -151,7 +198,17 @@ public class CharityController extends HttpServlet {
         checkInventory(req,resp);
     }
 
-
+	/**
+     * Stores a new claim and checks the inventory.
+     * 
+     * @param req  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param resp The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     * @throws ServletException If the request could not be handled.
+     * @throws SQLException     If a database access error occurs.
+     * @throws ClassNotFoundException If the class could not be found.
+     * @throws NegativeInventoryException If the inventory is negative.
+     */
     private void storeClaim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, SQLException, ClassNotFoundException, NegativeInventoryException {
         //int id=Integer.parseInt(req.getParameter("id"));
         HttpSession session = req.getSession(false);
@@ -200,6 +257,14 @@ public class CharityController extends HttpServlet {
 
     }
 
+	/**
+     * Checks the transactions and forwards the request to the appropriate view.
+     * 
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If the request could not be handled.
+     * @throws IOException      If an input or output error is detected when the servlet handles the request.
+     */
     public void checkTransaction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CharityService charityService = new CharityService();
         Charity charity = this.getCharityFromSession(request);
@@ -219,6 +284,13 @@ public class CharityController extends HttpServlet {
             return;
         }
     }
+	
+	/**
+	 * Retrieves the Charity object from the session.
+	 * 
+	 * @param request The HttpServletRequest object that contains the request the client made to the servlet.
+	 * @return The Charity object from the session, or null if no session exists or the attribute is not found.
+	 */
     private Charity getCharityrFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -227,7 +299,12 @@ public class CharityController extends HttpServlet {
         return null;
     }
 
-
+	/**
+	 * Retrieves the claim input history from the request parameters.
+	 * 
+	 * @param request The HttpServletRequest object that contains the request the client made to the servlet.
+	 * @return An array of Strings containing the input history for name, expireDays, unitPrice, and discount.
+	 */
     private String[] getClaimInputHistory(HttpServletRequest request) {
         String[] inputHistory = new String[4];
         inputHistory[0] = request.getParameter("name");
