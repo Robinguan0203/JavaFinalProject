@@ -21,31 +21,7 @@
             <center><h2>Create Order</h2></center>
         </div>
         <div class="form-section">                            
-            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
-                <% 
-                    String id= request.getAttribute("id").toString();
-                    String foodId = request.getAttribute("foodId").toString();
-                    String foodName = request.getAttribute("foodName").toString();
-                    String qtyDiscount = request.getAttribute("qtyDiscount").toString();
 
-                %>
-                <input class="input" type="hidden" name="action" value="storeOrder" />
-                
-                <label for="id">Id:</label>
-                <input class="input" type="number" id="id" name="id" readonly value="<%= id %>"  />
-
-                <label for="foodName">Food Name:</label>
-                <input class="input" type="hidden" id="foodId" name="foodId" readonly value="<%= foodId %>"   />
-                <input class="input" type="text" id="foodName" name="foodName" readonly value="<%= foodName %>"   />
-
-                <label for="qtyDiscount">Remain Discount Quantity:</label>
-                <input class="input" type="number" id="qtyDiscount" name="qtyDiscount" readonly value="<%= qtyDiscount %>"   />
-
-                <label for="orderQty">Order Quantity:</label>
-                <input class="input" type="number" id="orderQty" name="orderQty"    />
-                
-                <button type="submit">Order</button>
-            </form>
         </div>
     </div>
     <%@ include file="../footer.jsp" %>

@@ -187,6 +187,16 @@ public class TransactionDAOImpl implements TransactionDAO {
                             transactions.add(transaction);
                             break;
                         case UserTypeConstant.CONSUMER:
+                            OrderTransaction transaction2 = new OrderTransaction();
+                            transaction2.setId(id);
+                            transaction2.setUser(user);
+                            transaction2.setFood(food);
+                            transaction2.setDate(operateDate);
+                            transaction2.setType(type);
+                            //transaction.setQtyNormal(qtyNormal);
+                            //transaction.setQtyDiscount(qtyDiscount);
+                            transaction2.setQtyDiscount(qtyDiscount);
+                            transactions.add(transaction2);
                             break;
                         default:
                             throw new ClassNotFoundException("Wrong User Type!");
