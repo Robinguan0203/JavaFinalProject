@@ -88,12 +88,10 @@ public class UserController extends HttpServlet {
         String action = request.getParameter("action");
         IUserCommand command = UserCommandFactory.getCommand(action);
 
-        User user = this.getUserFromSession(request);
-        request.setAttribute("user", user);
-
         switch (action) {
             case "manageSubscription":
                 manageSubscription(request,response);
+                break;
             case "showAddSubscription":
                 showAddSubscription(request,response);
                 break;
@@ -104,13 +102,16 @@ public class UserController extends HttpServlet {
                 deleteSubscription(request,response);
                 break;
             default:
-                response.getWriter().println("Unknown action");
+                if (command != null) {
+                    command.execute(request, response);
+                } else {
+                    response.getWriter().println("Unknown action");
+                }
         }
-        if (command != null) {
-            command.execute(request, response);
-        } else {
-            response.getWriter().println("Unknown action");
-        }
+
+
+        User user = this.getUserFromSession(request);
+        request.setAttribute("user", user);
     }
 
     private User getUserFromSession(HttpServletRequest request){
