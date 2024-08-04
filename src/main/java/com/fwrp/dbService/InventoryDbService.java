@@ -22,7 +22,6 @@ import com.fwrp.dataaccess.dao.UserDAO;
 import com.fwrp.dataaccess.dao.UserDAOImpl;
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
 import com.fwrp.dataaccess.dto.InventoryDTO;
-import com.fwrp.dataaccess.dto.OrderDTO;
 import com.fwrp.dataaccess.dto.TransactionDTO;
 import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.exceptions.NegativeInventoryException;
@@ -411,6 +410,33 @@ public class InventoryDbService {
         }
 
         return donationInventories;
+    }
+    
+    /**
+     * Retrieves a list of inventories that are marked for discount.
+     * 
+     * @return A list of Inventory objects for discount.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class for the database connection is not found.
+     */
+    public List<Inventory> getDiscountInventories() throws SQLException,ClassNotFoundException{
+        List<Inventory> discountInventories= null;
+        Connection conn = null;
+        try{
+            conn = DataSource.getInstance().getConnection();
+            discountInventories = inventoryDAO.getDiscountInventories(conn);
+        } catch(SQLException e){
+            if (conn != null) {
+                conn.close();
+            }
+            throw e;
+        } finally{
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return discountInventories;
     }
 
     /**

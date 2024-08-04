@@ -1,30 +1,27 @@
 package com.fwrp.models;
 
-/**
- * This Consumer Model
- * 
- * @author YAOZHOU XIE
- * @version 1.0
- * @since 2024.07.27
- */
+import com.fwrp.dataaccess.dto.ExpireInfoDTO;
+import com.fwrp.dbService.InventoryDbService;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Consumer extends User {
-    
-    private int id;    
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String password;
-    private int type;
+
+    @Override
+    public void login(){
+        
+    }
     
     @Override
-    public void login() {
+    public void logout(){
         
     }
 
-    @Override
-    public void logout() {
+     public Order createInventorychange(Food food, 
+            int qtyNormal, int qtyDiscount, int qtyDonation){
         
-    }
-       
+        OrderCreator creator = new OrderCreator();
+        Order order = creator.createInventoryChange(food, this, qtyNormal, qtyDiscount, qtyDonation);
+        return order;
+    }    
 }

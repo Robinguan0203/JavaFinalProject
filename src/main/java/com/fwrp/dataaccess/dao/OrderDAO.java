@@ -1,24 +1,13 @@
 package com.fwrp.dataaccess.dao;
 
-import com.fwrp.dataaccess.dto.OrderDTO;
 import com.fwrp.models.Order;
-import com.fwrp.models.PurchaseTransaction;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-/**
- *
- * @author YAOZHOU XIE
- */
+import java.util.List;
 
 public interface OrderDAO {
-    boolean addOrder(OrderDTO orderDTO, Connection conn) throws SQLException;
-    OrderDTO getOrderById(int id, Connection conn) throws SQLException;
-    ArrayList<OrderDTO> getAllOrders(Connection conn) throws SQLException;
-    boolean updateOrder(OrderDTO orderDTO, Connection conn) throws SQLException;
-    boolean removeOrder(int id, Connection conn) throws SQLException;
-    
-    void storeOrder();
-    PurchaseTransaction createTransaction();
+    int createOrder(Order order, Connection conn) throws SQLException;
+    List<Order> getOrderByUserId(int userId, Connection conn) throws SQLException;
+    int deleteOrderById(int id,Connection conn) throws SQLException;
 }

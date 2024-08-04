@@ -1,96 +1,71 @@
 package com.fwrp.models;
 
-import javax.persistence.*;
 import java.util.Date;
 
-/**
- *
- * @author YAOZHOU XIE
- */
-public class Order {
-    
+
+public class Order implements InventoryChange{
     private int id;
-    private int quantity;
-    private Date date;
-    private double unitPrice;
-    private double discount;
-    private Food food;
     private Consumer consumer;
+    private Food food;
+    private Date date;
+    private int qtyDiscount;
     
-    public Order() {
+    public Order(){
         
     }
     
-    public Order(int id, int quantity, Date date, double unitPrice, double discount, Food food, Consumer consumer) {
-        this.id = id;
-        this.quantity = quantity;
-        this.date = date;
-        this.unitPrice = unitPrice;
-        this.discount = discount;
-        this.food = food;
+    public Order(Consumer consumer, Food food,
+            Date date, int qtyDiscount){
         this.consumer = consumer;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
-    public Food getFood() {
-        return food;
-    }
-    
-    public int getFoodId() {
-        return food.getId();
-    }
-    public void setFood(Food food) {
         this.food = food;
-    }
-
-    public Consumer getConsumer() {
-        return consumer;
+        this.date = date;
+        this.qtyDiscount = qtyDiscount;
     }
     
-    public int getConsumerId() {
-        return consumer.getId();
+    public Order(int id, Consumer consumer, Food food,
+            Date date, int qtyDiscount){
+        this.id = id;
+        this.consumer = consumer;
+        this.food = food;
+        this.date = date;
+        this.qtyDiscount = qtyDiscount;
     }
 
-    public void setConsumer(Consumer consumer) {
-        this.consumer = consumer;
-    }
+    // Getters and Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public Consumer getConsumer() { return consumer; }
+    public void setConsumer(Consumer consumer) { this.consumer = consumer; }
+
+    public Food getFood() { return food; }
+    public void setFood(Food food) { this.food = food; }
+
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
+
+    public int getQtyDiscount() { return qtyDiscount; }
+    public void setQtyDiscount(int qtyDiscount) { this.qtyDiscount = qtyDiscount; }
+
+   public OrderTransaction createTransaction() {
+        OrderTransaction transaction = null;
+        Claim claim = null;
+        Order order = this;
+        int qtyNormal = 0;
+        int qtyDonation = 0;
+        int this_qtyDiscount = this.getQtyDiscount();
+        
+        OrderTransactionCreator creator = new OrderTransactionCreator();
+        transaction = creator.createTransaction(
+                this.getFood(),
+                this.getConsumer(),
+                order,
+                claim,
+                qtyNormal, 
+                - this_qtyDiscount, 
+                qtyDonation
+        );
+        
+        return transaction;
+    } 
 }

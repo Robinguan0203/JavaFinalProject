@@ -1,5 +1,10 @@
-<%@page import="com.fwrp.models.User"%>
+<%-- 
+    Document   : consumer
+    Created on : Jul 30, 2024, 2:36:03 AM
+    Author     : Ke Yan
+--%>
 
+<%@page import="com.fwrp.models.User"%>
 <%@ include file="./header.jsp" %>
 <body>
     <%@ include file="./nav.jsp" %>
@@ -8,7 +13,7 @@
         <div class="header">
             <% 
                 User thisUser = (User) session.getAttribute("user");
-                String type; // ???
+                String type = "Unknown"; // ???
                 if (thisUser != null) {
                     switch(thisUser.getType()){
                         case UserTypeConstant.RETAILER: 
@@ -31,12 +36,23 @@
                 <% } %>
                 </center>
             </div>
+        </div>            
+        <div class="actions" style="margin-bottom:5px">
+            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+                <input type="hidden" name="action" value="checkInventory" />
+                <button type="submit">Discount List</button>
+            </form>
         </div>
-
+        <div class="actions" style="margin-bottom:5px">
+            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
+                <input type="hidden" name="action" value="checkTransaction" />
+                <button type="submit">Transaction</button>
+            </form>
+        </div>
         <div class="actions">
             <form action="${pageContext.request.contextPath}/UserController" method="post">
                 <input type="hidden" name="action" value="manageSubscription" />
-                <button type="submit">Manage Subscription</button>
+                <button type="submit">Subscription</button>
             </form>
         </div>
     </div>

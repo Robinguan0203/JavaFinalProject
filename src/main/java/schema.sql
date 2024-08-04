@@ -85,8 +85,6 @@ CREATE TABLE orders
     user_id INT NOT NULL,
     food_id INT NOT NULL,
     date DATE NOT NULL,
-    unitprice DECIMAL(10, 2) NOT NULL,
-    discount DECIMAL(10, 2) NOT NULL,
     quantity INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (food_id) REFERENCES foods(id)

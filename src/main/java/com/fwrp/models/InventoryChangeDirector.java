@@ -38,6 +38,15 @@ public class InventoryChangeDirector {
                 
     }
     
+    public void buildOrder(Food food, Consumer consumer,int qtyDiscount){
+        Date currentDate = new Date();
+        builder.setFood(food)
+                .setUser(consumer)
+                .setDate(currentDate)
+                .setQtyDiscount(qtyDiscount);
+                
+    }
+    
     public InventoryChange build(){
         return builder.getInventoryChange();
     }

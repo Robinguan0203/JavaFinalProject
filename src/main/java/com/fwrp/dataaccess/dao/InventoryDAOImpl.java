@@ -173,6 +173,32 @@ public class InventoryDAOImpl implements InventoryDAO {
 
         return donationInventories;
     }
+    
+    public List<Inventory> getDiscountInventories(Connection conn) throws SQLException {
+        Inventory inventory  = null;
+        Food food=null;
+        ArrayList<Inventory> discountInventories = new ArrayList<Inventory>();
+        try(PreparedStatement pstmt = conn.prepareStatement(
+                "select a.id,b.id as food_id,b.name as food_name,b.expire_days,b.unitprice,b.discount,a.quantity_normal,a.quantity_discount,a.quantity_donation from inventory a,foods b where a.food_id=b.id and a.quantity_discount>0"
+        )) {
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    food=new Food(rs.getInt("food_id"),rs.getString("food_name"),rs.getInt("expire_days"),rs.getDouble("unitprice"),rs.getDouble("discount"));
+                    inventory = new Inventory(
+                            rs.getInt("id"),
+                            food,
+                            rs.getInt("quantity_normal"),
+                            rs.getInt("quantity_discount"),
+                            rs.getInt("quantity_donation")
+                    );
+                    discountInventories.add(inventory);
+                }
+            }
+        }
+
+        return discountInventories;
+    }
 
     /**
      * Retrieves all inventory data, including quantities for each item.

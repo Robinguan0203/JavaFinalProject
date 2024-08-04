@@ -67,6 +67,8 @@ public interface InventoryDAO {
      * @throws SQLException if a database access error occurs
      */
     List<Inventory> getDonationInventories(Connection conn) throws SQLException ;
+    
+    List<Inventory> getDiscountInventories(Connection conn) throws SQLException ;
 
     /**
      * Retrieves all inventory data, including quantities for each item.

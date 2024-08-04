@@ -3,3 +3,4 @@
 /src/main/front
 .gitignore
 /src/main/resources/*.properties
+/nbproject/

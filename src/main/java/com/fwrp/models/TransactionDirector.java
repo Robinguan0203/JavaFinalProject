@@ -30,7 +30,7 @@ public class TransactionDirector {
                 .setQtyDonation(qtyDonation);
     }
     
-    public void buildOrderTransaction(Food food, Consumer consumer, Order order, int qtyDiscount){
+    public void buildOrderTransaction(Food food, Consumer consumer, Order order, int qtyNormal, int qtyDiscount, int qtyDonation){
         Date currentDate = new Date();
         int type = TransactionTypeConstant.ORDER;
         
@@ -39,7 +39,9 @@ public class TransactionDirector {
                 .setOrder(order)
                 .setDate(currentDate)
                 .setType(type)
-                .setQtyDiscount(qtyDiscount);
+                .setQtyNormal(qtyNormal)
+                .setQtyDiscount(qtyDiscount)
+                .setQtyDonation(qtyDonation);
                 
     }
     
