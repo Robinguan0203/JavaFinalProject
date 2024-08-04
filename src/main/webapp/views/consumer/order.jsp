@@ -21,7 +21,7 @@
             <center><h2>Create Order</h2></center>
         </div>
         <div class="form-section">                            
-            <form action="${pageContext.request.contextPath}/CharityController" method="post">
+            <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
                 <% 
                     String id= request.getAttribute("id").toString();
                     String foodId = request.getAttribute("foodId").toString();

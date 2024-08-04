@@ -37,7 +37,7 @@ public class OrderTransaction extends Transaction {
     }
     
     public int getQtyDiscount() {
-        return qtyNormal;
+        return qtyDiscount;
     }
 
     public void setQtyDiscount(int qtyDiscount) {

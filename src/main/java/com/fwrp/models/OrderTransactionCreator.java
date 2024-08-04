@@ -17,10 +17,8 @@ public class OrderTransactionCreator  implements TranctionCreator{
         OrderTransaction orderTransaction = null;
         
         ITransactionBuilder builder = new OrderTransactionBuilder();
-        TransactionDirector director = new TransactionDirector(builder);
-        if(qtyDonation == 0){
-            int x = 1 / qtyDonation;
-        }
+        TransactionDirector director = new TransactionDirector(builder);  
+        
         director.buildOrderTransaction(
                 food,
                 (Consumer) user,

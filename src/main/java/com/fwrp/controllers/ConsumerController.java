@@ -110,7 +110,7 @@ public class ConsumerController extends HttpServlet {
             List<Order> orderList = orderService.getOrderByUserId(consumer.getId());
             request.setAttribute("inventoryList", inventoryList);
             request.setAttribute("orderList", orderList);
-            dispatcher = request.getRequestDispatcher("/views/order/orderInventory.jsp");
+            dispatcher = request.getRequestDispatcher("/views/consumer/discountInventory.jsp");
         }catch(ClassNotFoundException | SQLException e){
             request.setAttribute("errorMessage", e.getMessage());
             dispatcher = request.getRequestDispatcher("/views/consumer.jsp");

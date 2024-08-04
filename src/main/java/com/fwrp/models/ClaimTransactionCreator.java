@@ -18,9 +18,6 @@ public class ClaimTransactionCreator  implements TranctionCreator{
         
         ITransactionBuilder builder = new ClaimTransactionBuilder();
         TransactionDirector director = new TransactionDirector(builder);
-        if(qtyDonation == 0){
-            int x = 1 / qtyDonation;
-        }
         director.buildClaimTransaction(
                 food,
                 (Charity) user,

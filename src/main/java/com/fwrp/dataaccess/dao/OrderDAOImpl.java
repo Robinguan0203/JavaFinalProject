@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
-    private static final String INSERT_ORDER_SQL = "INSERT INTO orders (user_id, food_id, date, quantity) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_ORDER_SQL = "INSERT INTO orders (user_id, food_id, date, unitprice,discount,quantity) VALUES (?, ?, ?, ?,?, ?)";
     private static final String DELETE_ORDER_SQL = "delete from orders where id=?";
     private static final String SELECT_ORDERS_BY_USER_ID_SQL = "SELECT t1.id,"
             + "t1.user_id,t1.food_id,t1.date,t1.quantity,t2.discount,"
@@ -36,7 +36,9 @@ public class OrderDAOImpl implements OrderDAO {
             pstmt.setInt(1, order.getConsumer().getId());
             pstmt.setInt(2, order.getFood().getId());
             pstmt.setDate(3,new java.sql.Date(order.getDate().getTime()));
-            pstmt.setInt(4, order.getQtyDiscount());
+            pstmt.setDouble(4, order.getFood().getUnitPrice());
+            pstmt.setDouble(5, order.getFood().getDiscount());
+            pstmt.setInt(6, order.getQtyDiscount());
             
             int affectedRows = pstmt.executeUpdate();      
             if (affectedRows == 0) {

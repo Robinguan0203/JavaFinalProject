@@ -4,6 +4,8 @@
     Author     : robin
 --%>
 
+<%@page import="com.fwrp.models.ClaimTransaction"%>
+<%@page import="com.fwrp.models.OrderTransaction"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.fwrp.models.RetailerTransaction"%>
@@ -69,13 +71,17 @@
                                 switch(transaction.getType()){
                                 case TransactionTypeConstant.CLAIM:
                                     type = "CLAIM";
-                                    com.fwrp.models.ClaimTransaction thisTransaction2 = (com.fwrp.models.ClaimTransaction) transaction;
-                                    qtyNormal = thisTransaction2.getQtyNormal();
-                                    qtyDiscount = thisTransaction2.getQtyDiscount();
-                                    qtyDonation = thisTransaction2.getQtyDonation();
+                                    ClaimTransaction claimTransaction = (ClaimTransaction) transaction;
+                                    qtyNormal = claimTransaction.getQtyNormal();
+                                    qtyDiscount = claimTransaction.getQtyDiscount();
+                                    qtyDonation = claimTransaction.getQtyDonation();
                                     break;
                                 case TransactionTypeConstant.ORDER:
                                     type = "ORDER";
+                                    OrderTransaction orderTransaction = (OrderTransaction) transaction;
+                                    qtyNormal = orderTransaction.getQtyNormal();
+                                    qtyDiscount = orderTransaction.getQtyDiscount();
+                                    qtyDonation = orderTransaction.getQtyDonation();
                                     break;
                                 case TransactionTypeConstant.INVENTORY_CHANGE:
                                     type = "Retailer Operation";
