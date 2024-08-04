@@ -58,7 +58,7 @@
     </table>
 </div>
 
-<div class="container mx-auto px-12 py-6">
+<div class="container mx-auto px-12 py-6 mx-12">
     <table class="w-full p-4 table-auto border-collapse border border-slate-400">
         <caption class="caption-top text-2xl mb-4">
             Claim Information
@@ -69,7 +69,7 @@
             <th class="border border-slate-300 p-2">Food Name</th>
             <th class="border border-slate-300 p-2">Claim Date</th>
             <th class="border border-slate-300 p-2">Claim quantity</th>
-            <th class="border border-slate-300 p-2">Operate</th>
+<%--            <th class="border border-slate-300 p-2">Operate</th>--%>
         </tr>
         </thead>
         <tbody>
@@ -79,13 +79,13 @@
                 <td class="border border-slate-300 p-2">${i.getFood().getName()}</td>
                 <td class="border border-slate-300 p-2">${i.getDate()}</td>
                 <td class="border border-slate-300 p-2">${i.getQtyDonation()}</td>
-                <td class="border border-slate-300 p-2">
-                    <form action="${pageContext.request.contextPath}/CharityController" method="post">
-                        <input type="hidden" name="action" value="deleteClaim" />
-                        <input type="hidden" name="id" value="${i.getId()}" />
-                        <button class="bg-red-100 hover:bg-red-300 p-4 m-2 rounded-md" type="submit">Delete</button>
-                    </form>
-                </td>
+<%--                <td class="border border-slate-300 p-2">--%>
+<%--                    <form action="${pageContext.request.contextPath}/CharityController" method="post">--%>
+<%--                        <input type="hidden" name="action" value="deleteClaim" />--%>
+<%--                        <input type="hidden" name="id" value="${i.getId()}" />--%>
+<%--                        <button class="bg-red-100 hover:bg-red-300 p-4 m-2 rounded-md" type="submit">Delete</button>--%>
+<%--                    </form>--%>
+<%--                </td>--%>
             </tr>
         </c:forEach>
         </tbody>

@@ -178,16 +178,25 @@ public class CharityController extends HttpServlet {
         //FoodDbService foodDbService = new FoodDbService();
         //Food food=foodDbService.getFoodById(foodId);
         try {
-            charityService.storeNewClaim(foodId, claimQty, charity);                  
-
-            checkInventory(req, resp);
-
+            if(claimQty>qtyDonation){
+                req.setAttribute("errorMessage", "Claim quantity should less than remaining donation quantity.");
+                showClaim(req,resp);
+                //req.getRequestDispatcher("/views/charity/claim.jsp").forward(req, resp);
+            }else if(claimQty<1){
+                req.setAttribute("errorMessage", "Claim quantity should greater than zero.");
+                showClaim(req,resp);
+                //req.getRequestDispatcher("/views/charity/claim.jsp").forward(req, resp);
+            }
+            else{
+                charityService.storeNewClaim(foodId, claimQty, charity);
+                checkInventory(req, resp);
+            }
         } catch (IOException |ClassNotFoundException |ServletException |DataInsertionFailedException e) {
             throw new RuntimeException(e);
         } 
 
         //dispatcher.forward(req, resp);
-        resp.getWriter().println("Create claim successfully!");
+//        resp.getWriter().println("Create claim successfully!");
 
     }
 

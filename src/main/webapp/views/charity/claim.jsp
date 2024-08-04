@@ -7,6 +7,13 @@
 <%@ include file="../header.jsp" %>
 <body>
     <%@ include file="../nav.jsp" %>
+    <style>
+        .message-bar{
+            position: fixed;
+            z-index: 9999;
+            margin-top: 20px;
+        }
+    </style>
     <%@ include file="../messageBar.jsp" %>
     <div class="container">
         <div class="header">
@@ -104,5 +111,9 @@
     button:hover {
         background-color: #B2EBF2; /* ?????????? */
     }
-
+    .message-bar{
+        position: fixed;
+        z-index: 9999;
+        margin-top: 20px;
+    }
 </style>
