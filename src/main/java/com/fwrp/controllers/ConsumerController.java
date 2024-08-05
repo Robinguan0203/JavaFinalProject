@@ -1,6 +1,6 @@
 package com.fwrp.controllers;
 
-import com.fwrp.dataaccess.dto.SubscriptionDTO;
+import com.fwrp.dataaccess.dto.PreferenceDTO;
 import com.fwrp.dbService.OrderDbService;
 import com.fwrp.dbService.FoodDbService;
 import com.fwrp.dbService.InventoryDbService;

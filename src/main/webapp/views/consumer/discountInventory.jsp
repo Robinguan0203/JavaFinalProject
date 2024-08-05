@@ -42,12 +42,12 @@
                 <td class="border border-slate-300 p-2">${i.getQtyNormal()}</td>
                 <td class="border border-slate-300 p-2">
                     <form action="${pageContext.request.contextPath}/ConsumerController" method="post">
-                        <input type="hidden" name="action" value="storeOrder" />
+                        <input type="hidden" name="action" value="showOrder" />
                         <input type="hidden" name="id" value="${i.getId()}" />
                         <input type="hidden" name="foodId" value="${i.getFood().getId()}" />
                         <input type="hidden" name="foodName" value="${i.getFood().getName()}" />
                         <input type="hidden" name="qtyDiscount" value="${i.getQtyDiscount()}" />
-                        <input type="hidden" name="orderQty" value="${i.getQtyDiscount()}" />
+                        
                         <button class="bg-green-100 hover:bg-green-300 p-4 m-2 rounded-md" type="submit">Order</button>
                     </form>
                 </td>
