@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/*
- *
+/**
+ * Unit tests for the UserFactory class.
  * @author YAOZHOU XIE
  */
 public class UserFactoryTest {
