@@ -1,5 +1,6 @@
 package com.fwrp.dataaccess.dao;
 
+import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.dataaccess.dto.SubscriptionDTO;
 
 import java.sql.Connection;
@@ -7,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the SubscriptionDAO interface.
@@ -17,8 +20,8 @@ import java.util.List;
  * @since 17.0.8
  */
 public class SubscriptionDAOImpl implements SubscriptionDAO {
-
-	/**
+    
+    /**
      * Adds a new subscription for a user.
      * 
      * @param userId The ID of the user.
@@ -43,7 +46,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
         return isSuccess;
     }
 
-	/**
+    /**
      * Retrieves all subscription methods for a specific user.
      * 
      * @param userId The ID of the user.
@@ -74,7 +77,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
         return subscriptionDTOS;
     }
 
-	/**
+    /**
      * Deletes a subscription by its ID.
      * 
      * @param id The ID of the subscription to be deleted.
@@ -96,5 +99,65 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
 
         return isSuccess;
     }
-
+    
+    /**
+     * Retrieves the subscription methods for charities.
+     * 
+     * @param conn The SQL connection used to access the database.
+     * @return Map<Integer, Integer> A map of charity IDs to their subscription methods.
+     * @throws SQLException if a database access error occurs
+     */
+    public Map<Integer, Integer> getCharitySubscribeInfo(Connection conn) throws SQLException{
+        Map<Integer, Integer> map = new HashMap<>();
+        
+        try(PreparedStatement pstmt = conn.prepareStatement("SELECT user_id, method "
+                + "FROM subscriptions as s "
+                + "LEFT JOIN users ON s.user_id = users.id "
+                + "WHERE type = " + UserTypeConstant.CHARITY)){
+            
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    int method = rs.getInt("method");
+                    
+                    map.put(userId, method);
+                }
+            }
+            
+        }
+            
+        return map;
+    }
+    
+    /**
+     * Retrieves the subscription methods for consumers by food ID.
+     * 
+     * @param foodId The ID of the food item.
+     * @param conn The SQL connection used to access the database.
+     * @return Map<Integer, Integer> A map of consumer IDs to their subscription methods.
+     * @throws SQLException if a database access error occurs
+     */
+    public Map<Integer, Integer> getConsumerSubscribeInfo(int foodId,Connection conn) throws SQLException{
+        Map<Integer, Integer> map = new HashMap<>();
+         try(PreparedStatement pstmt = conn.prepareStatement("SELECT s.user_id, method "
+                 + "FROM subscriptions as s "
+                 + "LEFT JOIN users on s.user_id = users.id "
+                 + "LEFT JOIN preferences as p on s.user_id = p.user_id "
+                 + "WHERE food_id = ? "
+                 + "AND type = " + UserTypeConstant.CONSUMER)){
+            
+            pstmt.setInt(1, foodId);
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    int method = rs.getInt("method");
+                    
+                    map.put(userId, method);
+                }
+            }
+            
+        }
+            
+        return map;
+    }
 }

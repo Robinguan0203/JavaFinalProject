@@ -4,10 +4,64 @@
  */
 package com.fwrp.services;
 
+import com.fwrp.dbService.NotificationDbService;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- *
- * @author Ke Yan
+ * NotificationService provides methods to interact with the notification database.
+ * 
+ * This class includes methods to retrieve notification methods for charities and consumers,
+ * as well as to insert new notifications into the database.
+ * 
+ * @author Robin Guan
  */
 public class NotificationService {
     
+    /**
+     * Retrieves the notification methods for all charities.
+     * 
+     * This method calls the NotificationDbService to get a map of user IDs to notification methods for charities.
+     * 
+     * @return Map<Integer, Integer> A map where the key is the user ID and the value is the notification method.
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the NotificationDbService class cannot be found
+     */
+    public Map<Integer, Integer> getNotificationMethodOfCharity() throws SQLException, ClassNotFoundException {
+        NotificationDbService dbService = new NotificationDbService();
+        return dbService.getCharityNotificationMethod();
+    }
+    
+    /**
+     * Retrieves the notification methods for consumers by food ID.
+     * 
+     * This method calls the NotificationDbService to get a map of user IDs to notification methods for consumers
+     * based on a specific food ID.
+     * 
+     * @param foodId The ID of the food item.
+     * @return Map<Integer, Integer> A map where the key is the user ID and the value is the notification method.
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the NotificationDbService class cannot be found
+     */
+    public Map<Integer, Integer> getNotificationMethodOfConsumetByFoodId(int foodId) throws SQLException, ClassNotFoundException {
+        NotificationDbService dbService = new NotificationDbService();
+        return dbService.getConsumerNotificationMethodByFoodId(foodId);
+    }
+    
+    /**
+     * Inserts a new notification into the database.
+     * 
+     * This method calls the NotificationDbService to insert a new notification for a specified user and method.
+     * 
+     * @param userId The ID of the user.
+     * @param method The method of notification.
+     * @param message The notification message to be inserted.
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the NotificationDbService class cannot be found
+     */
+    public void insertNotification(int userId, int method, String message) throws SQLException, ClassNotFoundException{
+        NotificationDbService dbService = new NotificationDbService();
+        dbService.insertNotification(userId, method, message);
+    }
 }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public interface NotificationDAO{
 	
-	/**
+    /**
      * Sends a notification.
      * 
      * @param notification The notification message to be sent.
@@ -27,7 +27,7 @@ public interface NotificationDAO{
      */
     boolean sendNotifications(String notification ,Connection conn)  throws SQLException;
 	
-	/**
+    /**
      * Retrieves notifications by user ID and method.
      * 
      * @param userId The ID of the user to retrieve notifications for.
@@ -38,7 +38,7 @@ public interface NotificationDAO{
      */
     ArrayList<NotificationDTO> getNotificationByUserIdAndMethod(int userId, int method, Connection conn) throws SQLException;
 	
-	/**
+    /**
      * Gets the count of notifications by user ID and method.
      * 
      * @param userId The ID of the user to count notifications for.
@@ -48,4 +48,16 @@ public interface NotificationDAO{
      * @throws SQLException if a database access error occurs
      */
     int getNotifictionCountByUserIdAndMethod(int userId, int method, Connection conn) throws SQLException;
+    
+    /**
+     * Inserts a notification for a user.
+     * 
+     * @param userId The ID of the user.
+     * @param method The method of notification.
+     * @param notification The notification message to be inserted.
+     * @param conn SQL connection
+     * @return boolean Returns true if the notification was successfully inserted, false otherwise.
+     * @throws SQLException if a database access error occurs
+     */
+    public boolean insertNotification(int userId, int method, String notification, Connection conn) throws SQLException;
 }

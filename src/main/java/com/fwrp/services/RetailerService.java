@@ -218,15 +218,19 @@ public class RetailerService {
      * @throws SQLException if a database access error occurs
      * @throws ClassNotFoundException if the class is not found
      */
-    public void listSurplusFood(int FoodId, int qtyDiscount,int qtyDonation, Retailer retailer) throws NegativeInventoryException, SQLException, ClassNotFoundException{
+    public void listSurplusFood(int foodId, int qtyDiscount,int qtyDonation, Retailer retailer) throws NegativeInventoryException, SQLException, ClassNotFoundException{
         FoodDbService foodDbService = new FoodDbService();
-        Food food = foodDbService.getFoodById(FoodId);
+        Food food = foodDbService.getFoodById(foodId);
         int qtyNormal = - (qtyDiscount + qtyDonation);
        
         ManageInventoryChange qtyChange = retailer.createInventorychange(food, qtyNormal, qtyDiscount, qtyDonation);
-        sendNotifications("Food is "+food.getName()+" and discount quantity is "+qtyDiscount+" and donation quantity is "+qtyDonation);
+        
         RetailerTransaction transaction = qtyChange.createTransaction();
         transaction.storeTransaction();
+        
+        NotificationSubject notifier = new NotificationSubject();
+        notifier.registerAllObservers(foodId);
+        notifier.notifyObservers("Food is " + food.getName() + " and discount quantity is " + qtyDiscount + " and donation quantity is " + qtyDonation);
     }
     
     /**
@@ -257,12 +261,12 @@ public class RetailerService {
     }
     
     /**
-	 * Retrieves all transactions.
-	 * 
-	 * @return ArrayList<Transaction> A list of all transactions.
-	 * @throws SQLException if a database access error occurs or the SQL query fails.
-	 * @throws ClassNotFoundException if the JDBC driver class is not found.
-	 */
+    * Retrieves all transactions.
+    * 
+    * @return ArrayList<Transaction> A list of all transactions.
+    * @throws SQLException if a database access error occurs or the SQL query fails.
+    * @throws ClassNotFoundException if the JDBC driver class is not found.
+    */
     public ArrayList<Transaction> getAllTransactions() throws SQLException, ClassNotFoundException{        
         InventoryDbService dbService = new InventoryDbService();
         ArrayList<Transaction> transactions = dbService.getTransactions();
