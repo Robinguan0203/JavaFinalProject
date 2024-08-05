@@ -40,7 +40,7 @@ public interface TransactionDAO{
      * Retrieves all transactions from the data source.
      * 
      * @param conn SQL connection
-     * @return ArrayList<TransactionDTO> A list of all transactions.
+     * @return ArrayList&lt;TransactionDTO&gt;> A list of all transactions.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     ArrayList<TransactionDTO> getAllTransactions(Connection conn) throws SQLException;
@@ -50,7 +50,7 @@ public interface TransactionDAO{
      * 
      * @param userId The ID of the user.
      * @param conn The SQL connection used to access the database.
-     * @return ArrayList<Transaction> A list of transactions for the specified user.
+     * @return ArrayList&lt;TransactionDTO&gt; A list of transactions for the specified user.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the Transaction class is not found.
      */

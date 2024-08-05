@@ -68,7 +68,7 @@ public class CharityService {
         transaction.updateExpireInfo();
     }
     
-	/**
+    /**
      * Deletes a claim by its ID.
      * 
      * @param id The ID of the claim to be deleted.
@@ -81,12 +81,12 @@ public class CharityService {
 
         return dbService.deleteClaimById(id);
     }
-
-	/**
+    
+    /**
      * Retrieves transactions by user ID.
      * 
      * @param userId The ID of the user.
-     * @return ArrayList<Transaction> A list of transactions associated with the specified user ID.
+     * @return array A list of transactions associated with the specified user ID.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */

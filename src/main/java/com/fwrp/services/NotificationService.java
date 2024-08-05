@@ -41,7 +41,7 @@ public class NotificationService {
      * based on a specific food ID.
      * 
      * @param foodId The ID of the food item.
-     * @return Map<Integer, List<Integer>> A map where the key is the user ID and the value is the notification method.
+     * @return {@code Map<Integer, List<Integer>>} A map where the key is the user ID and the value is the notification method.
      * @throws SQLException if a database access error occurs
      * @throws ClassNotFoundException if the NotificationDbService class cannot be found
      */

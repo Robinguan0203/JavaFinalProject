@@ -15,9 +15,12 @@ import java.util.Date;
  * @autor Robin Guan
  */
 public class TransactionDirector {
+    /**
+     * The transaction builder used to construct transactions.
+     */
     public ITransactionBuilder builder;
 	
-	/**
+    /**
      * Constructor for TransactionDirector.
      * 
      * @param builder the transaction builder
@@ -26,7 +29,7 @@ public class TransactionDirector {
         this.builder = builder;
     }
 
-	/**
+    /**
      * Builds a retailer transaction.
      * 
      * @param food the food item

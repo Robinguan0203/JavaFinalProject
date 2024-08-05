@@ -55,7 +55,7 @@ public class FoodDAOImpl implements FoodDAO {
      * Retrieves all food items from the data source.
      * 
      * @param conn SQL connection
-     * @return ArrayList<Food> A list of {@link Food} objects.
+     * @return ArrayList&lt;Food&gt; A list of {@link Food} objects.
      * @throws SQLException if a database access error occurs
      */
     @Override

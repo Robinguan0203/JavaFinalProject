@@ -29,7 +29,7 @@ public interface OrderDAO {
      * 
      * @param userId The ID of the user for whom orders are to be retrieved.
      * @param conn The SQL connection used to access the database.
-     * @return List<Order> A list of {@link Order} objects containing the orders for the specified user.
+     * @return List&lt;Order&gt; A list of {@link Order} objects containing the orders for the specified user.
      * @throws SQLException if a database access error occurs
      */
     List<Order> getOrderByUserId(int userId, Connection conn) throws SQLException;

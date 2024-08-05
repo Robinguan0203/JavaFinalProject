@@ -19,14 +19,14 @@ import java.util.Map;
 public interface PreferenceDAO{
 	
     /**
-     * Adds a new subscription for a user.
-     * 
-     * @param userId The ID of the user.
-     * @param method The subscription method.
-     * @param conn The SQL connection used to access the database.
-     * @return boolean True if the subscription was added successfully, false otherwise.
-     * @throws SQLException if a database access error occurs
-     */
+    * Adds a new preference for a user.
+    * 
+    * @param userId The ID of the user.
+    * @param foodId The ID of the food item.
+    * @param conn The SQL connection used to access the database.
+    * @return boolean True if the preference was added successfully, false otherwise.
+    * @throws SQLException if a database access error occurs.
+    */
     boolean addPreference(int userId,int foodId , Connection conn)  throws SQLException;
 	
     /**
@@ -34,7 +34,7 @@ public interface PreferenceDAO{
      * 
      * @param userId The ID of the user.
      * @param conn The SQL connection used to access the database.
-     * @return List<SubscriptionDTO> A list of {@link SubscriptionDTO} objects containing the subscription methods for the specified user.
+     * @return List&lt;SubscriptionDTO&gt; A list of {@link SubscriptionDTO} objects containing the subscription methods for the specified user.
      * @throws SQLException if a database access error occurs
      */
     List<Preference> getAllFoodIdByUserId(int userId, Connection conn) throws SQLException;

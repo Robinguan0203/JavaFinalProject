@@ -108,7 +108,7 @@ public class ClaimDbService {
      * Retrieves a list of claims by user ID.
      * 
      * @param userId The ID of the user whose claims are to be retrieved.
-     * @return List<Claim> A list of claims associated with the specified user ID.
+     * @return List&lt;Claim&gt; A list of claims associated with the specified user ID.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */

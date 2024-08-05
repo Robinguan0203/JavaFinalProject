@@ -31,7 +31,7 @@ public class Retailer extends User {
 	/**
      * Retrieves surplus items that are close to expiration.
      * 
-     * @return ArrayList<ExpireInfo> A list of surplus items with expiration information.
+     * @return {@code ArrayList<ExpireInfo>} A list of surplus items with expiration information.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */

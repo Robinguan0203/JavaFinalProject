@@ -101,7 +101,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      * Retrieves all transactions from the data source.
      * 
      * @param conn SQL connection
-     * @return ArrayList<TransactionDTO> A list of all transactions.
+     * @return ArrayList&lt;TransactionDTO&gt; A list of all transactions.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      */
     @Override
@@ -147,7 +147,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      * 
      * @param userId The ID of the user whose transactions are to be retrieved.
      * @param conn SQL connection
-     * @return ArrayList<Transaction> A list of transactions for the specified user.
+     * @return ArrayList&lt;Transaction&gt;> A list of transactions for the specified user.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the user type is invalid.
      */

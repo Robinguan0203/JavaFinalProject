@@ -279,7 +279,7 @@ public class InventoryDbService {
 	 * Retrieves a list of ExpireInfoDTO objects by food ID.
 	 * 
 	 * @param foodId The ID of the food for which the expire information is to be retrieved.
-	 * @return ArrayList<ExpireInfoDTO> A list of ExpireInfoDTO objects associated with the specified food ID.
+	 * @return ArrayList&lt;ExpireInfoDTO&gt; A list of ExpireInfoDTO objects associated with the specified food ID.
 	 * @throws SQLException if a database access error occurs or the SQL query fails.
 	 * @throws ClassNotFoundException if the JDBC driver class is not found.
 	 */
@@ -533,13 +533,13 @@ public class InventoryDbService {
         return inventoryMap;  
     }
 
-	/**
-	 * Retrieves a list of all transactions from the database.
-	 * 
-	 * @return ArrayList<Transaction> A list of all transactions.
-	 * @throws SQLException if a database access error occurs or the SQL query fails.
-	 * @throws ClassNotFoundException if the JDBC driver class is not found.
-	 */
+    /**
+     * Retrieves a list of all transactions from the database.
+     * 
+     * @return {@code ArrayList<Transaction>} A list of all transactions.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public ArrayList<Transaction> getTransactions() throws SQLException, ClassNotFoundException{
         ArrayList<Transaction> transactions = new ArrayList<>();
 
@@ -555,14 +555,14 @@ public class InventoryDbService {
         return transactions;
     }
 
-	/**
-	 * Retrieves a list of transactions for a specific user by their user ID.
-	 * 
-	 * @param userId The ID of the user for whom the transactions are to be retrieved.
-	 * @return ArrayList<Transaction> A list of transactions associated with the specified user ID.
-	 * @throws SQLException if a database access error occurs or the SQL query fails.
-	 * @throws ClassNotFoundException if the JDBC driver class is not found.
-	 */
+    /**
+     * Retrieves a list of transactions for a specific user by their user ID.
+     * 
+     * @param userId The ID of the user for whom the transactions are to be retrieved.
+     * @return {@code ArrayList<Transaction>} A list of transactions associated with the specified user ID.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     */
     public ArrayList<Transaction> getTransactionsByUserId(int userId) throws SQLException, ClassNotFoundException{
         ArrayList<Transaction> transactions = new ArrayList<>();
 

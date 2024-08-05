@@ -33,7 +33,7 @@ public interface NotificationDAO{
      * @param userId The ID of the user to retrieve notifications for.
      * @param method The method of notification.
      * @param conn SQL connection
-     * @return ArrayList<NotificationDTO> A list of {@link NotificationDTO} objects.
+     * @return List&lt;NotificationDTO&gt; A list of {@link NotificationDTO} objects.
      * @throws SQLException if a database access error occurs
      */
     ArrayList<NotificationDTO> getNotificationByUserIdAndMethod(int userId, int method, Connection conn) throws SQLException;

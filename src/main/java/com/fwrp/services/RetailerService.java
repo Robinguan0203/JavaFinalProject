@@ -208,16 +208,19 @@ public class RetailerService {
     }
     
     /**
-     * Lists surplus food items.
-     * 
-     * @param FoodId the ID of the food
-     * @param qtyDiscount the quantity to discount
-     * @param qtyDonation the quantity to donate
-     * @param retailer the retailer managing the inventory change
-     * @throws NegativeInventoryException if the inventory becomes negative
-     * @throws SQLException if a database access error occurs
-     * @throws ClassNotFoundException if the class is not found
-     */
+    * Lists surplus food items.
+    * 
+    * This method manages the inventory change for surplus food items by discounting and donating specified quantities.
+    * It also notifies registered observers about the inventory change.
+    * 
+    * @param foodId The ID of the food item.
+    * @param qtyDiscount The quantity to discount.
+    * @param qtyDonation The quantity to donate.
+    * @param retailer The retailer managing the inventory change.
+    * @throws NegativeInventoryException if the inventory becomes negative.
+    * @throws SQLException if a database access error occurs.
+    * @throws ClassNotFoundException if a required class cannot be found.
+    */
     public void listSurplusFood(int foodId, int qtyDiscount,int qtyDonation, Retailer retailer) throws NegativeInventoryException, SQLException, ClassNotFoundException{
         FoodDbService foodDbService = new FoodDbService();
         Food food = foodDbService.getFoodById(foodId);
@@ -263,7 +266,7 @@ public class RetailerService {
     /**
     * Retrieves all transactions.
     * 
-    * @return ArrayList<Transaction> A list of all transactions.
+    * @return {@code ArrayList<Transaction>} A list of all transactions.
     * @throws SQLException if a database access error occurs or the SQL query fails.
     * @throws ClassNotFoundException if the JDBC driver class is not found.
     */

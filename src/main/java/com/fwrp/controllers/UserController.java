@@ -110,30 +110,70 @@ public class UserController extends HttpServlet {
         return null;
     }
     
-	/**
+    /**
      * Enum representing different method types for user notifications.
      */
     public enum MethodType {
+        
+        /**
+        * Email notification method.
+        * Code: 1
+        * Description: EMAIL
+        */
         EMAIL(1, "EMAIL"),
+        
+        /**
+        * Phone notification method.
+        * Code: 2
+        * Description: PHONE
+        */
         PHONE(2, "PHONE"),
+        
+        /**
+        * System notification method.
+        * Code: 3
+        * Description: SYSTEM
+        */
         SYSTEM(3, "SYSTEM");
 
         private final int code;
         private final String description;
 
+        /**
+        * Constructor for MethodType enum.
+        *
+        * @param code        the code representing the method type
+        * @param description the description of the method type
+        */
         MethodType(int code, String description) {
             this.code = code;
             this.description = description;
         }
 
+        /**
+        * Gets the code of the method type.
+        *
+        * @return the code of the method type
+        */
         public int getCode() {
             return code;
         }
 
+        /**
+        * Gets the description of the method type.
+        *
+        * @return the description of the method type
+        */
         public String getDescription() {
             return description;
         }
 
+        /**
+        * Gets the description of the method type by its code.
+        *
+        * @param code the code of the method type
+        * @return the description of the method type, or "Unknown" if the code does not match any method type
+        */
         public static String getDescriptionByCode(int code) {
             for (MethodType type : values()) {
                 if (type.getCode() == code) {

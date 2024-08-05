@@ -4,6 +4,15 @@
  */
 package com.fwrp.dataaccess.dto;
 
+/**
+ * Data Transfer Object for user preferences.
+ * <p>
+ * This class represents a user preference with a unique identifier, user ID, and food ID.
+ * </p>
+ * 
+ * @version 1.0
+ * @since 17.0.8
+ */
 public class PreferenceDTO {
     /**
      * The unique identifier for the subscription
@@ -20,10 +29,20 @@ public class PreferenceDTO {
      */
     private int foodId;
 
+    /**
+     * Gets the unique identifier for the food item.
+     *
+     * @return int The food ID.
+     */
     public int getFoodId() {
         return foodId;
     }
 
+    /**
+     * Sets the unique identifier for the food item.
+     *
+     * @param foodId The food ID.
+     */
     public void setFoodId(int foodId) {
         this.foodId = foodId;
     }

@@ -50,7 +50,7 @@ public class NotificationDAOImpl implements NotificationDAO {
     * @param userId The ID of the user for whom notifications are to be retrieved.
     * @param method The method by which the notification was sent (e.g., email, SMS).
     * @param conn The SQL connection used to access the database.
-    * @return ArrayList<NotificationDTO> A list of {@link NotificationDTO} objects containing the notifications
+    * @return ArrayList&lt;NotificationDTO&gt; A list of {@link NotificationDTO} objects containing the notifications
     *         for the specified user and method.
     * @throws SQLException if a database access error occurs or the SQL query fails
     */

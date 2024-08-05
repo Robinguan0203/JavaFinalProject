@@ -87,7 +87,7 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
      * 
      * @param foodID The food_id of the expireInfos to retrieve.
      * @param conn SQL connection
-     * @return ArrayList<ExpireInfoDTO> A list of ExpireInfoDTO objects.
+     * @return ArrayList&lt;ExpireInfoDTO&gt; A list of ExpireInfoDTO objects.
      * @throws SQLException if a database access error occurs
      */
     @Override
@@ -118,7 +118,7 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
      * 
      * @param expireDate The expire date to compare.
      * @param conn SQL connection
-     * @return ArrayList<ExpireInfoDTO> A list of ExpireInfoDTO objects.
+     * @return ArrayList&lt;ExpireInfoDTO&gt; A list of ExpireInfoDTO objects.
      * @throws SQLException if a database access error occurs
      */
     @Override
@@ -149,7 +149,7 @@ public class ExpireInfoDAOImpl implements ExpireInfoDAO{
      * Retrieves all expireInfos.
      * 
      * @param conn SQL connection
-     * @return ArrayList<ExpireInfoDTO> A list of all ExpireInfoDTO objects.
+     * @return ArrayList&lt;ExpireInfoDTO&gt; A list of all ExpireInfoDTO objects.
      * @throws SQLException if a database access error occurs
      */
     @Override

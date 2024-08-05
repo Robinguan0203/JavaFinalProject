@@ -106,7 +106,7 @@ public class OrderDbService {
      * Retrieves a list of orders for a specific user by their user ID.
      * 
      * @param userId The ID of the user for whom the orders are to be retrieved.
-     * @return List<Order> A list of orders associated with the specified user ID.
+     * @return {@code List<Order>} A list of orders associated with the specified user ID.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */

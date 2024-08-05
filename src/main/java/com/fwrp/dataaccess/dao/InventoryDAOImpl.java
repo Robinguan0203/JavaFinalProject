@@ -145,7 +145,7 @@ public class InventoryDAOImpl implements InventoryDAO {
      * Retrieves a list of all donation inventories.
      * 
      * @param conn SQL connection
-     * @return List<Inventory> A list of {@link Inventory} objects representing donation inventories.
+     * @return List&lt;Inventory&gt; A list of {@link Inventory} objects representing donation inventories.
      * @throws SQLException if a database access error occurs
      */
     public List<Inventory> getDonationInventories(Connection conn) throws SQLException {
@@ -178,7 +178,7 @@ public class InventoryDAOImpl implements InventoryDAO {
 	 * Retrieves a list of all discount inventories.
 	 * 
 	 * @param conn SQL connection
-	 * @return List<Inventory> A list of {@link Inventory} objects representing discount inventories.
+	 * @return List&lt;Inventory&gt; A list of {@link Inventory} objects representing discount inventories.
 	 * @throws SQLException if a database access error occurs
 	 */
     public List<Inventory> getDiscountInventories(Connection conn) throws SQLException {

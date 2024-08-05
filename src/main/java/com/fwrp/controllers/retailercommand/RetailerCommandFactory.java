@@ -9,22 +9,19 @@ package com.fwrp.controllers.retailercommand;
  * <p>
  * It maps action strings to specific command implementations that handle various retailer operations.
  * </p>
- * 
- * <p>Note: Each command class should implement the {@link IRetailerCommand} interface.</p>
- * 
- * @param action the action string that determines which command to create
- * @return an instance of a class that implements {@link IRetailerCommand} based on the action string *  
- * 
- * <p>Note: Each command class should implement the {@link IRetailerCommand} interface.</p>
- * 
- * @param action the action string that determines which command to create
- * @return an instance of a class that implements {@link IRetailerCommand} based on the action string
  *
  * @author Robin Guan(041117292)
  * @version 1.0
  * @since 17.0.8
  */
 public class RetailerCommandFactory {
+    
+    /**
+     * Returns a command object based on the provided action string.
+     * 
+     * @param action The action string that determines which command to create.
+     * @return IRetailerCommand The command object corresponding to the action string.
+     */
     public static IRetailerCommand getCommand(String action) {
         switch (action) {
             case "addFood":

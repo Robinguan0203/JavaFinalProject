@@ -117,52 +117,73 @@ public class UserService {
         return userDbService.getNotificationCount(user);
     }
 
-	/**
-	 * Adds a subscription for a user with a specified method.
-	 * 
-	 * @param userId The ID of the user.
-	 * @param method The subscription method.
-	 * @throws Exception if an error occurs while adding the subscription.
-	 */
+    /**
+     * Adds a subscription for a user with a specified method.
+     * 
+     * @param userId The ID of the user.
+     * @param method The subscription method.
+     * @throws Exception if an error occurs while adding the subscription.
+     */
     public void addSubscription(int userId,int method) throws Exception{
         SubscriptionDbService dbService = new SubscriptionDbService();
         dbService.addSubscription(userId,method);
     }
     
+    /**
+     * Adds a preference for a user with a specified food ID.
+     * 
+     * @param userId The ID of the user.
+     * @param foodId The ID of the food.
+     * @throws Exception if an error occurs while adding the preference.
+     */
     public void addPreference(int userId,int foodId) throws Exception{
         PreferenceDbService dbService = new PreferenceDbService();
         dbService.addPreference(userId,foodId);
     }
 
-	/**
-	 * Retrieves all subscription methods for a given user ID.
-	 * 
-	 * @param userId The ID of the user.
-	 * @return List<SubscriptionDTO> A list of subscription methods associated with the specified user ID.
-	 * @throws ClassNotFoundException if the JDBC driver class is not found.
-	 * @throws SQLException if a database access error occurs or the SQL query fails.
-	 */
+    /**
+     * Retrieves all subscription methods for a given user ID.
+     * 
+     * @param userId The ID of the user.
+     * @return {@code List<SubscriptionDTO>} A list of subscription methods associated with the specified user ID.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     */
     public List<SubscriptionDTO> getAllMethodsByUserId(int userId) throws ClassNotFoundException, SQLException {
         SubscriptionDbService dbService = new SubscriptionDbService();
         return dbService.getAllMethodsByUserId(userId);
     }
     
+    /**
+     * Retrieves all subscription methods for a given user ID.
+     * 
+     * @param userId The ID of the user.
+     * @return {@code List<SubscriptionDTO>} A list of subscription methods associated with the specified user ID.
+     * @throws ClassNotFoundException if the JDBC driver class is not found.
+     * @throws SQLException if a database access error occurs or the SQL query fails.
+     */
     public List<Preference> getAllFoodIdByUserId(int userId) throws ClassNotFoundException, SQLException {
         PreferenceDbService dbService = new PreferenceDbService();
         return dbService.getAllFoodIdByUserId(userId);
     }
 
-	/**
-	 * Deletes a subscription by its ID.
-	 * 
-	 * @param id The ID of the subscription to be deleted.
-	 * @throws Exception if an error occurs while deleting the subscription.
-	 */
+    /**
+     * Deletes a subscription by its ID.
+     * 
+     * @param id The ID of the subscription to be deleted.
+     * @throws Exception if an error occurs while deleting the subscription.
+     */
     public void deleteSubscription(int id) throws Exception{
         SubscriptionDbService dbService = new SubscriptionDbService();
         dbService.deleteSubscription(id);
     }
     
+    /**
+     * Deletes a preference by its ID.
+     * 
+     * @param id The ID of the preference to be deleted.
+     * @throws Exception if an error occurs while deleting the preference.
+     */
     public void deletePreference(int id) throws Exception{
         PreferenceDbService dbService = new PreferenceDbService();
         dbService.deletePreference(id);

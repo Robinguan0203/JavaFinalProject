@@ -88,7 +88,7 @@ public class SubscriptionDbService {
      * Retrieves all subscription methods for a specific user by their user ID.
      * 
      * @param userId The ID of the user.
-     * @return List<SubscriptionDTO> A list of subscription methods associated with the specified user ID.
+     * @return {@code List<SubscriptionDTO>} A list of subscription methods associated with the specified user ID.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */

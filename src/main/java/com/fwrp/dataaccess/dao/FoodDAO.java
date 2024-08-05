@@ -29,7 +29,7 @@ public interface FoodDAO {
      * Retrieves all food items from the data source.
      * 
      * @param conn SQL connection
-     * @return ArrayList<Food> A list of Food objects.
+     * @return ArrayList&lt;Food&gt; A list of Food objects.
      * @throws SQLException if a database access error occurs
      */
     ArrayList<Food> getAllFoods(Connection conn)  throws SQLException;

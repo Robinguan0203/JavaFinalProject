@@ -15,7 +15,15 @@ import java.sql.SQLException;
  * @author Robin Guan
  */
 public class CharityNotificationObserver implements NotificationObserver{
+    
+    /**
+     * The ID of the user.
+     */
     private int userId;
+    
+    /**
+     * The method of notification.
+     */
     private int method;
     
     /**

@@ -27,9 +27,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * ConsumerController handles various actions related to consumer operations.
+ */
 @WebServlet("/ConsumerController")
 public class ConsumerController extends HttpServlet {
 
+    /**
+     * Handles POST requests and routes to the appropriate action.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); 
@@ -81,6 +92,12 @@ public class ConsumerController extends HttpServlet {
         }
     }
     
+    /**
+     * Retrieves the consumer object from the session.
+     *
+     * @param request the HttpServletRequest object
+     * @return the Consumer object or null if not found
+     */
     private Consumer getConsumerFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -89,6 +106,15 @@ public class ConsumerController extends HttpServlet {
         return null;
     }
 
+    /**
+     * Checks the inventory and sets attributes for the request.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     * @throws ClassNotFoundException if a class cannot be found
+     */
     private void checkInventory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException {
         HttpSession session = request.getSession(false);
 
@@ -121,6 +147,14 @@ public class ConsumerController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    /**
+     * Shows the order details.
+     *
+     * @param req  the HttpServletRequest object
+     * @param resp the HttpServletResponse object
+     * @throws IOException      if an I/O error occurs
+     * @throws ServletException if a servlet-specific error occurs
+     */
     private void showOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         //int id=Integer.parseInt(req.getParameter("id"));
 
@@ -133,6 +167,16 @@ public class ConsumerController extends HttpServlet {
          resp.getWriter().println("Create order functionality");
     }
 
+    /**
+     * Deletes an order by its ID.
+     *
+     * @param req  the HttpServletRequest object
+     * @param resp the HttpServletResponse object
+     * @throws IOException      if an I/O error occurs
+     * @throws SQLException     if a database access error occurs
+     * @throws ClassNotFoundException if a class cannot be found
+     * @throws ServletException if a servlet-specific error occurs
+     */
     private void deleteOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException, ClassNotFoundException, ServletException {
         int id=Integer.parseInt(req.getParameter("id"));
 
@@ -143,7 +187,17 @@ public class ConsumerController extends HttpServlet {
         checkInventory(req,resp);
     }
 
-
+    /**
+     * Stores a new order.
+     *
+     * @param req  the HttpServletRequest object
+     * @param resp the HttpServletResponse object
+     * @throws IOException      if an I/O error occurs
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws SQLException     if a database access error occurs
+     * @throws ClassNotFoundException if a class cannot be found
+     * @throws NegativeInventoryException if the inventory is negative
+     */
     private void storeOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, SQLException, ClassNotFoundException, NegativeInventoryException {
         //int id=Integer.parseInt(req.getParameter("id"));
         HttpSession session = req.getSession(false);
@@ -186,12 +240,16 @@ public class ConsumerController extends HttpServlet {
         } catch (IOException |ClassNotFoundException |ServletException |DataInsertionFailedException e) {
             throw new RuntimeException(e);
         } 
-
-        //dispatcher.forward(req, resp);
-//        resp.getWriter().println("Create order successfully!");
-
     }
 
+    /**
+     * Checks the transactions for the consumer.
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     public void checkTransaction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ConsumerService consumerService = new ConsumerService();
         Consumer consumer = this.getConsumerFromSession(request);
@@ -211,6 +269,13 @@ public class ConsumerController extends HttpServlet {
             return;
         }
     }
+    
+    /**
+     * Retrieves the consumer object from the session.
+     *
+     * @param request the HttpServletRequest object
+     * @return the Consumer object or null if not found
+     */
     private Consumer getConsumerrFromSession(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -219,7 +284,12 @@ public class ConsumerController extends HttpServlet {
         return null;
     }
 
-
+    /**
+     * Retrieves the order input history from the request.
+     *
+     * @param request the HttpServletRequest object
+     * @return an array of input history
+     */
     private String[] getOrderInputHistory(HttpServletRequest request) {
         String[] inputHistory = new String[4];
         inputHistory[0] = request.getParameter("name");

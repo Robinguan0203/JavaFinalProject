@@ -19,6 +19,10 @@ import java.util.Map;
  * @autor Robin Guan
  */
 public class NotificationSubject {
+    
+    /**
+     * A list of registered observers.
+     */
     public List<NotificationObserver> observers = new ArrayList<>();
     
     /**
@@ -56,6 +60,15 @@ public class NotificationSubject {
     }
     
     /**
+     * Clears all registered observers.
+     * 
+     * This method removes all observers from the list.
+     */
+    public void clearObservers() {
+        observers.clear();
+    }
+    
+    /**
      * Registers a new observer.
      * 
      * This method adds a new observer to the list of observers.
@@ -90,5 +103,7 @@ public class NotificationSubject {
         for(NotificationObserver observer : observers){
             observer.update(message);
         }
+        
+        clearObservers();
     }
 }

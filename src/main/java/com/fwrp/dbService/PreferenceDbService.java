@@ -32,15 +32,15 @@ public class PreferenceDbService {
         preferenceDAO = new PreferenceDAOImpl();
     }
 
-	/**
-     * Adds a new subscription for a user.
-     * 
-     * @param userId The ID of the user.
-     * @param method The subscription method.
-     * @return boolean True if the subscription was successfully added, otherwise false.
-     * @throws SQLException if a database access error occurs or the SQL query fails.
-     * @throws ClassNotFoundException if the JDBC driver class is not found.
-     */
+    /**
+    * Adds a new subscription for a user.
+    * 
+    * @param userId The ID of the user.
+    * @param foodId The ID of the food item.
+    * @return boolean True if the subscription was successfully added, otherwise false.
+    * @throws SQLException if a database access error occurs or the SQL query fails.
+    * @throws ClassNotFoundException if the JDBC driver class is not found.
+    */
     public boolean addPreference(int userId,int foodId) throws SQLException, ClassNotFoundException{
         Connection conn = null;
 
@@ -89,7 +89,7 @@ public class PreferenceDbService {
      * Retrieves all subscription methods for a specific user by their user ID.
      * 
      * @param userId The ID of the user.
-     * @return List<SubscriptionDTO> A list of subscription methods associated with the specified user ID.
+     * @return {@code List<SubscriptionDTO>} A list of subscription methods associated with the specified user ID.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */
