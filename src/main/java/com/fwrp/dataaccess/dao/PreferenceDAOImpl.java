@@ -2,6 +2,9 @@ package com.fwrp.dataaccess.dao;
 
 import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.dataaccess.dto.PreferenceDTO;
+import com.fwrp.models.Consumer;
+import com.fwrp.models.Food;
+import com.fwrp.models.Preference;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,26 +58,37 @@ public class PreferenceDAOImpl implements PreferenceDAO {
      * @throws SQLException if a database access error occurs
      */
     @Override
-    public List<PreferenceDTO> getAllFoodIdByUserId(int userId, Connection conn) throws SQLException {
-        List<PreferenceDTO> preferenceDTOS = new ArrayList<>();
+    public List<Preference> getAllFoodIdByUserId(int userId, Connection conn) throws SQLException {
+        List<Preference> preferences = new ArrayList<>();
+        String sql = "select * from preferences as p left join foods on p.food_id = foods.id left join users on p.user_id = users.id where users.id = ?";
 
-        try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM preferences "
-                + "WHERE user_id = ?")){
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
 
             pstmt.setInt(1, userId);
             try(ResultSet rs = pstmt.executeQuery()){
                 while (rs.next()) {
-                    PreferenceDTO preferenceDTO = new PreferenceDTO();
-                    preferenceDTO.setId(rs.getInt("id"));
-                    preferenceDTO.setUserId(rs.getInt("user_id"));
-                    preferenceDTO.setFoodId(rs.getInt("food_id"));
-
-                    preferenceDTOS.add(preferenceDTO);
+                    Food food = new Food();
+                    food.setId(rs.getInt("food_id"));
+                    food.setName(rs.getString("name"));
+                    food.setDiscount(rs.getDouble("discount"));
+                    food.setExpireDays(rs.getInt("expire_days"));
+                    food.setUnitPrice(rs.getDouble("unitprice"));
+                    Consumer consumer = new Consumer();
+                    consumer.setId(rs.getInt("user_id"));
+                    consumer.setFirstName(rs.getString("firstname"));
+                    consumer.setLastName(rs.getString("lastname"));
+                    
+                    Preference preference = new Preference();
+                    preference.setId(rs.getInt("id"));
+                    preference.setFood(food);
+                    preference.setConsumer(consumer);
+                    
+                    preferences.add(preference);
                 }
             }
         }
 
-        return preferenceDTOS;
+        return preferences;
     }
 
     /**

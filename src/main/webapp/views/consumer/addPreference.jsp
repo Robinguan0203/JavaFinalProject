@@ -4,6 +4,8 @@
     Author     : Ke Yan
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.fwrp.models.Food"%>
 <html>
 <%@ include file="../header.jsp" %>
 <body>
@@ -18,9 +20,19 @@
 
             <input class="input" type="hidden" name="action" value="addPreference" />
 
-            <label for="options">Please select a food as preference:</label>
-            <input class="input" type="number" id="foodId" name="foodId">
-            <button type="submit">Add</button>
+            <label for="food">Select Food:</label>
+            <select class="input" id="food" name="foodId" required>
+                <option value="">Please Select</option>
+                <%
+                    ArrayList<Food> foods = (ArrayList<Food>) request.getAttribute("foods");
+                    if (foods != null) {
+                        for (Food food : foods) {
+                            out.println("<option value='" + food.getId() + "'>" + food.getName() + "</option>");
+                        }
+                    }
+                %>
+            </select>
+            <button type="submit">Submit</button>
         </form>
     </div>
 </div>

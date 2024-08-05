@@ -1,6 +1,7 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.PreferenceDTO;
+import com.fwrp.models.Preference;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -36,7 +37,7 @@ public interface PreferenceDAO{
      * @return List<SubscriptionDTO> A list of {@link SubscriptionDTO} objects containing the subscription methods for the specified user.
      * @throws SQLException if a database access error occurs
      */
-    List<PreferenceDTO> getAllFoodIdByUserId(int userId, Connection conn) throws SQLException;
+    List<Preference> getAllFoodIdByUserId(int userId, Connection conn) throws SQLException;
 	
     /**
      * Deletes a subscription by its ID.

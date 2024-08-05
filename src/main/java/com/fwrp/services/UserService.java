@@ -15,6 +15,7 @@ import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.exceptions.DataNotExistsException;
 import com.fwrp.models.Notification;
+import com.fwrp.models.Preference;
 import com.fwrp.models.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public class UserService {
         return dbService.getAllMethodsByUserId(userId);
     }
     
-    public List<PreferenceDTO> getAllFoodIdByUserId(int userId) throws ClassNotFoundException, SQLException {
+    public List<Preference> getAllFoodIdByUserId(int userId) throws ClassNotFoundException, SQLException {
         PreferenceDbService dbService = new PreferenceDbService();
         return dbService.getAllFoodIdByUserId(userId);
     }

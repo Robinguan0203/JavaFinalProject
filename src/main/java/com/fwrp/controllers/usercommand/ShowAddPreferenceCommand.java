@@ -5,10 +5,13 @@
 package com.fwrp.controllers.usercommand;
 
 import com.fwrp.dataaccess.dto.PreferenceDTO;
+import com.fwrp.models.Food;
 import com.fwrp.models.User;
+import com.fwrp.services.RetailerService;
 import com.fwrp.services.UserService;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,9 +42,20 @@ public class ShowAddPreferenceCommand implements IUserCommand{
      */
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/addPreference.jsp");
-
+        RetailerService retailerService = new RetailerService();
+        ArrayList<Food> foods = new ArrayList<>();
+        try {
+            foods = retailerService.getAllFoods();
+        } catch (ClassNotFoundException | SQLException ex) {
+            req.setAttribute("errorMessage", ex.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/views/consumer.jsp");
+            dispatcher.forward(req, resp);
+        } 
+        
+        req.setAttribute("foods", foods);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/consumer/addPreference.jsp");
+        
         dispatcher.forward(req, resp);
-        resp.getWriter().println("Show Add Preference");
+        
     }
 }

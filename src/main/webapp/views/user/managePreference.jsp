@@ -4,6 +4,7 @@
     Author     : Ke Yan
 --%>
 
+<%@page import="com.fwrp.models.Preference"%>
 <html>
 <head>
     <title>Discount Inventory</title>
@@ -47,9 +48,9 @@
     </div>
     <div class="container mx-auto px-12 py-6 flex flex-col space-y-4">
         <%
-            List<PreferenceDTO> preferenceDTOList= (List<PreferenceDTO>) request.getAttribute("preferenceList");
+            List<Preference> preferenceList= (List<Preference>) request.getAttribute("preferenceList");
 
-            if (preferenceDTOList == null || preferenceDTOList.isEmpty()) {
+            if (preferenceList == null || preferenceList.isEmpty()) {
         %>
         <p>No Preference Found</p>
         <%
@@ -63,19 +64,18 @@
             <tr>
                 <th class="border border-slate-300 p-2">Id</th>
 <%--                <th class="border border-slate-300 p-2">User Id</th>--%>
-                <th class="border border-slate-300 p-2">Food Id</th>
+                <th class="border border-slate-300 p-2">Food Name</th>
                 <th class="border border-slate-300 p-2">Delete</th>
             </tr>
             </thead>
             <tbody>
             <%! int index = 0; %>
             <%
-                for (PreferenceDTO item : preferenceDTOList) {
+                for (Preference item : preferenceList) {
             %>
             <tr>
                 <td class="border border-slate-300 p-2">#<%= item.getId() %></td>
-<%--                <td class="border border-slate-300 p-2"><%= item.getUserId() %></td>--%>
-                <td class="border border-slate-300 p-2"><%= com.fwrp.controllers.UserController.MethodType.getDescriptionByCode(item.getFoodId()) %></td>
+                <td class="border border-slate-300 p-2"><%= item.getFood().getName() %></td>
                 <td class="border border-slate-300 p-2">
                     <form action="${pageContext.request.contextPath}/UserController" method="post">
                         <input type="hidden" name="action" value="deletePreference" />

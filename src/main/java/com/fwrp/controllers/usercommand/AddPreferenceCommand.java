@@ -7,6 +7,7 @@ package com.fwrp.controllers.usercommand;
 import com.fwrp.dataaccess.dto.PreferenceDTO;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
+import com.fwrp.models.Preference;
 import com.fwrp.models.User;
 import com.fwrp.services.UserService;
 import java.io.IOException;
@@ -70,8 +71,8 @@ public class AddPreferenceCommand implements IUserCommand{
         User user=this.getUserFromSession(req);
         UserService userService = new UserService();
         try {
-            List<PreferenceDTO> prefereneceDTOList=userService.getAllFoodIdByUserId(user.getId());
-            req.setAttribute("prefereneceList", prefereneceDTOList);
+            List<Preference> prefereneceList=userService.getAllFoodIdByUserId(user.getId());
+            req.setAttribute("prefereneceList", prefereneceList);
         } catch(ClassNotFoundException | SQLException ee){
             req.setAttribute("errorMessage", ee.getMessage());
             dispatcher.forward(req, resp);

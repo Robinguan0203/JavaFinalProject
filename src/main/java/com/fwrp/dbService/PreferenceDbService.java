@@ -4,6 +4,7 @@ import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dao.PreferenceDAO;
 import com.fwrp.dataaccess.dao.PreferenceDAOImpl;
 import com.fwrp.dataaccess.dto.PreferenceDTO;
+import com.fwrp.models.Preference;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -92,7 +93,7 @@ public class PreferenceDbService {
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */
-    public List<PreferenceDTO> getAllFoodIdByUserId(int userId) throws SQLException, ClassNotFoundException{
+    public List<Preference> getAllFoodIdByUserId(int userId) throws SQLException, ClassNotFoundException{
         Connection conn = null;
 
         try{
