@@ -14,34 +14,54 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Unit tests for UserDTO class.
+ * Unit tests for the {@link UserDTO} class.
+ * This class tests the getter and setter methods of the {@link UserDTO} class.
  * 
- * @author robin
+ * @version 1.0
+ * Since: 17.0.8
  */
 public class UserDTOTest {
     
     private UserDTO userDTO;
 
+    /**
+     * Default constructor for the {@link UserDTOTest} class.
+     */
     public UserDTOTest() {
     }
     
+    /**
+     * Sets up the test environment before any tests are run.
+     */
     @BeforeClass
     public static void setUpClass() {
     }
     
+    /**
+     * Cleans up the test environment after all tests have been run.
+     */
     @AfterClass
     public static void tearDownClass() {
     }
     
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         userDTO = new UserDTO();
     }
     
+    /**
+     * Cleans up the test environment after each test.
+     */
     @After
     public void tearDown() {
     }
 
+    /**
+     * Tests the {@link UserDTO#getId()} method.
+     */
     @Test
     public void testGetId() {
         System.out.println("getId");
@@ -51,6 +71,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link UserDTO#setId(int)} method.
+     */
     @Test
     public void testSetId() {
         System.out.println("setId");
@@ -59,6 +82,9 @@ public class UserDTOTest {
         assertEquals(id, userDTO.getId());
     }
 
+    /**
+     * Tests the {@link UserDTO#getFirstName()} method.
+     */
     @Test
     public void testGetFirstName() {
         System.out.println("getFirstName");
@@ -68,6 +94,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link UserDTO#setFirstName(String)} method.
+     */
     @Test
     public void testSetFirstName() {
         System.out.println("setFirstName");
@@ -76,6 +105,9 @@ public class UserDTOTest {
         assertEquals(firstName, userDTO.getFirstName());
     }
 
+    /**
+     * Tests the {@link UserDTO#getLastName()} method.
+     */
     @Test
     public void testGetLastName() {
         System.out.println("getLastName");
@@ -85,6 +117,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link UserDTO#setLastName(String)} method.
+     */
     @Test
     public void testSetLastName() {
         System.out.println("setLastName");
@@ -93,6 +128,9 @@ public class UserDTOTest {
         assertEquals(lastName, userDTO.getLastName());
     }
 
+    /**
+     * Tests the {@link UserDTO#getEmail()} method.
+     */
     @Test
     public void testGetEmail() {
         System.out.println("getEmail");
@@ -102,6 +140,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link UserDTO#setEmail(String)} method.
+     */
     @Test
     public void testSetEmail() {
         System.out.println("setEmail");
@@ -110,6 +151,9 @@ public class UserDTOTest {
         assertEquals(email, userDTO.getEmail());
     }
 
+    /**
+     * Tests the {@link UserDTO#getPhone()} method.
+     */
     @Test
     public void testGetPhone() {
         System.out.println("getPhone");
@@ -119,6 +163,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link UserDTO#setPhone(String)} method.
+     */
     @Test
     public void testSetPhone() {
         System.out.println("setPhone");
@@ -127,6 +174,9 @@ public class UserDTOTest {
         assertEquals(phone, userDTO.getPhone());
     }
 
+    /**
+     * Tests the {@link UserDTO#getPassword()} method.
+     */
     @Test
     public void testGetPassword() {
         System.out.println("getPassword");
@@ -136,6 +186,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link UserDTO#setPassword(String)} method.
+     */
     @Test
     public void testSetPassword() {
         System.out.println("setPassword");
@@ -144,6 +197,9 @@ public class UserDTOTest {
         assertEquals(password, userDTO.getPassword());
     }
 
+    /**
+     * Tests the {@link UserDTO#getType()} method.
+     */
     @Test
     public void testGetType() {
         System.out.println("getType");
@@ -153,6 +209,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+     /**
+     * Tests the {@link UserDTO#setType(int)} method.
+     */
     @Test
     public void testSetType() {
         System.out.println("setType");
@@ -161,6 +220,9 @@ public class UserDTOTest {
         assertEquals(type, userDTO.getType());
     }
 
+    /**
+     * Tests the {@link UserDTO#getOrganization()} method.
+     */
     @Test
     public void testGetOrganization() {
         System.out.println("getOrganization");
@@ -170,6 +232,9 @@ public class UserDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link UserDTO#setOrganization(String)} method.
+     */
     @Test
     public void testSetOrganization() {
         System.out.println("setOrganization");
@@ -178,6 +243,9 @@ public class UserDTOTest {
         assertEquals(organization, userDTO.getOrganization());
     }
 
+    /**
+     * Tests the {@link UserDTO#transferToUser(User)} method.
+     */
     @Test
     public void testTransferToUser() {
         System.out.println("transferToUser");

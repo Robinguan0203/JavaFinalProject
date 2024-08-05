@@ -12,15 +12,25 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
+/**
+ * Unit tests for the {@link ExpireDateValidator} class.
+ * Tests the validate method to ensure proper functionality.
+ */
 public class ExpireDateValidatorTest {
 
     private ExpireDateValidator validator;
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         validator = new ExpireDateValidator();
     }
 
+    /**
+     * Test of validate method with a future date.
+     */
     @Test
     public void testValidateFutureDate() {
         Calendar calendar = Calendar.getInstance();
@@ -31,6 +41,9 @@ public class ExpireDateValidatorTest {
         assertNull("There should be no error message.", validator.getErrorMessage());
     }
 
+     /**
+     * Test of validate method with today's date.
+     */
     @Test
     public void testValidateTodayDate() {
         Date todayDate = new Date(); // Current date
@@ -39,6 +52,9 @@ public class ExpireDateValidatorTest {
         assertNull("There should be no error message.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with a past date.
+     */
     @Test
     public void testValidatePastDate() {
         Calendar calendar = Calendar.getInstance();
@@ -49,6 +65,9 @@ public class ExpireDateValidatorTest {
         assertEquals("Expire date must be later than today.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with a null date.
+     */
     @Test
     public void testValidateNullDate() {
         assertTrue("A null date should be considered valid.", validator.validate(null));

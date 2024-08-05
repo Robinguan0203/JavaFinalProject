@@ -13,18 +13,33 @@ import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.Date;
 
-
+/**
+ * Unit tests for the {@link ExpireInfoDTO} class.
+ * This class tests the getter and setter methods of the {@link ExpireInfoDTO} class,
+ * as well as the {@link ExpireInfoDTO#transferToExpireInfo()} method.
+ * 
+ * @version 1.0
+ * Since: 17.0.8
+ */
 public class ExpireInfoDTOTest {
 
     private ExpireInfoDTO expireInfoDTO;
     private FoodDbService foodDbService;
 
+    /**
+     * Sets up the test environment before each test.
+     * 
+     * @throws Exception if an error occurs during setup
+     */
     @Before
     public void setUp() throws Exception {
         expireInfoDTO = new ExpireInfoDTO();
         foodDbService = new FoodDbService();
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#getId()} method.
+     */
     @Test
     public void testGetId() {
         int expResult = 1;
@@ -33,6 +48,9 @@ public class ExpireInfoDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#setId(int)} method.
+     */
     @Test
     public void testSetId() {
         int id = 2;
@@ -40,6 +58,9 @@ public class ExpireInfoDTOTest {
         assertEquals(id, expireInfoDTO.getId());
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#getFoodId()} method.
+     */
     @Test
     public void testGetFoodId() {
         int expResult = 3;
@@ -48,6 +69,9 @@ public class ExpireInfoDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#setFoodId(int)} method.
+     */
     @Test
     public void testSetFoodId() {
         int foodId = 4;
@@ -55,6 +79,9 @@ public class ExpireInfoDTOTest {
         assertEquals(foodId, expireInfoDTO.getFoodId());
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#getQuantity()} method.
+     */
     @Test
     public void testGetQuantity() {
         int expResult = 5;
@@ -63,6 +90,9 @@ public class ExpireInfoDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#setQuantity(int)} method.
+     */
     @Test
     public void testSetQuantity() {
         int quantity = 6;
@@ -70,6 +100,9 @@ public class ExpireInfoDTOTest {
         assertEquals(quantity, expireInfoDTO.getQuantity());
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#getExpireDate()} method.
+     */
     @Test
     public void testGetExpireDate() {
         Date expResult = new Date();
@@ -78,6 +111,9 @@ public class ExpireInfoDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#setExpireDate(Date)} method.
+     */
     @Test
     public void testSetExpireDate() {
         Date expireDate = new Date();
@@ -85,6 +121,9 @@ public class ExpireInfoDTOTest {
         assertEquals(expireDate, expireInfoDTO.getExpireDate());
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#isIsSurplus()} method.
+     */
     @Test
     public void testIsIsSurplus() {
         boolean expResult = true;
@@ -93,6 +132,9 @@ public class ExpireInfoDTOTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Tests the {@link ExpireInfoDTO#setIsSurplus(boolean)} method.
+     */
     @Test
     public void testSetIsSurplus() {
         boolean isSurplus = false;
@@ -100,8 +142,12 @@ public class ExpireInfoDTOTest {
         assertEquals(isSurplus, expireInfoDTO.isIsSurplus());
     }
     
-    // fix issue  
-    /*
+    /**
+     * Tests the {@link ExpireInfoDTO#transferToExpireInfo()} method.
+     * 
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the database driver class cannot be found
+     */  
     @Test
     public void testTransferToExpireInfo() throws SQLException, ClassNotFoundException {
         Food testFood = foodDbService.getFoodById(2);
@@ -125,5 +171,4 @@ public class ExpireInfoDTOTest {
         //assertEquals(testFood.getExpireDays(), result.getFood().getExpireDays());
         
     }
-*/
 }

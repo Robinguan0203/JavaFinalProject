@@ -9,15 +9,25 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Unit tests for the {@link UserValidator} class.
+ * Tests the validate method to ensure proper functionality.
+ */
 public class UserValidatorTest {
 
     private UserValidator validator;
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         validator = new UserValidator();
     }
 
+    /**
+     * Test of validate method with valid details.
+     */
     @Test
     public void testValidateValidDetails() {
         assertTrue("Valid details should be accepted.", 
@@ -25,6 +35,9 @@ public class UserValidatorTest {
         assertNull("There should be no error message for valid inputs.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an empty first name.
+     */
     @Test
     public void testValidateEmptyFirstName() {
         assertFalse("Empty first name should be invalid.", 
@@ -32,6 +45,9 @@ public class UserValidatorTest {
         assertEquals("First name cannot be empty.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an empty last name.
+     */
     @Test
     public void testValidateEmptyLastName() {
         assertFalse("Empty last name should be invalid.", 
@@ -39,6 +55,9 @@ public class UserValidatorTest {
         assertEquals("Last name cannot be empty.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an invalid phone number.
+     */
     @Test
     public void testValidateInvalidPhone() {
         assertFalse("Invalid phone number should be invalid.", 
@@ -46,6 +65,9 @@ public class UserValidatorTest {
         assertEquals("Phone number must be numeric.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an empty email.
+     */
     @Test
     public void testValidateEmptyEmail() {
         assertFalse("Empty email should be invalid.", 
@@ -53,6 +75,9 @@ public class UserValidatorTest {
         assertEquals("Email cannot be empty.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an empty password.
+     */
     @Test
     public void testValidateEmptyPassword() {
         assertFalse("Empty password should be invalid.", 
@@ -60,6 +85,9 @@ public class UserValidatorTest {
         assertEquals("Password cannot be empty.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with mismatched passwords.
+     */
     @Test
     public void testValidatePasswordMismatch() {
         assertFalse("Mismatched passwords should be invalid.", 
@@ -67,6 +95,9 @@ public class UserValidatorTest {
         assertEquals("Passwords do not match.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an invalid user type.
+     */
     @Test
     public void testValidateInvalidUserType() {
         assertFalse("Invalid user type should be invalid.", 
@@ -78,6 +109,9 @@ public class UserValidatorTest {
         assertEquals("User type must be a number.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an empty organization for a Retailer.
+     */
     @Test
     public void testValidateEmptyOrganizationForRetailer() {
         assertFalse("Empty organization for Retailer should be invalid.", 
@@ -85,6 +119,9 @@ public class UserValidatorTest {
         assertEquals("Organization name cannot be empty for Retailer or Charity.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with an empty organization for a Charity.
+     */
     @Test
     public void testValidateEmptyOrganizationForCharity() {
         assertFalse("Empty organization for Charity should be invalid.", 
@@ -92,6 +129,9 @@ public class UserValidatorTest {
         assertEquals("Organization name cannot be empty for Retailer or Charity.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with a valid organization for a Consumer.
+     */
     @Test
     public void testValidateValidOrganizationForConsumer() {
         assertTrue("Non-empty organization for Consumer should be valid.", 

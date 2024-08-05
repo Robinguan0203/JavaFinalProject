@@ -23,6 +23,13 @@ import java.util.Date;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the {@link NotificationDTO} class.
+ * This class tests the constructors and getter/setter methods of the {@link NotificationDTO} class.
+ * 
+ * @version 1.0
+ * Since: 17.0.8
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class NotificationDTOTest {
 
@@ -32,28 +39,43 @@ public class NotificationDTOTest {
     @Mock
     private UserDbService userDbService;
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         notificationDTO = new NotificationDTO();
     }
 
+    /**
+     * Tests the default constructor of {@link NotificationDTO}.
+     */
     @Test
     public void testDefaultConstructor() {
         assertNotNull(notificationDTO);
     }
 
+    /**
+     * Tests the {@link NotificationDTO#setId(int)} and {@link NotificationDTO#getId()} methods.
+     */
     @Test
     public void testSetAndGetId() {
         notificationDTO.setId(1);
         assertEquals(1, notificationDTO.getId());
     }
 
+    /**
+     * Tests the {@link NotificationDTO#setMethod(int)} and {@link NotificationDTO#getMethod()} methods.
+     */
     @Test
     public void testSetAndGetMethod() {
         notificationDTO.setMethod(2);
         assertEquals(2, notificationDTO.getMethod());
     }
 
+    /**
+     * Tests the {@link NotificationDTO#setDate(Date)} and {@link NotificationDTO#getDate()} methods.
+     */
     @Test
     public void testSetAndGetDate() {
         Date date = new Date();
@@ -61,12 +83,18 @@ public class NotificationDTOTest {
         assertEquals(date, notificationDTO.getDate());
     }
 
+    /**
+     * Tests the {@link NotificationDTO#setNotification(String)} and {@link NotificationDTO#getNotification()} methods.
+     */
     @Test
     public void testSetAndGetNotification() {
         notificationDTO.setNotification("Test Notification");
         assertEquals("Test Notification", notificationDTO.getNotification());
     }
 
+    /**
+     * Tests the {@link NotificationDTO#setUserId(int)} and {@link NotificationDTO#getUserId()} methods.
+     */
     @Test
     public void testSetAndGetUserId() {
         notificationDTO.setUserId(101);

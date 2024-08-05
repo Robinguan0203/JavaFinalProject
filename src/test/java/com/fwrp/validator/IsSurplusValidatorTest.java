@@ -9,15 +9,25 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Unit tests for the {@link IsSurplusValidator} class.
+ * Tests the validate method to ensure proper functionality.
+ */
 public class IsSurplusValidatorTest {
 
     private IsSurplusValidator validator;
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         validator = new IsSurplusValidator();
     }
 
+    /**
+     * Test of validate method with valid input.
+     */
     @Test
     public void testValidateValidInput() {
         assertTrue("Input '0' should be valid.", validator.validate("0"));
@@ -25,18 +35,27 @@ public class IsSurplusValidatorTest {
         assertNull("There should be no error message for valid inputs.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with null input.
+     */
     @Test
     public void testValidateNullInput() {
         assertFalse("Null input should fail validation.", validator.validate(null));
         assertEquals("Input cannot be empty.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with empty input.
+     */
     @Test
     public void testValidateEmptyInput() {
         assertFalse("Empty input should fail validation.", validator.validate(""));
         assertEquals("Input cannot be empty.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with invalid input.
+     */
     @Test
     public void testValidateInvalidInput() {
         assertFalse("Input '2' should fail validation.", validator.validate("2"));

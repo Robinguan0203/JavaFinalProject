@@ -14,25 +14,38 @@ import static org.junit.Assert.assertEquals;
  * Unit tests for the Food class.
  * Tests the getter and setter methods to ensure proper functionality.
  * 
- * @author robin
+ * @version 1.0
+ * Since: 17.0.8
  */
 public class ClaimTest {
 
     private Claim claim;
 
+    /**
+     * Sets up the test environment before any tests are run.
+     */
     @BeforeClass
     public static void setUpClass() {
     }
 
+    /**
+     * Cleans up the test environment after all tests have been run.
+     */
     @AfterClass
     public static void tearDownClass() {
     }
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         claim = new Claim();
     }
 
+    /**
+     * Cleans up the test environment after each test.
+     */
     @After
     public void tearDown() {
     }

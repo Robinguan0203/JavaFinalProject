@@ -22,14 +22,23 @@ public class InventoryTest {
     private Inventory inventory;
     private Food food;
 
+    /**
+     * Sets up the test environment before any tests are run.
+     */
     @BeforeClass
     public static void setUpClass() {
     }
 
+    /**
+     * Cleans up the test environment after all tests have been run.
+     */
     @AfterClass
     public static void tearDownClass() {
     }
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         // Initialize a Food object for use in the tests
@@ -37,6 +46,9 @@ public class InventoryTest {
         inventory = new Inventory(1, food, 100, 50, 25);
     }
 
+    /**
+     * Cleans up the test environment after each test.
+     */
     @After
     public void tearDown() {
         inventory = null;

@@ -9,17 +9,27 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.Date;
 
+/**
+ * Unit tests for the {@link Notification} class.
+ * Tests the getter and setter methods to ensure proper functionality.
+ */
 public class NotificationTest {
 
     private Notification notification;
     private User user;
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         notification = new Notification();
         user = new Retailer(); // Assuming User has a default constructor
     }
 
+    /**
+     * Test of getId method, of class Notification.
+     */
     @Test
     public void testGetId() {
         int expResult = 1;
@@ -28,6 +38,9 @@ public class NotificationTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of setId method, of class Notification.
+     */
     @Test
     public void testSetId() {
         int id = 2;
@@ -35,6 +48,9 @@ public class NotificationTest {
         assertEquals(id, notification.getId());
     }
 
+    /**
+     * Test of getMethod method, of class Notification.
+     */
     @Test
     public void testGetMethod() {
         int expResult = 1;
@@ -43,6 +59,9 @@ public class NotificationTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of setMethod method, of class Notification.
+     */
     @Test
     public void testSetMethod() {
         int method = 2;
@@ -50,6 +69,9 @@ public class NotificationTest {
         assertEquals(method, notification.getMethod());
     }
 
+    /**
+     * Test of getDate method, of class Notification.
+     */
     @Test
     public void testGetDate() {
         Date expResult = new Date();
@@ -58,6 +80,9 @@ public class NotificationTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of setDate method, of class Notification.
+     */
     @Test
     public void testSetDate() {
         Date date = new Date();
@@ -65,6 +90,9 @@ public class NotificationTest {
         assertEquals(date, notification.getDate());
     }
 
+    /**
+     * Test of getNotification method, of class Notification.
+     */
     @Test
     public void testGetNotification() {
         String expResult = "Sample Notification";
@@ -73,6 +101,9 @@ public class NotificationTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of setNotification method, of class Notification.
+     */
     @Test
     public void testSetNotification() {
         String notificationText = "Another Notification";
@@ -80,6 +111,9 @@ public class NotificationTest {
         assertEquals(notificationText, notification.getNotification());
     }
 
+    /**
+     * Test of getUser method, of class Notification.
+     */
     @Test
     public void testGetUser() {
         notification.setUser(user);
@@ -87,6 +121,9 @@ public class NotificationTest {
         assertEquals(user, result);
     }
 
+    /**
+     * Test of setUser method, of class Notification.
+     */
     @Test
     public void testSetUser() {
         notification.setUser(user);

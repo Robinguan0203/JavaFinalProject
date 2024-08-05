@@ -12,15 +12,25 @@ import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
+/**
+ * Unit tests for the {@link SurplusValidator} class.
+ * Tests the validate method to ensure proper functionality.
+ */
 public class SurplusValidatorTest {
 
     private SurplusValidator validator;
 
+    /**
+     * Sets up the test environment before each test.
+     */
     @Before
     public void setUp() {
         validator = new SurplusValidator();
     }
 
+    /**
+     * Test of validate method with valid quantities.
+     */
     @Test
     public void testValidateValidQuantities() {
         Food food = new Food(1, "Apple",30,1.50,0.7);
@@ -31,6 +41,9 @@ public class SurplusValidatorTest {
         assertNull("There should be no error message for valid inputs.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with negative quantities.
+     */
     @Test
     public void testValidateNegativeQuantities() {
         Food food = new Food(2, "Banana",30,1.50,0.7);
@@ -44,6 +57,9 @@ public class SurplusValidatorTest {
         assertEquals("Invalid quantities: quantity to discount and quantity to donate must be non-negative and their sum must not exceed available surplus quantity.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with quantities exceeding surplus.
+     */
     @Test
     public void testValidateExceedingSurplus() {
         Food food = new Food(3, "Orange",30,1.50,0.7);
@@ -54,6 +70,9 @@ public class SurplusValidatorTest {
         assertEquals("Invalid quantities: quantity to discount and quantity to donate must be non-negative and their sum must not exceed available surplus quantity.", validator.getErrorMessage());
     }
 
+    /**
+     * Test of validate method with food ID not found.
+     */
     @Test
     public void testValidateFoodIdNotFound() {
         Food food = new Food(4, "Grapes",30,1.50,0.7);
