@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This interface defines the standard operations to be performed on Subscription model object(s).
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public interface SubscriptionDAO{
 	
-	/**
+    /**
      * Adds a new subscription for a user.
      * 
      * @param userId The ID of the user.
@@ -27,7 +28,7 @@ public interface SubscriptionDAO{
      */
     boolean addSubscription(int userId,int method , Connection conn)  throws SQLException;
 	
-	/**
+    /**
      * Retrieves all subscription methods for a specific user.
      * 
      * @param userId The ID of the user.
@@ -37,7 +38,7 @@ public interface SubscriptionDAO{
      */
     List<SubscriptionDTO> getAllMethodsByUserId(int userId, Connection conn) throws SQLException;
 	
-	/**
+    /**
      * Deletes a subscription by its ID.
      * 
      * @param id The ID of the subscription to be deleted.
@@ -46,4 +47,23 @@ public interface SubscriptionDAO{
      * @throws SQLException if a database access error occurs
      */
     boolean deleteSubscription(int id, Connection conn)  throws SQLException;
+    
+    /**
+     * Retrieves subscription information for charities.
+     * 
+     * @param conn The SQL connection used to access the database.
+     * @return Map<Integer, Integer> A map of charity IDs to their subscription methods.
+     * @throws SQLException if a database access error occurs
+     */
+    Map<Integer, Integer> getCharitySubscribeInfo(Connection conn) throws SQLException;
+    
+    /**
+     * Retrieves subscription information for consumers by food ID.
+     * 
+     * @param foodId The ID of the food item.
+     * @param conn The SQL connection used to access the database.
+     * @return Map<Integer, Integer> A map of consumer IDs to their subscription methods.
+     * @throws SQLException if a database access error occurs
+     */
+    Map<Integer, Integer> getConsumerSubscribeInfo(int foodId,Connection conn) throws SQLException;
 }

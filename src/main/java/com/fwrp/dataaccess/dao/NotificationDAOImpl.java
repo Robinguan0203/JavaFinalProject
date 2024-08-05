@@ -3,6 +3,7 @@ package com.fwrp.dataaccess.dao;
 import com.fwrp.dataaccess.dto.NotificationDTO;
 import com.fwrp.models.Notification;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -102,5 +103,38 @@ public class NotificationDAOImpl implements NotificationDAO {
             }
         }
         return count;
+    }
+    
+    /**
+    * Inserts a notification for a user.
+    * 
+    * This method inserts a new notification into the database for a specified user and method.
+    * It sets the current date as the notification date and uses a prepared statement to execute the SQL insert query.
+    * If the insertion is successful, it returns true; otherwise, it returns false.
+    * 
+    * @param userId The ID of the user.
+    * @param method The method of notification.
+    * @param notification The notification message to be inserted.
+    * @param conn The SQL connection used to access the database.
+    * @return boolean Returns true if the notification was successfully inserted, false otherwise.
+    * @throws SQLException if a database access error occurs
+    */
+    @Override
+    public boolean insertNotification(int userId, int method, String notification, Connection conn) throws SQLException {
+        boolean isSuccess = false;
+         Date currentDate = new Date(System.currentTimeMillis());
+
+        try (PreparedStatement pstmt = conn.prepareStatement("INSERT INTO notifications (user_id, method, date, notification) VALUES (?, ?, ?, ?)")) {
+
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, method);
+            pstmt.setDate(3, currentDate);
+            pstmt.setString(4, notification);
+            if(pstmt.executeUpdate() >0){
+                isSuccess = true;
+            }
+        }
+
+        return isSuccess;
     }
 }
