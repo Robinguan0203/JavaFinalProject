@@ -4,17 +4,11 @@
  */
 package com.fwrp.controllers.usercommand;
 
-import com.fwrp.dataaccess.dto.SubscriptionDTO;
-import com.fwrp.models.User;
-import com.fwrp.services.UserService;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Command to show the add subscription page.

@@ -5,7 +5,6 @@
 package com.fwrp.models;
 
 
-import com.fwrp.constants.OtherConstants;
 import com.fwrp.constants.TransactionTypeConstant;
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
 import com.fwrp.dataaccess.dto.TransactionDTO;
@@ -14,8 +13,6 @@ import com.fwrp.exceptions.NegativeInventoryException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Represents a RetailerTransaction.

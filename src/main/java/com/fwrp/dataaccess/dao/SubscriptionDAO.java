@@ -1,7 +1,6 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.SubscriptionDTO;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.SQLException;

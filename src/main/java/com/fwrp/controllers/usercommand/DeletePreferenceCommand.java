@@ -4,9 +4,6 @@
  */
 package com.fwrp.controllers.usercommand;
 
-import com.fwrp.dataaccess.dto.PreferenceDTO;
-import com.fwrp.exceptions.DataAlreadyExistsException;
-import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.models.Preference;
 import com.fwrp.models.User;
 import com.fwrp.services.UserService;

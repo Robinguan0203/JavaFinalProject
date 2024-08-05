@@ -1,6 +1,5 @@
 package com.fwrp.models;
 
-import javax.persistence.*;
 import java.util.Date;
 
 /**

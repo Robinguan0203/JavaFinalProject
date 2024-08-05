@@ -4,13 +4,11 @@
  */
 package com.fwrp.controllers.retailercommand;
 
-import com.fwrp.models.Food;
 import com.fwrp.models.Transaction;
 import com.fwrp.services.RetailerService;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

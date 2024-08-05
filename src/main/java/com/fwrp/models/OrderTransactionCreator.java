@@ -4,8 +4,6 @@
  */
 package com.fwrp.models;
 
-import java.sql.SQLException;
-
 /**
  * Concrete creator class for creating OrderTransaction objects.
  * Implements the TranctionCreator interface.

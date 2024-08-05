@@ -1,7 +1,7 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.constants.UserTypeConstant;
-import com.fwrp.dataaccess.dto.PreferenceDTO;
+import com.fwrp.dataaccess.dto.SubscriptionDTO;
 import com.fwrp.models.Consumer;
 import com.fwrp.models.Food;
 import com.fwrp.models.Preference;

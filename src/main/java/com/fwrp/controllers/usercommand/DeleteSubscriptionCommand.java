@@ -5,8 +5,6 @@
 package com.fwrp.controllers.usercommand;
 
 import com.fwrp.dataaccess.dto.SubscriptionDTO;
-import com.fwrp.exceptions.DataAlreadyExistsException;
-import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.models.User;
 import com.fwrp.services.UserService;
 import java.io.IOException;

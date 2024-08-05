@@ -4,8 +4,6 @@
  */
 package com.fwrp.models;
 
-import java.sql.SQLException;
-
 /**
  * Class responsible for creating ClaimTransaction objects.
  * Implements the TransactionCreator interface.

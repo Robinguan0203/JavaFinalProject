@@ -23,14 +23,11 @@ import com.fwrp.dataaccess.dao.UserDAOImpl;
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
 import com.fwrp.dataaccess.dto.InventoryDTO;
 import com.fwrp.dataaccess.dto.TransactionDTO;
-import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.ExpireInfo;
 import com.fwrp.models.Food;
 import com.fwrp.models.Inventory;
-import com.fwrp.models.Order;
 import com.fwrp.models.Transaction;
-import com.fwrp.models.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -40,7 +37,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Provides services for managing inventory-related operations and transactions.

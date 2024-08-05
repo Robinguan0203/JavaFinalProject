@@ -10,13 +10,10 @@ import com.fwrp.dataaccess.dao.ClaimDAO;
 import com.fwrp.dataaccess.dao.ClaimDAOImpl;
 import com.fwrp.dataaccess.dao.InventoryDAO;
 import com.fwrp.dataaccess.dao.InventoryDAOImpl;
-import com.fwrp.dataaccess.dto.SubscriptionDTO;
-import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.models.Claim;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

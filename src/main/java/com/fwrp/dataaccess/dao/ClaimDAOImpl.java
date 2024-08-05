@@ -2,9 +2,6 @@ package com.fwrp.dataaccess.dao;
 
 import com.fwrp.models.Claim;
 import com.fwrp.models.Food;
-import com.fwrp.models.Inventory;
-import com.fwrp.models.ExpireInfo;
-import com.fwrp.dataaccess.DataSource;
 import com.fwrp.models.Charity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

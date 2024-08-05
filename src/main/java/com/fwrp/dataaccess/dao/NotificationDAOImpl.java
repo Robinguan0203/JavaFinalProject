@@ -1,7 +1,6 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.NotificationDTO;
-import com.fwrp.models.Notification;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

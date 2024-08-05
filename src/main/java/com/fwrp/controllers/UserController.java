@@ -4,42 +4,11 @@
  */
 package com.fwrp.controllers;
 
-import com.fwrp.constants.FileLocationConstant;
-import com.fwrp.constants.NotificationMethodConstant;
-import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.controllers.usercommand.IUserCommand;
 import com.fwrp.controllers.usercommand.UserCommandFactory;
-import com.fwrp.controllers.userstrategy.INavigationStrategy;
 import com.fwrp.controllers.userstrategy.NavigationStrategySelector;
-import com.fwrp.dataaccess.DataSource;
-import static com.fwrp.dataaccess.DataSource.openPropsFile;
-
-import com.fwrp.dataaccess.dto.SubscriptionDTO;
-import com.fwrp.dbService.UserDbService;
-import com.fwrp.exceptions.DataAlreadyExistsException;
-import com.fwrp.exceptions.DataInsertionFailedException;
-import com.fwrp.exceptions.DataNotExistsException;
-import com.fwrp.models.Charity;
-import com.fwrp.models.Consumer;
-import com.fwrp.models.Notification;
-import com.fwrp.models.Retailer;
 import com.fwrp.models.User;
-import com.fwrp.services.ConsumerService;
-import com.fwrp.services.UserService;
-import com.fwrp.validator.UserValidator;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

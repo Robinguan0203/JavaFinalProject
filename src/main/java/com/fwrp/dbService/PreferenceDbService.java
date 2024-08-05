@@ -3,7 +3,6 @@ package com.fwrp.dbService;
 import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dao.PreferenceDAO;
 import com.fwrp.dataaccess.dao.PreferenceDAOImpl;
-import com.fwrp.dataaccess.dto.PreferenceDTO;
 import com.fwrp.models.Preference;
 
 import java.sql.Connection;

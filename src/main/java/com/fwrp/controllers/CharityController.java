@@ -4,16 +4,12 @@
  */
 package com.fwrp.controllers;
 
-import com.fwrp.dataaccess.dto.SubscriptionDTO;
 import com.fwrp.dbService.ClaimDbService;
-import com.fwrp.dbService.FoodDbService;
 import com.fwrp.dbService.InventoryDbService;
-import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
 import com.fwrp.exceptions.NegativeInventoryException;
 import com.fwrp.models.*;
 import com.fwrp.services.CharityService;
-import com.fwrp.services.ConsumerService;
 
 import java.io.IOException;
 import java.sql.Date;

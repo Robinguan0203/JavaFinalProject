@@ -5,7 +5,6 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 /**
  * This class provides a concrete implementation of the ExpireInfoDAO interface.

@@ -4,11 +4,7 @@
  */
 package com.fwrp.dataaccess.dto;
 
-import com.fwrp.dbService.FoodDbService;
 import com.fwrp.dbService.UserDbService;
-import com.fwrp.models.Consumer;
-import com.fwrp.models.ExpireInfo;
-import com.fwrp.models.Food;
 import com.fwrp.models.Notification;
 import com.fwrp.models.User;
 import java.sql.SQLException;

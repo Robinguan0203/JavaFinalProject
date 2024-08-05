@@ -1,8 +1,7 @@
 package com.fwrp.dataaccess.dao;
 
-import com.fwrp.dataaccess.dto.PreferenceDTO;
+import com.fwrp.dataaccess.dto.SubscriptionDTO;
 import com.fwrp.models.Preference;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.SQLException;

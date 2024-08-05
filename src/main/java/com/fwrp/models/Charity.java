@@ -1,10 +1,5 @@
 package com.fwrp.models;
 
-import com.fwrp.dataaccess.dto.ExpireInfoDTO;
-import com.fwrp.dbService.InventoryDbService;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 /**
  * Represents a Charity user, extending the User class.
  * This class provides specific implementations for login and logout methods,

@@ -7,7 +7,6 @@ package com.fwrp.dataaccess.dao;
 import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dto.TransactionDTO;
-import com.fwrp.dbService.FoodDbService;
 import com.fwrp.dbService.UserDbService;
 import com.fwrp.models.*;
 

@@ -6,7 +6,6 @@ package com.fwrp.services;
 
 import com.fwrp.dataaccess.dto.NotificationDTO;
 import com.fwrp.dataaccess.dto.SubscriptionDTO;
-import com.fwrp.dataaccess.dto.PreferenceDTO;
 import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.dbService.SubscriptionDbService;
 import com.fwrp.dbService.PreferenceDbService;

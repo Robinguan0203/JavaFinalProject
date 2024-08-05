@@ -1,10 +1,5 @@
 package com.fwrp.models;
 
-import com.fwrp.dbService.FoodDbService;
-import com.fwrp.exceptions.DataAlreadyExistsException;
-import com.fwrp.exceptions.DataInsertionFailedException;
-import java.sql.SQLException;
-
 /**
  * Represents a food item with properties such as name, expiration days, unit price, and discount.
  */

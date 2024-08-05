@@ -3,7 +3,6 @@ package com.fwrp.dataaccess.dao;
 import com.fwrp.models.Claim;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

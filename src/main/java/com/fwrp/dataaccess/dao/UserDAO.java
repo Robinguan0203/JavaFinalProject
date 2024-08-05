@@ -1,7 +1,6 @@
 package com.fwrp.dataaccess.dao;
 
 import com.fwrp.dataaccess.dto.UserDTO;
-import com.fwrp.models.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 
