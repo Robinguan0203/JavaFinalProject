@@ -49,6 +49,9 @@ public class NavigationStrategySelector {
             case "viewConsumer":
                 handler.setStragety(new ViewConsumerStrategy());
                 break;
+            case "preference":
+                handler.setStragety(new ViewConsumerStrategy());
+                break;
             default:
                 handler.setStragety(new DefaultNavigationStrategy());
         }

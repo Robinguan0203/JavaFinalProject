@@ -55,6 +55,13 @@
                 <button type="submit">Subscription</button>
             </form>
         </div>
+        <div class="actions">
+            <form action="${pageContext.request.contextPath}/UserController" method="post">
+                <input type="hidden" name="action" value="managePreference" />
+                <button type="submit">Preference</button>
+            </form>
+        </div>
+         
     </div>
     <%@ include file="./footer.jsp" %>
 </body>

@@ -50,6 +50,14 @@ public class UserCommandFactory {
                 return new AddSubscriptionCommand();
             case "deleteSubscription":
                 return new DeleteSubscriptionCommand();
+            case "managePreference":
+                return new ManagePreferenceCommand();
+            case "showAddPreference":
+                return new ShowAddPreferenceCommand();
+            case "addPreference":
+                return new AddPreferenceCommand();
+            case "deletePreference":
+                return new DeletePreferenceCommand();
             default:
                 return new UnknownCommand(); 
         }

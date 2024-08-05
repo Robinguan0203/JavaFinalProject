@@ -6,8 +6,10 @@ package com.fwrp.services;
 
 import com.fwrp.dataaccess.dto.NotificationDTO;
 import com.fwrp.dataaccess.dto.SubscriptionDTO;
+import com.fwrp.dataaccess.dto.PreferenceDTO;
 import com.fwrp.dataaccess.dto.UserDTO;
 import com.fwrp.dbService.SubscriptionDbService;
+import com.fwrp.dbService.PreferenceDbService;
 import com.fwrp.dbService.UserDbService;
 import com.fwrp.exceptions.DataAlreadyExistsException;
 import com.fwrp.exceptions.DataInsertionFailedException;
@@ -125,6 +127,11 @@ public class UserService {
         SubscriptionDbService dbService = new SubscriptionDbService();
         dbService.addSubscription(userId,method);
     }
+    
+    public void addPreference(int userId,int foodId) throws Exception{
+        PreferenceDbService dbService = new PreferenceDbService();
+        dbService.addPreference(userId,foodId);
+    }
 
 	/**
 	 * Retrieves all subscription methods for a given user ID.
@@ -138,7 +145,12 @@ public class UserService {
         SubscriptionDbService dbService = new SubscriptionDbService();
         return dbService.getAllMethodsByUserId(userId);
     }
-	
+    
+    public List<PreferenceDTO> getAllFoodIdByUserId(int userId) throws ClassNotFoundException, SQLException {
+        PreferenceDbService dbService = new PreferenceDbService();
+        return dbService.getAllFoodIdByUserId(userId);
+    }
+
 	/**
 	 * Deletes a subscription by its ID.
 	 * 
@@ -148,5 +160,10 @@ public class UserService {
     public void deleteSubscription(int id) throws Exception{
         SubscriptionDbService dbService = new SubscriptionDbService();
         dbService.deleteSubscription(id);
+    }
+    
+    public void deletePreference(int id) throws Exception{
+        PreferenceDbService dbService = new PreferenceDbService();
+        dbService.deletePreference(id);
     }
 }
