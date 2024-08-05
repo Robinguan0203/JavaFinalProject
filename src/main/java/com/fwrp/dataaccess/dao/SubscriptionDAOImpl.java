@@ -104,28 +104,32 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
      * Retrieves the subscription methods for charities.
      * 
      * @param conn The SQL connection used to access the database.
-     * @return Map<Integer, Integer> A map of charity IDs to their subscription methods.
+     * @return Map<Integer, List<Integer>> A map of charity IDs to their subscription methods.
      * @throws SQLException if a database access error occurs
      */
-    public Map<Integer, Integer> getCharitySubscribeInfo(Connection conn) throws SQLException{
-        Map<Integer, Integer> map = new HashMap<>();
-        
-        try(PreparedStatement pstmt = conn.prepareStatement("SELECT user_id, method "
+    public Map<Integer, List<Integer>> getCharitySubscribeInfo(Connection conn) throws SQLException {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT user_id, method "
                 + "FROM subscriptions as s "
                 + "LEFT JOIN users ON s.user_id = users.id "
-                + "WHERE type = " + UserTypeConstant.CHARITY)){
-            
-            try(ResultSet rs = pstmt.executeQuery()){
+                + "WHERE type = " + UserTypeConstant.CHARITY)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     int userId = rs.getInt("user_id");
                     int method = rs.getInt("method");
-                    
-                    map.put(userId, method);
+
+                    // If the userId is not in the map, create a new ArrayList for this userId
+                    if (!map.containsKey(userId)) {
+                        map.put(userId, new ArrayList<>());
+                    }
+                    // Add the method to the ArrayList for this userId
+                    map.get(userId).add(method);
                 }
             }
-            
         }
-            
+
         return map;
     }
     
@@ -134,11 +138,11 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
      * 
      * @param foodId The ID of the food item.
      * @param conn The SQL connection used to access the database.
-     * @return Map<Integer, Integer> A map of consumer IDs to their subscription methods.
+     * @return Map<Integer, List<Integer>> A map of consumer IDs to their subscription methods.
      * @throws SQLException if a database access error occurs
      */
-    public Map<Integer, Integer> getConsumerSubscribeInfo(int foodId,Connection conn) throws SQLException{
-        Map<Integer, Integer> map = new HashMap<>();
+    public Map<Integer, List<Integer>> getConsumerSubscribeInfo(int foodId,Connection conn) throws SQLException{
+        Map<Integer, List<Integer>> map = new HashMap<>();
          try(PreparedStatement pstmt = conn.prepareStatement("SELECT s.user_id, method "
                  + "FROM subscriptions as s "
                  + "LEFT JOIN users on s.user_id = users.id "
@@ -152,7 +156,12 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
                     int userId = rs.getInt("user_id");
                     int method = rs.getInt("method");
                     
-                    map.put(userId, method);
+                    // If the userId is not in the map, create a new ArrayList for this userId
+                    if (!map.containsKey(userId)) {
+                        map.put(userId, new ArrayList<>());
+                    }
+                    // Add the method to the ArrayList for this userId
+                    map.get(userId).add(method);
                 }
             }
             

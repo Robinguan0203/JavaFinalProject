@@ -52,18 +52,18 @@ public interface SubscriptionDAO{
      * Retrieves subscription information for charities.
      * 
      * @param conn The SQL connection used to access the database.
-     * @return Map<Integer, Integer> A map of charity IDs to their subscription methods.
+     * @return Map<Integer, List<Integer>> A map of charity IDs to their subscription methods.
      * @throws SQLException if a database access error occurs
      */
-    Map<Integer, Integer> getCharitySubscribeInfo(Connection conn) throws SQLException;
+    public Map<Integer, List<Integer>> getCharitySubscribeInfo(Connection conn) throws SQLException;
     
     /**
      * Retrieves subscription information for consumers by food ID.
      * 
      * @param foodId The ID of the food item.
      * @param conn The SQL connection used to access the database.
-     * @return Map<Integer, Integer> A map of consumer IDs to their subscription methods.
+     * @return Map<Integer, List<Integer>> A map of consumer IDs to their subscription methods.
      * @throws SQLException if a database access error occurs
      */
-    Map<Integer, Integer> getConsumerSubscribeInfo(int foodId,Connection conn) throws SQLException;
+    public Map<Integer, List<Integer>> getConsumerSubscribeInfo(int foodId,Connection conn) throws SQLException;
 }

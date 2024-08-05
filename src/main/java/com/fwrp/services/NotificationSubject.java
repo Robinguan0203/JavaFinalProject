@@ -33,19 +33,24 @@ public class NotificationSubject {
      */
     public void registerAllObservers(int foodId) throws SQLException, ClassNotFoundException{
         NotificationService service = new NotificationService();
-        Map<Integer, Integer> charitySubscriberMap = service.getNotificationMethodOfCharity();
+        Map<Integer, List<Integer>> charitySubscriberMap = service.getNotificationMethodOfCharity();
         
-        for (Map.Entry<Integer, Integer> entry : charitySubscriberMap.entrySet()) {
+        for (Map.Entry<Integer, List<Integer>> entry : charitySubscriberMap.entrySet()) {
             int userId = entry.getKey();
-            int method = entry.getValue();
-            registerObserver(new CharityNotificationObserver(userId, method));
+            List<Integer> methods = entry.getValue();
+            for (int method : methods) {
+                registerObserver(new CharityNotificationObserver(userId, method));
+            }
         }
         
-        Map<Integer, Integer> consumerSubscriberMap = service.getNotificationMethodOfConsumetByFoodId(foodId);
-        for (Map.Entry<Integer, Integer> entry : consumerSubscriberMap.entrySet()) {
+        Map<Integer, List<Integer>> consumerSubscriberMap = service.getNotificationMethodOfConsumetByFoodId(foodId);
+        for (Map.Entry<Integer, List<Integer>> entry : consumerSubscriberMap.entrySet()) {
             int userId = entry.getKey();
-            int method = entry.getValue();
-            registerObserver(new CharityNotificationObserver(userId, method));
+            List<Integer> methods = entry.getValue();
+            
+            for(int method : methods){
+                registerObserver(new ConsumerNotificationObserver(userId, method));
+            }            
         }
         
     }

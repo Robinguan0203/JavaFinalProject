@@ -7,6 +7,7 @@ package com.fwrp.services;
 import com.fwrp.dbService.NotificationDbService;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +29,7 @@ public class NotificationService {
      * @throws SQLException if a database access error occurs
      * @throws ClassNotFoundException if the NotificationDbService class cannot be found
      */
-    public Map<Integer, Integer> getNotificationMethodOfCharity() throws SQLException, ClassNotFoundException {
+    public Map<Integer, List<Integer>> getNotificationMethodOfCharity() throws SQLException, ClassNotFoundException {
         NotificationDbService dbService = new NotificationDbService();
         return dbService.getCharityNotificationMethod();
     }
@@ -40,11 +41,11 @@ public class NotificationService {
      * based on a specific food ID.
      * 
      * @param foodId The ID of the food item.
-     * @return Map<Integer, Integer> A map where the key is the user ID and the value is the notification method.
+     * @return Map<Integer, List<Integer>> A map where the key is the user ID and the value is the notification method.
      * @throws SQLException if a database access error occurs
      * @throws ClassNotFoundException if the NotificationDbService class cannot be found
      */
-    public Map<Integer, Integer> getNotificationMethodOfConsumetByFoodId(int foodId) throws SQLException, ClassNotFoundException {
+    public Map<Integer, List<Integer>> getNotificationMethodOfConsumetByFoodId(int foodId) throws SQLException, ClassNotFoundException {
         NotificationDbService dbService = new NotificationDbService();
         return dbService.getConsumerNotificationMethodByFoodId(foodId);
     }

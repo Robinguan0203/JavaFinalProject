@@ -9,6 +9,7 @@ import com.fwrp.dataaccess.dao.SubscriptionDAOImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,7 +73,7 @@ public class NotificationDbService {
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */
-    public Map<Integer, Integer> getCharityNotificationMethod()throws SQLException, ClassNotFoundException{
+    public Map<Integer, List<Integer>> getCharityNotificationMethod()throws SQLException, ClassNotFoundException{
         Connection conn = null;
         
         try{
@@ -94,11 +95,11 @@ public class NotificationDbService {
      * Retrieves the notification methods for consumers by food ID.
      * 
      * @param foodId The ID of the food item.
-     * @return Map<Integer, Integer> A map of consumer IDs to their notification methods.
+     * @return Map<Integer, List<Integer>> A map of consumer IDs to their notification methods.
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */
-    public Map<Integer, Integer> getConsumerNotificationMethodByFoodId(int foodId)throws SQLException, ClassNotFoundException{
+    public Map<Integer, List<Integer>> getConsumerNotificationMethodByFoodId(int foodId)throws SQLException, ClassNotFoundException{
         Connection conn = null;
         
         try{
