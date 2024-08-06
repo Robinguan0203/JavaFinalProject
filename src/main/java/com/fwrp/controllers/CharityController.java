@@ -36,6 +36,7 @@ import javax.servlet.http.HttpSession;
  * 
  * Version: 1.0
  * Since: 17.0.8
+ * Author: Siqian Liu, Ke Yan
  */
 @WebServlet("/CharityController")
 public class CharityController extends HttpServlet {
@@ -137,12 +138,13 @@ public class CharityController extends HttpServlet {
         ClaimDbService claimService = new ClaimDbService();
         RequestDispatcher dispatcher;
         try {
+            //get donation list and claimed-items list
             List<Inventory> inventoryList = dbService.getDonationInventories();
             request.setAttribute("inventoryList", inventoryList);
-
             List<Claim> claimList = claimService.getClaimByUserId(charity.getId());
             request.setAttribute("inventoryList", inventoryList);
             request.setAttribute("claimList", claimList);
+            //forward the results to view
             dispatcher = request.getRequestDispatcher("/views/charity/donationInventory.jsp");
         }catch(ClassNotFoundException | SQLException e){
             request.setAttribute("errorMessage", e.getMessage());
@@ -214,19 +216,14 @@ public class CharityController extends HttpServlet {
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
             return;
         }
-
+       // get variables of foodid, claim date, donation quantity and claim quantity from request
         Charity charity = this.getCharityFromSession(req);
         int foodId=Integer.parseInt(req.getParameter("foodId"));
-
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date claimDate = Date.valueOf(formatter.format(localDateTime));
-
-
         int qtyDonation=Integer.parseInt(req.getParameter("qtyDonation"));
-
         int claimQty=Integer.parseInt(req.getParameter("claimQty"));
-
         CharityService charityService = new CharityService();
         //FoodDbService foodDbService = new FoodDbService();
         //Food food=foodDbService.getFoodById(foodId);
@@ -241,7 +238,9 @@ public class CharityController extends HttpServlet {
                 //req.getRequestDispatcher("/views/charity/claim.jsp").forward(req, resp);
             }
             else{
+                //create a new record of claim
                 charityService.storeNewClaim(foodId, claimQty, charity);
+                //get donation list and claimed list
                 checkInventory(req, resp);
             }
         } catch (IOException |ClassNotFoundException |ServletException |DataInsertionFailedException e) {
@@ -266,6 +265,7 @@ public class CharityController extends HttpServlet {
         Charity charity = this.getCharityFromSession(request);
 
         try {
+            //create transaction report
             ArrayList<Transaction> transactions = charityService.getTransactionsByUserId(charity.getId());
             int count = transactions.size();
             request.setAttribute("count", count);
