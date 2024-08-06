@@ -66,7 +66,7 @@ public class AddPreferenceCommand implements IUserCommand{
      * @throws IOException      If an input or output error is detected when the servlet handles the request.
      */
     private void managePreferenece(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/user/managePreference.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/consumer.jsp");
         User user=this.getUserFromSession(req);
         UserService userService = new UserService();
         try {
