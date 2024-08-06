@@ -1,5 +1,6 @@
 package com.fwrp.dbService;
 
+import com.fwrp.dbService.userfactory.UserFactory;
 import com.fwrp.constants.UserTypeConstant;
 import com.fwrp.models.User;
 import com.fwrp.models.Retailer;

@@ -1,5 +1,7 @@
 package com.fwrp.models;
 
+import com.fwrp.models.inventorychangebuilder.ClaimCreator;
+
 /**
  * Represents a Charity user, extending the User class.
  * This class provides specific implementations for login and logout methods,

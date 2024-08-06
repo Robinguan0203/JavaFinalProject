@@ -4,6 +4,11 @@
  */
 package com.fwrp.dbService;
 
+import com.fwrp.dbService.notificationcountobserver.SystemNotificationCountObserver;
+import com.fwrp.dbService.notificationcountobserver.PhoneNotificationCountObserver;
+import com.fwrp.dbService.notificationcountobserver.NotificationCountObserver;
+import com.fwrp.dbService.notificationcountobserver.EmailNotificationCountObserver;
+import com.fwrp.dbService.userfactory.UserFactory;
 import com.fwrp.constants.NotificationMethodConstant;
 import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dao.NotificationDAO;

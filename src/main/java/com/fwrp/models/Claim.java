@@ -1,5 +1,6 @@
 package com.fwrp.models;
 
+import com.fwrp.models.transactionbuilder.ClaimTransactionCreator;
 import java.util.Date;
 
 /**

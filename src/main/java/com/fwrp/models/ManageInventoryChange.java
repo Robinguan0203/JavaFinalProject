@@ -4,6 +4,7 @@
  */
 package com.fwrp.models;
 
+import com.fwrp.models.transactionbuilder.RetailerTransactionCreator;
 import java.util.Date;
 
 /**

@@ -1,5 +1,6 @@
 package com.fwrp.models;
 
+import com.fwrp.models.inventorychangebuilder.ManageInventoryChangeCreator;
 import com.fwrp.dataaccess.dto.ExpireInfoDTO;
 import com.fwrp.dbService.InventoryDbService;
 import java.sql.SQLException;
