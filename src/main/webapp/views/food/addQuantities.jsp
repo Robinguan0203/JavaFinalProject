@@ -1,7 +1,8 @@
 <%-- 
     Document   : addQuantities
     Created on : Jul 27, 2024, 12:37:11 PM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose    : Show add food quantity page
 --%>
 <%@ include file="../header.jsp" %>
 <%@page import="java.util.ArrayList"%>

@@ -1,7 +1,8 @@
 <%-- 
     Document   : add.jsp
     Created on : Jul 27, 2024, 11:00:56 AM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose:   : Show new food page
 --%>
 
 

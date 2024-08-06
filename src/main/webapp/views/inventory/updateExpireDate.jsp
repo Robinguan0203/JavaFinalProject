@@ -1,7 +1,8 @@
 <%-- 
     Document   : add.jsp
     Created on : Jul 27, 2024, 11:00:56 AM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose    : To update food expire dates
 --%>
 
 <%@page import="com.fwrp.models.ExpireInfo"%>

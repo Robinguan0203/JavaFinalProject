@@ -1,7 +1,8 @@
 <%-- 
     Document   : changeFoodExpireDays
     Created on : Jul 27, 2024, 12:37:11 PM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose    : Show update expire days page
 --%>
 
 <%@page import="java.util.ArrayList"%>

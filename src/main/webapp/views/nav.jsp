@@ -1,7 +1,8 @@
 <%-- 
     Document   : nav.jsp
     Created on : Jul 29, 2024, 11:27:35 AM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose    : Nav bar of the platform website
 --%>
 
 <%@page import="com.fwrp.models.User"%>

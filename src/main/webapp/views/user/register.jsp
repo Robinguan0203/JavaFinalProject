@@ -1,7 +1,8 @@
 <%-- 
     Document   : register
     Created on : Jul 29, 2024, 12:35:33 PM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose    : To make a new user registrationn
 --%>
 
 <%@ include file="../header.jsp" %>

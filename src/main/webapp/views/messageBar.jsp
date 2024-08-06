@@ -1,7 +1,8 @@
 <%-- 
     Document   : messageBar.jsp
     Created on : Jul 29, 2024, 2:32:00 PM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose    : Message bar of the platform website
 --%>
 
 <div class="message-bar">

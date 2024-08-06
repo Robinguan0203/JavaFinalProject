@@ -1,3 +1,10 @@
+<%-- 
+    Document   : retailer.jsp
+    Created on : Jul 27, 2024, 11:27:35 AM
+    Author     : Robin Guan
+    Purpose    : Retailer homepage
+--%>
+
 <%@page import="com.fwrp.models.User"%>
 <%@ include file="./header.jsp" %>
 <body>

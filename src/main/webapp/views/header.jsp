@@ -1,7 +1,8 @@
 <%-- 
     Document   : head
     Created on : Jul 29, 2024, 11:28:31 AM
-    Author     : robin
+    Author     : Robin Guan
+    Purpose    : header of the platform website
 --%>
 
 <%--<%@page contentType="text/html" pageEncoding="UTF-8"%>--%>

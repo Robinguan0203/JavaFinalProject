@@ -1,3 +1,10 @@
+<%-- 
+    Document   : index.jsp
+    Created on : Jul 27, 2024, 11:27:35 AM
+    Author     : Robin Guan
+    Purpose    : index page of the platform
+--%>
+
 <%@ include file="./views/header.jsp" %>
 <body>
     <%@ include file="./views/nav.jsp" %>
