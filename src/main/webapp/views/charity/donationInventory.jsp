@@ -1,9 +1,7 @@
 <%--
-  Created by IntelliJ IDEA.
   User: Siqian
   Date: 2024/7/28
-  Time: 17:53
-  To change this template use File | Settings | File Templates.
+  Purpose: show donation list and claimed item list
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>

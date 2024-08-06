@@ -1,7 +1,7 @@
 <%-- 
-    Document   : charity
-    Created on : Jul 30, 2024, 2:36:03 AM
-    Author     : Ke Yan
+    Document   : charity.jsp
+    Purpose:  home page for Charity role with functions: Donation List, Transaction and Subscription
+    Author     : Siqian Liu, Ke Yan
 --%>
 
 <%@page import="com.fwrp.models.User"%>
@@ -67,28 +67,28 @@
     .actions {
         display: flex;
         flex-direction: column;
-        gap: 10px; /* ???? */
+        gap: 10px;
     }
 
     .actions form {
         margin: 0;
-        width: 250px; /* ?????????? */
-        margin: 0 auto; /* ???? */
+        width: 250px;
+        margin: 0 auto;
     }
 
     .actions button {
-        background-color: #E0F7FA; /* ?footer???????? */
-        border: 1px solid #B2EBF2; /* ??????????? */
+        background-color: #E0F7FA;
+        border: 1px solid #B2EBF2;
         border-radius: 4px;
-        color: #00796B; /* ???? */
+        color: #00796B;
         font-size: 16px;
-        padding: 10px 15px; /* ????? */
+        padding: 10px 15px;
         cursor: pointer;
         text-align: center;
-        width: 100%; /* ????????? */
+        width: 100%;
     }
 
     .actions button:hover {
-        background-color: #B2EBF2; /* ?????????? */
+        background-color: #B2EBF2;
     }
 </style>

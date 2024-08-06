@@ -1,3 +1,8 @@
+<%--
+    Document   : addSubscription.jsp
+    Purpose   : select subscription methods from option Email/PHONE/SYSTEM
+    Author     : Siqian Liu
+--%>
 <html>
 <%@ include file="../header.jsp" %>
 <body>
@@ -42,17 +47,17 @@
 
     .form-section form {
         margin: 0;
-        width: 250px; /* ?????????? */
-        margin: 0 auto; /* ???? */
+        width: 250px;
+        margin: 0 auto;
     }
 
     h2, h4 {
-        color: #00796B; /* ??????????? */
+        color: #00796B;
     }
 
     label {
         display: block;
-        margin: 10px 0 5px; /* ?????? */
+        margin: 10px 0 5px;
         font-weight: bold;
     }
 
@@ -63,28 +68,28 @@
         width: 100%;
     }
     .input {
-        width: 50%; /* ???????????????? */
+        width: 50%;
         padding: 10px;
-        margin-bottom: 15px; /* ??????? */
-        border: 1px solid #B2EBF2; /* ???? */
-        border-radius: 4px; /* ???? */
+        margin-bottom: 15px;
+        border: 1px solid #B2EBF2;
+        border-radius: 4px;
     }
 
     button {
-        background-color: #E0F7FA; /* ???????footer????? */
-        border: 1px solid #B2EBF2; /* ??????????? */
+        background-color: #E0F7FA;
+        border: 1px solid #B2EBF2;
         border-radius: 4px;
-        color: #00796B; /* ???? */
+        color: #00796B;
         font-size: 16px;
-        padding: 10px 15px; /* ????? */
+        padding: 10px 15px;
         cursor: pointer;
         text-align: center;
-        width: 100%; /* ????????? */
-        margin-top: 10px; /* ?????? */
+        width: 100%;
+        margin-top: 10px;
     }
 
     button:hover {
-        background-color: #B2EBF2; /* ?????????? */
+        background-color: #B2EBF2;
     }
 
 </style>

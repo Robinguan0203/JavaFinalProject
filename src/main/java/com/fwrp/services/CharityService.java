@@ -20,7 +20,7 @@ import java.util.*;
  * @version 1.0
  * @since 17.0.8
  * 
- * @author Ke Yan
+ * @author Siqian Liu, Ke Yan
  */
 public class CharityService {
 	
