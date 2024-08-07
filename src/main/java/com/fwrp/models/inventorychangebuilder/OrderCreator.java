@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.fwrp.models.inventorychangebuilder;
 
 import com.fwrp.models.Consumer;
 import com.fwrp.models.Food;
 import com.fwrp.models.Order;
 import com.fwrp.models.User;
-import com.fwrp.models.inventorychangebuilder.OrderBuilder;
-import com.fwrp.models.inventorychangebuilder.InventoryChangeCreator;
-import com.fwrp.models.inventorychangebuilder.IInventoryChangeBuilder;
 
 /**
  * Concrete creator class for creating Order objects.
@@ -20,10 +13,13 @@ import com.fwrp.models.inventorychangebuilder.IInventoryChangeBuilder;
  * It overrides the createInventoryChange method to build an Order object with the specified parameters.
  * 
  * The method uses an OrderBuilder and InventoryChangeDirector to construct the Order object.
+ * 
+ * @version 2.0
+ * @author Ke Yan
  */
-public class OrderCreator extends InventoryChangeCreator{
+public class OrderCreator extends InventoryChangeCreator {
 
-	/**
+    /**
      * Creates an Order object with the specified parameters.
      * 
      * @param food the food item
@@ -34,17 +30,14 @@ public class OrderCreator extends InventoryChangeCreator{
      * @return the created Order object
      */
     @Override
-    public Order createInventoryChange(Food food, User user, 
-           int qtyNormal, int qtyDiscount, int qtyDonation) {
-
+    public Order createInventoryChange(Food food, User user, int qtyNormal, int qtyDiscount, int qtyDonation) {
         Order order = null;
 
         IInventoryChangeBuilder builder = new OrderBuilder();
         InventoryChangeDirector director = new InventoryChangeDirector(builder);
-        director.buildOrder(food, (Consumer)user, qtyDiscount);
+        director.buildOrder(food, (Consumer) user, qtyDiscount);
         order = (Order) director.build();
-        
+
         return order;
     }
-    
 }

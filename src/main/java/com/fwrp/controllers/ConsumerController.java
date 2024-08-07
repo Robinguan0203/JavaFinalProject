@@ -25,6 +25,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  * ConsumerController handles various actions related to consumer operations.
+ * 
+ * @version 2.0
+ * @Author Ke Yan
  */
 @WebServlet("/ConsumerController")
 public class ConsumerController extends HttpServlet {
@@ -61,28 +64,30 @@ public class ConsumerController extends HttpServlet {
                 break;
             case "storeOrder":
                 try {
-                    storeOrder(request,response);
+                    storeOrder(request, response);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 } catch (NegativeInventoryException ex) {
-                Logger.getLogger(ConsumerController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    Logger.getLogger(ConsumerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
-
             case "showOrder":
-                showOrder(request,response);
+                showOrder(request, response);
+                break;
             case "checkTransaction":
-                checkTransaction(request,response);
+                checkTransaction(request, response);
+                break;
             case "deleteOrder":
                 try {
-                    deleteOrder(request,response);
+                    deleteOrder(request, response);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
+                break;
             default:
                 response.getWriter().println("Unknown action");
         }
@@ -94,7 +99,7 @@ public class ConsumerController extends HttpServlet {
      * @param request the HttpServletRequest object
      * @return the Consumer object or null if not found
      */
-    private Consumer getConsumerFromSession(HttpServletRequest request){
+    private Consumer getConsumerFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             return (Consumer) session.getAttribute("user");
@@ -133,12 +138,11 @@ public class ConsumerController extends HttpServlet {
             request.setAttribute("inventoryList", inventoryList);
             request.setAttribute("orderList", orderList);
             dispatcher = request.getRequestDispatcher("/views/consumer/discountInventory.jsp");
-        }catch(ClassNotFoundException | SQLException e){
+        } catch (ClassNotFoundException | SQLException e) {
             request.setAttribute("errorMessage", e.getMessage());
             dispatcher = request.getRequestDispatcher("/views/consumer.jsp");
             dispatcher.forward(request, response);
             return;
-            //dispatcher = request.getRequestDispatcher("/views/consumer.jsp");
         }
         dispatcher.forward(request, response);
     }
@@ -152,15 +156,13 @@ public class ConsumerController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      */
     private void showOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        //int id=Integer.parseInt(req.getParameter("id"));
-
-         req.setAttribute("id",req.getParameter("id"));
-         req.setAttribute("foodId",req.getParameter("foodId"));
-         req.setAttribute("foodName",req.getParameter("foodName"));
-         req.setAttribute("qtyDiscount",req.getParameter("qtyDiscount"));
-         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/consumer/order.jsp");
-         dispatcher.forward(req, resp);
-         resp.getWriter().println("Create order functionality");
+        req.setAttribute("id", req.getParameter("id"));
+        req.setAttribute("foodId", req.getParameter("foodId"));
+        req.setAttribute("foodName", req.getParameter("foodName"));
+        req.setAttribute("qtyDiscount", req.getParameter("qtyDiscount"));
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/consumer/order.jsp");
+        dispatcher.forward(req, resp);
+        resp.getWriter().println("Create order functionality");
     }
 
     /**
@@ -174,13 +176,13 @@ public class ConsumerController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      */
     private void deleteOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException, ClassNotFoundException, ServletException {
-        int id=Integer.parseInt(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("id"));
 
         ConsumerService consumerService = new ConsumerService();
         consumerService.deleteOrderById(id);
 
         resp.getWriter().println("Delete order successfully");
-        checkInventory(req,resp);
+        checkInventory(req, resp);
     }
 
     /**
@@ -195,7 +197,6 @@ public class ConsumerController extends HttpServlet {
      * @throws NegativeInventoryException if the inventory is negative
      */
     private void storeOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, SQLException, ClassNotFoundException, NegativeInventoryException {
-        //int id=Integer.parseInt(req.getParameter("id"));
         HttpSession session = req.getSession(false);
 
         if (session == null || session.getAttribute("user") == null) {
@@ -205,37 +206,30 @@ public class ConsumerController extends HttpServlet {
         }
 
         Consumer consumer = this.getConsumerFromSession(req);
-        int foodId=Integer.parseInt(req.getParameter("foodId"));
+        int foodId = Integer.parseInt(req.getParameter("foodId"));
 
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date orderDate = Date.valueOf(formatter.format(localDateTime));
 
-
-        int qtyDiscount=Integer.parseInt(req.getParameter("qtyDiscount"));
-
-        int orderQty=Integer.parseInt(req.getParameter("orderQty"));
+        int qtyDiscount = Integer.parseInt(req.getParameter("qtyDiscount"));
+        int orderQty = Integer.parseInt(req.getParameter("orderQty"));
 
         ConsumerService consumerService = new ConsumerService();
-        //FoodDbService foodDbService = new FoodDbService();
-        //Food food=foodDbService.getFoodById(foodId);
         try {
-            if(orderQty>qtyDiscount){
+            if (orderQty > qtyDiscount) {
                 req.setAttribute("errorMessage", "Order quantity should less than remaining discount quantity.");
-                showOrder(req,resp);
-                //req.getRequestDispatcher("/views/consumer/order.jsp").forward(req, resp);
-            }else if(orderQty<1){
+                showOrder(req, resp);
+            } else if (orderQty < 1) {
                 req.setAttribute("errorMessage", "Order quantity should greater than zero.");
-                showOrder(req,resp);
-                //req.getRequestDispatcher("/views/consumer/order.jsp").forward(req, resp);
-            }
-            else{
+                showOrder(req, resp);
+            } else {
                 consumerService.storeNewOrder(foodId, orderQty, consumer);
                 checkInventory(req, resp);
             }
-        } catch (IOException |ClassNotFoundException |ServletException |DataInsertionFailedException e) {
+        } catch (IOException | ClassNotFoundException | ServletException | DataInsertionFailedException e) {
             throw new RuntimeException(e);
-        } 
+        }
     }
 
     /**
@@ -257,22 +251,20 @@ public class ConsumerController extends HttpServlet {
             request.setAttribute("transactions", transactions);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/inventory/transactions.jsp");
             dispatcher.forward(request, response);
-
         } catch (SQLException | ClassNotFoundException ex) {
             request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/consumer.jsp");
             dispatcher.forward(request, response);
-            return;
         }
     }
-    
+
     /**
      * Retrieves the consumer object from the session.
      *
      * @param request the HttpServletRequest object
      * @return the Consumer object or null if not found
      */
-    private Consumer getConsumerrFromSession(HttpServletRequest request){
+    private Consumer getConsumerrFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             return (Consumer) session.getAttribute("user");
@@ -295,5 +287,4 @@ public class ConsumerController extends HttpServlet {
 
         return inputHistory;
     }
-
 }

@@ -15,20 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Command to show the add subscription page.
+ * Command to show the add preference page.
  * 
  * This class implements the IUserCommand interface and handles the 
- * execution of displaying the add subscription page by forwarding 
- * the request to the addSubscription.jsp page.
+ * execution of displaying the add preference page by forwarding 
+ * the request to the addPreference.jsp page.
  * 
- * Author: Robin Guan
- * Version: 1.0
- * Since: 17.0.8
+ * @author Ke Yan
+ * @version 2.0
  */
-public class ShowAddPreferenceCommand implements IUserCommand{
-	
-	/**
-     * Executes the command to show the add subscription page.
+public class ShowAddPreferenceCommand implements IUserCommand {
+
+    /**
+     * Executes the command to show the add preference page.
      * 
      * @param req   The HttpServletRequest object that contains the request the client made to the servlet.
      * @param resp  The HttpServletResponse object that contains the response the servlet returns to the client.
@@ -45,12 +44,11 @@ public class ShowAddPreferenceCommand implements IUserCommand{
             req.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher dispatcher = req.getRequestDispatcher("/views/consumer.jsp");
             dispatcher.forward(req, resp);
-        } 
-        
+        }
+
         req.setAttribute("foods", foods);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/consumer/addPreference.jsp");
-        
+
         dispatcher.forward(req, resp);
-        
     }
 }

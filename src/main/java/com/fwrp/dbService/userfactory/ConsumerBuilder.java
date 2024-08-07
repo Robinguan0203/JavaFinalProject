@@ -14,13 +14,12 @@ import com.fwrp.models.Consumer;
  * construction of complex objects.
  * </p>
  * 
- * @author Robin Guan(041117292)
- * @version 1.0
- * @since 1.0
+ * @version 2.0
+ * @author Ke Yan
  */
 public class ConsumerBuilder {
     
-     /**
+    /**
      * The ID of the consumer.
      */
     private int id;    
@@ -35,16 +34,15 @@ public class ConsumerBuilder {
      */
     private String lastname;
     
-     /**
+    /**
      * The email of the consumer.
      */
     private String email;
     
-     /**
+    /**
      * The phone number of the consumer.
      */
     private String phone;
-    
      
     /**
      * The password of the consumer.
@@ -88,7 +86,7 @@ public class ConsumerBuilder {
         return lastname;
     }
 
-     /**
+    /**
      * Gets the email of the consumer.
      * 
      * @return the email of the consumer.
@@ -243,5 +241,4 @@ public class ConsumerBuilder {
     public Consumer build(){
         return new Consumer();
     }
-    
 }

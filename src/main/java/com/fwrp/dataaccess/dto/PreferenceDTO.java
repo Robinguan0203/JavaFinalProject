@@ -10,24 +10,61 @@ package com.fwrp.dataaccess.dto;
  * This class represents a user preference with a unique identifier, user ID, and food ID.
  * </p>
  * 
- * @version 1.0
- * @since 17.0.8
+ * @author Ke Yan
+ * @version 2.0
  */
 public class PreferenceDTO {
+
     /**
-     * The unique identifier for the subscription
+     * The unique identifier for the preference.
      */
     private int id;
 
     /**
-     * The unique identifier for the user
+     * The unique identifier for the user.
      */
     private int userId;
 
     /**
-     * The method of the subscription
+     * The unique identifier for the food item.
      */
     private int foodId;
+
+    /**
+     * Gets the unique identifier for the preference.
+     *
+     * @return int The preference ID.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the unique identifier for the preference.
+     *
+     * @param id The preference ID.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets the unique identifier for the user.
+     *
+     * @return int The user ID.
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * Sets the unique identifier for the user.
+     *
+     * @param userId The user ID.
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     /**
      * Gets the unique identifier for the food item.
@@ -48,45 +85,7 @@ public class PreferenceDTO {
     }
 
     /**
-     * Gets the unique identifier for the subscription.
-     *
-     * @return int The subscription ID.
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Gets the unique identifier for the user.
-     *
-     * @return int The user ID.
-     */
-    public int getUserId() {
-        return userId;
-    }
-
-
-    /**
-     * Sets the unique identifier for the subscription.
-     *
-     * @param id The subscription ID.
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    /**
-     * Sets the unique identifier for the user.
-     *
-     * @param userId The user ID.
-     */
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * Default constructor for the SubscriptionDTO class.
+     * Default constructor for the PreferenceDTO class.
      */
     public PreferenceDTO() {
 

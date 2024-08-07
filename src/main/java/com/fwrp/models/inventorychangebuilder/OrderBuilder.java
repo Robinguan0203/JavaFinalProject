@@ -5,10 +5,7 @@ import com.fwrp.models.Food;
 import com.fwrp.models.InventoryChange;
 import com.fwrp.models.Order;
 import com.fwrp.models.User;
-import com.fwrp.models.inventorychangebuilder.IInventoryChangeBuilder;
 import java.util.Date;
-
-
 
 /**
  * Concrete builder class for creating Order objects.
@@ -22,18 +19,20 @@ import java.util.Date;
  * 
  * The getInventoryChange method returns the constructed Order object.
  * 
+ * @version 2.0
+ * @author Ke Yan
  */
 public class OrderBuilder implements IInventoryChangeBuilder {
     private Order order;
 
-	/**
+    /**
      * Constructor to initialize the Order object.
      */
-    public OrderBuilder(){
+    public OrderBuilder() {
         order = new Order();
     }
 
-	/**
+    /**
      * Sets the food item for the order.
      * 
      * @param food the food item
@@ -44,8 +43,8 @@ public class OrderBuilder implements IInventoryChangeBuilder {
         order.setFood(food);
         return this;
     }
-	
-	/**
+
+    /**
      * Sets the user (consumer) for the order.
      * 
      * @param user the user (consumer)
@@ -57,7 +56,7 @@ public class OrderBuilder implements IInventoryChangeBuilder {
         return this;
     }
 
-	/**
+    /**
      * Sets the date for the order.
      * 
      * @param date the date
@@ -69,7 +68,7 @@ public class OrderBuilder implements IInventoryChangeBuilder {
         return this;
     }
 
-	/**
+    /**
      * Sets the quantity of discounted items for the order.
      * 
      * @param qtyDiscount the quantity of discounted items
@@ -80,8 +79,8 @@ public class OrderBuilder implements IInventoryChangeBuilder {
         order.setQtyDiscount(qtyDiscount);
         return this;
     }
-    
-	/**
+
+    /**
      * Sets the quantity of normal items for the order.
      * 
      * @param qtyNormal the quantity of normal items
@@ -89,10 +88,11 @@ public class OrderBuilder implements IInventoryChangeBuilder {
      */
     @Override
     public IInventoryChangeBuilder setQtyNormal(int qtyNormal) {
+        // Not implemented for Order
         return this;
     }
-	
-	/**
+
+    /**
      * Sets the quantity of donated items for the order.
      * 
      * @param qtyDonation the quantity of donated items
@@ -100,10 +100,11 @@ public class OrderBuilder implements IInventoryChangeBuilder {
      */
     @Override
     public IInventoryChangeBuilder setQtyDonation(int qtyDonation) {
+        // Not implemented for Order
         return this;
     }
-    
-	/**
+
+    /**
      * Returns the constructed Order object.
      * 
      * @return the constructed Order object
@@ -112,5 +113,4 @@ public class OrderBuilder implements IInventoryChangeBuilder {
     public InventoryChange getInventoryChange() {
         return order;
     }
-    
 }

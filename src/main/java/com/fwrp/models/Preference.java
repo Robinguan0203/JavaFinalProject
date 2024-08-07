@@ -6,21 +6,21 @@ package com.fwrp.models;
  * This class maps a user preference to a specific food item and consumer.
  * </p>
  * 
- * @version 1.0
- * @since 17.0.8
+ * @version 2.0
+ * @author Ke Yan
  */
 public class Preference {
-    
+
     /**
      * The unique identifier for the preference.
      */
-    private int id;    
-    
+    private int id;
+
     /**
      * The food item associated with the preference.
      */
     private Food food;
-    
+
     /**
      * The consumer associated with the preference.
      */

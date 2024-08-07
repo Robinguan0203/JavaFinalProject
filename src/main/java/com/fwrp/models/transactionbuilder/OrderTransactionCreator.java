@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.fwrp.models.transactionbuilder;
 
 import com.fwrp.models.Claim;
@@ -10,7 +6,6 @@ import com.fwrp.models.Food;
 import com.fwrp.models.Order;
 import com.fwrp.models.OrderTransaction;
 import com.fwrp.models.User;
-import com.fwrp.models.transactionbuilder.OrderTransactionBuilder;
 
 /**
  * Concrete creator class for creating OrderTransaction objects.
@@ -21,10 +16,12 @@ import com.fwrp.models.transactionbuilder.OrderTransactionBuilder;
  * 
  * The method uses an OrderTransactionBuilder and TransactionDirector to construct the OrderTransaction object.
  * 
+ * @version 2.0
+ * @author Ke Yan
  */
-public class OrderTransactionCreator  implements TranctionCreator{
+public class OrderTransactionCreator implements TranctionCreator {
 
-	/**
+    /**
      * Creates an OrderTransaction object with the specified parameters.
      * 
      * @param food the food item
@@ -39,10 +36,10 @@ public class OrderTransactionCreator  implements TranctionCreator{
     @Override
     public OrderTransaction createTransaction(Food food, User user, Order order, Claim claim, int qtyNormal, int qtyDiscount, int qtyDonation) {
         OrderTransaction orderTransaction = null;
-        
+
         ITransactionBuilder builder = new OrderTransactionBuilder();
-        TransactionDirector director = new TransactionDirector(builder);  
-        
+        TransactionDirector director = new TransactionDirector(builder);
+
         director.buildOrderTransaction(
                 food,
                 (Consumer) user,
@@ -51,8 +48,7 @@ public class OrderTransactionCreator  implements TranctionCreator{
                 qtyDiscount,
                 qtyDonation);
         orderTransaction = (OrderTransaction) director.build();
-        
+
         return orderTransaction;
     }
-    
 }

@@ -16,13 +16,12 @@ import javax.servlet.http.HttpServletResponse;
  * This class implements the INavigationStrategy interface and handles 
  * the navigation by forwarding the request to the "views/consumer.jsp" page.
  * 
- * Author: Robin Guan
- * Version: 1.0
- * Since: 17.0.8
+ * @author Ke Yan
+ * @version 2.0
  */
 public class ViewConsumerStrategy implements INavigationStrategy {
-    
-	/**
+
+    /**
      * Navigates to the consumer page.
      * 
      * @param request  The HttpServletRequest object that contains the request the client made to the servlet.

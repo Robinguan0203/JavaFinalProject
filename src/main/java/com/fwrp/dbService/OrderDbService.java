@@ -1,6 +1,5 @@
 package com.fwrp.dbService;
 
-
 import com.fwrp.dataaccess.DataSource;
 import com.fwrp.dataaccess.dao.OrderDAO;
 import com.fwrp.dataaccess.dao.OrderDAOImpl;
@@ -16,32 +15,31 @@ import java.util.List;
  * Service class for handling database operations related to orders.
  * This class provides methods to create, delete, and retrieve orders using the OrderDAO and InventoryDAO.
  * 
- * @version 1.0
- * @since 17.0.8
  * @author Ke Yan
+ * @version 2.0
  */
 public class OrderDbService {
-	
-	/**
+
+    /**
      * Data Access Object for orders.
      */
     private OrderDAO orderDAO = null;
-	
-	/**
+
+    /**
      * Data Access Object for inventory.
      */
     private InventoryDAO inventoryDAO = null;
-	
-	/**
+
+    /**
      * Constructor for OrderDbService.
      * Initializes the OrderDAO and InventoryDAO implementations.
      */
-    public OrderDbService(){
-        orderDAO = new OrderDAOImpl(); 
-        inventoryDAO = new InventoryDAOImpl(); 
+    public OrderDbService() {
+        orderDAO = new OrderDAOImpl();
+        inventoryDAO = new InventoryDAOImpl();
     }
-	
-	/**
+
+    /**
      * Creates a new order.
      * 
      * @param order The order to be created.
@@ -50,30 +48,30 @@ public class OrderDbService {
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      * @throws DataInsertionFailedException if the data insertion fails.
      */
-    public int CreateOrder(Order order) throws SQLException, ClassNotFoundException, DataInsertionFailedException {
+    public int createOrder(Order order) throws SQLException, ClassNotFoundException, DataInsertionFailedException {
         Connection conn = null;
         int orderId;
-        
-        try{
-            conn = DataSource.getInstance().getConnection();            
-            orderId = orderDAO.createOrder(order, conn); 
-        } catch(SQLException e){
+
+        try {
+            conn = DataSource.getInstance().getConnection();
+            orderId = orderDAO.createOrder(order, conn);
+        } catch (SQLException e) {
             throw e;
         } finally {
             if (conn != null) {
                 try {
-                    conn.close(); 
+                    conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace(); 
+                    e.printStackTrace();
                 }
             }
         }
-        
+
         System.out.println("New order created");
         return orderId;
     }
 
-	/**
+    /**
      * Deletes an order by its ID.
      * 
      * @param id The ID of the order to be deleted.
@@ -84,22 +82,22 @@ public class OrderDbService {
     public int deleteOrderById(int id) throws SQLException, ClassNotFoundException {
         Connection conn = null;
 
-        try{
+        try {
             conn = DataSource.getInstance().getConnection();
             return orderDAO.deleteOrderById(id, conn);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             if (conn != null) {
                 conn.close();
             }
             throw e;
-        } finally{
+        } finally {
             if (conn != null) {
                 conn.close();
             }
         }
     }
-	
-	/**
+
+    /**
      * Retrieves a list of orders for a specific user by their user ID.
      * 
      * @param userId The ID of the user for whom the orders are to be retrieved.
@@ -107,18 +105,18 @@ public class OrderDbService {
      * @throws SQLException if a database access error occurs or the SQL query fails.
      * @throws ClassNotFoundException if the JDBC driver class is not found.
      */
-    public List<Order> getOrderByUserId(int userId) throws SQLException, ClassNotFoundException{
+    public List<Order> getOrderByUserId(int userId) throws SQLException, ClassNotFoundException {
         Connection conn = null;
 
-        try{
+        try {
             conn = DataSource.getInstance().getConnection();
             return orderDAO.getOrderByUserId(userId, conn);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             if (conn != null) {
                 conn.close();
             }
             throw e;
-        } finally{
+        } finally {
             if (conn != null) {
                 conn.close();
             }
