@@ -87,6 +87,7 @@
         .container {
             width: 80%;
             margin: 0 auto;
+            padding-top: 80px;
         }
         .header, .form-section, .logout {
             margin-bottom: 20px;

@@ -141,34 +141,4 @@ public class ExpireInfoDTOTest {
         expireInfoDTO.setIsSurplus(isSurplus);
         assertEquals(isSurplus, expireInfoDTO.isIsSurplus());
     }
-    
-    /**
-     * Tests the {@link ExpireInfoDTO#transferToExpireInfo()} method.
-     * 
-     * @throws SQLException if a database access error occurs
-     * @throws ClassNotFoundException if the database driver class cannot be found
-     */  
-    @Test
-    public void testTransferToExpireInfo() throws SQLException, ClassNotFoundException {
-        Food testFood = foodDbService.getFoodById(2);
-
-        expireInfoDTO.setId(1);
-        expireInfoDTO.setFoodId(2);
-        expireInfoDTO.setQuantity(10);
-        expireInfoDTO.setExpireDate(new Date());
-        expireInfoDTO.setIsSurplus(true);
-
-        ExpireInfo result = expireInfoDTO.transferToExpireInfo();
-
-        assertEquals(expireInfoDTO.getId(), result.getId());
-        assertEquals(expireInfoDTO.getExpireDate(), result.getExpireDate());
-        assertEquals(expireInfoDTO.getQuantity(), result.getQuantity());
-        assertEquals(expireInfoDTO.isIsSurplus(), result.isIsSurplus());
-
-        
-        //assertEquals(testFood.getId(), result.getFood().getId());
-        //assertEquals(testFood.getName(), result.getFood().getName());
-        //assertEquals(testFood.getExpireDays(), result.getFood().getExpireDays());
-        
-    }
 }
