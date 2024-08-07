@@ -30,6 +30,8 @@
 </div>
 <style>    
      .message-bar {
+        position: fixed;
+        top:60px;
         border-radius: 4px; /* ???? */
         margin: 0 0; /* ????? */
         text-align: center; /* ?????? */

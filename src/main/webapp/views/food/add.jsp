@@ -52,6 +52,7 @@
 <style>
     .container {
         padding: 20px;
+        padding-top: 80px;
     }
 
     .header {
